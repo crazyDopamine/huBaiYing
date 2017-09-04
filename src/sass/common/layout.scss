@@ -1,0 +1,80 @@
+.main-body{
+  .menu{
+    z-index:1;
+    position:fixed;
+    left:0;
+    height: 100%;
+    padding-top: 60px;
+  }
+  .main-container{
+    position:absolute;
+    min-width: 1460px;
+    min-height:800px;
+    width:100%;
+    padding:80px 20px 20px 260px;
+    float:left;
+  }
+}
+
+.page-container{
+  margin-right:20px;
+}
+.container{
+  border-radius:4px;
+  background-color:$white;
+  padding:$paddingY $paddingX;
+  &:not(:first-child){
+    margin-top:20px;
+  }
+  .title{
+    font-size:$fontSize-xxl;
+    line-height:40px;
+    padding:20px 20px 0 30px;
+    margin-bottom:20px;
+    border-bottom:1px solid $borderColor;
+  }
+  .title-s{
+    font-size:$fontSize-l;
+    line-height:30px;
+    padding:0 30px;
+    margin-top:20px;
+    margin-bottom:10px;
+  }
+  .search-bar{
+    line-height:25px;
+    margin-top:20px;
+    margin-bottom:20px;
+    padding:0 30px;
+  }
+}
+
+.btn-area{
+  margin-top:30px;
+  .btn{
+    &:not(:last-child){
+      margin-right:20px;
+    }
+  }
+}
+
+.radio-tab{
+  margin-bottom:20px;
+  .ivu-radio-wrapper:first-child{
+    border-left:0;
+    border-radius:0;
+  }
+  .ivu-radio-wrapper:last-child{
+    border-radius:0;
+  }
+  .ivu-radio-group-item{
+    border:0;
+    &:hover{
+      color:$orange;
+    }
+    &.ivu-radio-wrapper-checked{
+      color:$orange;
+      border-bottom:2px solid $orange;
+      box-shadow:0 0 0 0;
+    }
+  }
+}

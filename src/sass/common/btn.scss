@@ -1,0 +1,24 @@
+a{
+  cursor:pointer;
+}
+.btn{
+  display:inline-block;
+  font-size:$fontSize-m;
+  cursor:pointer;
+  text-align:center;
+}
+
+.btn-normal{
+  min-width:160px;
+  line-height:28px;
+  padding:0 20px;
+}
+
+.btn-small{
+  line-height:28px;
+  padding:0 20px;
+}
+
+.btn-round{
+  border-radius:100%;
+}
