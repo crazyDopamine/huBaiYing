@@ -22,3 +22,8 @@ a{
 .btn-round{
   border-radius:100%;
 }
+
+.btn-theme{
+  color:$white;
+  background-color:$themeColor;
+}

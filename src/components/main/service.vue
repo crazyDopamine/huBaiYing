@@ -1,8 +1,6 @@
 <template>
-  <div class="layout-row">
-    <div class="title-bar middle">
-      <label><Icon type="ios-navigate"></Icon>热门服务</label>
-    </div>
+  <div>
+
   </div>
 </template>
 <script>

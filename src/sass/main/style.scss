@@ -9,10 +9,11 @@
 
 //widget
 @import "../common/widget/header";
-@import "../common/widget/navLeft";
-@import "../common/widget/autoComplete";
 @import "../common/widget/imgInput";
 
+//page
+@import "./page/main";
+
 body{
-  background-color:$grayBg;
+  background-color:$white;
 }

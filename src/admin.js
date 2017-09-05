@@ -9,6 +9,6 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+window.vm = new Vue({
   render: h => h(App)
 }).$mount('#app-box')

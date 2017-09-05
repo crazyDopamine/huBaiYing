@@ -1,10 +1,40 @@
-header{
+header.hby-header{
   .header-top-bar{
     background-color:$themeColor;
-    width:100%;
     line-height:40px;
     a{
       color:$white;
+    }
+  }
+  .header-search{
+    text-align:center;
+    height:90px;
+    .header-search-input{
+      margin-top:20px;
+      width:400px;
+      line-height:38px;
+      .ivu-input-icon{
+        height:38px;
+        line-height:38px;
+        cursor:pointer;
+        color:$themeColor;
+      }
+      .ivu-input{
+        line-height:38px;
+        height:38px;
+        border:2px solid $themeColor;
+        border-radius:0;
+      }
+    }
+  }
+  .header-menu{
+    background-color:$themeColor;
+    .ivu-menu{
+      background:$themeColor;
+      font-size:$fontSize-xl;
+      .ivu-menu-item{
+        font-size:$fontSize-xl;
+      }
     }
   }
 }

@@ -1,10 +1,9 @@
 
 import VueRouter from 'vue-router'
-import home from './components/main/home.vue'
+import main from './components/main/main.vue'
 
 const routes = [{
-  path: '/',
-  component: home
+  path: '/',component: main
 }]
 
 export default new VueRouter({

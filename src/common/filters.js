@@ -40,6 +40,9 @@ export default {
         return Number(num).toFixed(length)
       }
     })
+    Vue.filter('localFile', function (file) {
+      return 'static/'+file;
+    })
     Vue.filter('selections', selectionsFilter)
   }
 }
