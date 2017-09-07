@@ -13,20 +13,15 @@
     </div>
     <div class="header-menu">
       <Menu class="middle" mode="horizontal" theme="dark" active-name="1">
-        <Submenu name="1">
+        <Submenu class="menu-drop-down" name="1">
           <template slot="title">
             <Icon type="stats-bars"></Icon>
             导航
           </template>
-          <MenuGroup title="使用">
-            <MenuItem name="3-1">新增和启动</MenuItem>
-            <MenuItem name="3-2">活跃分析</MenuItem>
-            <MenuItem name="3-3">时段分析</MenuItem>
-          </MenuGroup>
-          <MenuGroup title="留存">
-            <MenuItem name="3-4">用户留存</MenuItem>
-            <MenuItem name="3-5">流失用户</MenuItem>
-          </MenuGroup>
+            <MenuItem class="menu-item" name="menuItem.name" v-for="menuItem in menu">
+              {{menuItem.name}}
+
+            </MenuItem>
         </Submenu>
         <MenuItem name="2">
           <Icon type="ios-paper"></Icon>
@@ -108,6 +103,9 @@
         path: '',
         loginPop: false,
         modalLoading: false,
+        menu:[
+          {name:'注册',children:[{name:'工商注册',children:[{name:'注册注册'}]}]}
+        ],
         loginForm: {
           fieldSet: {
             username: '',

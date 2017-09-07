@@ -1,4 +1,8 @@
 .title-bar{
-  line-height:40px;
+  line-height:80px;
   text-align:left;
+  font-size:$fontSize-xxl;
+  .title-detail{
+    font-size:$fontSize-l;
+  }
 }

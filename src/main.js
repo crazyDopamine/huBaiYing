@@ -12,8 +12,6 @@ Vue.use(VueRouter)
 Vue.use(iView)
 Vue.use(filters)
 
-import widgetHeader from './components/main/widget/header.widget.vue'
-Vue.component('hby-header',widgetHeader)
 /* eslint-disable no-new */
 let config = {
   render: h => h(app)
