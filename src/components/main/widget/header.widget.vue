@@ -8,34 +8,53 @@
       </div>
     </div>
     <div class="header-search middle">
+      <img class="float-left margin-left-10" :src="'imgs/logo.jpg' | localFile" style="height:100%;">
       <Input class="header-search-input" v-model="search" icon="search" placeholder="请输入..."></Input>
-      <Button class="float-right margin-top-20" size="large" type="primary" icon="plus-round">发布需求</Button>
+      <Button class="float-right margin-top-20 btn btn-theme" size="large" icon="plus-round">发布需求</Button>
     </div>
     <div class="header-menu">
-      <Menu class="middle" mode="horizontal" theme="dark" active-name="1">
-        <Submenu class="menu-drop-down" name="1">
-          <template slot="title">
-            <Icon type="stats-bars"></Icon>
+      <div class="middle header-menu-list">
+        <Dropdown class="menu-item menu-drop-down-1">
+          <span>
             导航
-          </template>
-            <MenuItem class="menu-item" name="menuItem.name" v-for="menuItem in menu">
-              {{menuItem.name}}
-
-            </MenuItem>
-        </Submenu>
-        <MenuItem name="2">
-          <Icon type="ios-paper"></Icon>
-          内容管理
-        </MenuItem>
-        <MenuItem name="3">
-          <Icon type="ios-people"></Icon>
-          用户管理
-        </MenuItem>
-        <MenuItem name="4">
-          <Icon type="settings"></Icon>
-          综合设置
-        </MenuItem>
-      </Menu>
+            <Icon type="arrow-down-b"></Icon>
+          </span>
+          <DropdownMenu slot="list">
+            <Dropdown class="menu-drop-down-2" placement="right-start">
+              分类1
+              <DropdownMenu slot="list">
+                <Dropdown class="menu-drop-down-3" placement="right-start">
+                  分类1-1
+                  <DropdownMenu slot="list">
+                    <ul>
+                      <li><router-link to="main">分类1-1-1</router-link></li>
+                      <li><router-link to="main">分类1-1-1</router-link></li>
+                      <li><router-link to="main">分类1-1-1</router-link></li>
+                      <li><router-link to="main">分类1-1-1</router-link></li>
+                      <li><router-link to="main">分类1-1-1</router-link></li>
+                      <li><router-link to="main">分类1-1-1</router-link></li>
+                    </ul>
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown class="menu-drop-down-3" placement="right-start">
+                  分类1-2
+                  <DropdownMenu slot="list">
+                    <ul>
+                      <li><router-link to="main">分类1-2-1</router-link></li>
+                      <li><router-link to="main">分类1-2-1</router-link></li>
+                      <li><router-link to="main">分类1-2-1</router-link></li>
+                      <li><router-link to="main">分类1-2-1</router-link></li>
+                    </ul>
+                  </DropdownMenu>
+                </Dropdown>
+              </DropdownMenu>
+            </Dropdown>
+          </DropdownMenu>
+        </Dropdown>
+        <span class="menu-item" to="main">首页</span>
+        <span class="menu-item" to="main">导航</span>
+        <span class="menu-item" to="main">导航</span>
+      </div>
     </div>
     <div class="header-banner middle">
       <Carousel autoplay>
@@ -103,9 +122,10 @@
         path: '',
         loginPop: false,
         modalLoading: false,
-        menu:[
-          {name:'注册',children:[{name:'工商注册',children:[{name:'注册注册'}]}]}
+        menu: [
+          {name: '注册', children: [{name: '工商注册', children: [{name: '注册注册'}]}]}
         ],
+        currentMenu: false,
         loginForm: {
           fieldSet: {
             username: '',
@@ -122,11 +142,11 @@
             }
           }
         },
-        registerPop:false,
-        registerForm:{
-          fieldSet:{
-            username:'',
-            password:''
+        registerPop: false,
+        registerForm: {
+          fieldSet: {
+            username: '',
+            password: ''
           },
           rule: {
             username: {

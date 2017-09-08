@@ -6,8 +6,9 @@
       <a class="title-detail float-right margin-left-10">商标注册</a>
       <a class="title-detail float-right margin-left-10">商标注册</a>
     </div>
-    <Row>
-      <Col span="8">
+    <div class="middle">
+      <Row>
+        <Col span="8">
         <Card class="hot-service">
           <p slot="title">
             快速开公司
@@ -23,12 +24,22 @@
             <li><a>商标注册</a></li>
           </ul>
         </Card>
-      </Col>
-    </Row>
+        </Col>
+      </Row>
+    </div>
     <div class="title-bar middle text-center" style="line-height:30px;padding:20px 0;">
       从呼百应挑选你的专职顾问<br>
       20年的企业经验累积，为您企业发展提供全方位保驾护航
     </div>
+    <Tabs class="middle" value="name1">
+      <TabPane label="分类1" name="name1">
+        <div>
+
+        </div>
+      </TabPane>
+      <TabPane label="分类2" name="name2">标签二的内容</TabPane>
+      <TabPane label="分类3" name="name3">标签三的内容</TabPane>
+    </Tabs>
   </div>
 </template>
 <script>

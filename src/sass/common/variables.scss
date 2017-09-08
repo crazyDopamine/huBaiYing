@@ -12,6 +12,7 @@ $red:#ef2a56;
 $green:#22b591;
 $blueD:#2A3542;
 $blue:#5AA3DF;
+$blueL:#1685a9;
 $blackBg:#1D2939;
 
 $zIndex-page:1;
@@ -31,8 +32,9 @@ $paddingY:20px;
 $borderColor:#ddd;
 $remarkFC:#ccc;
 $themeColor:$blue;
+$lightThemeColor:$blueL;
 
-$fontColor:$grayD;
+$baseFC:$grayD;
 $fontSize-s:12px;
 $fontSize-m:14px;
 $fontSize-l:16px;
