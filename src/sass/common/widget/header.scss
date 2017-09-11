@@ -1,10 +1,7 @@
 header.hby-header{
   .header-top-bar{
-    background-color:$themeColor;
-    line-height:40px;
-    a{
-      color:$white;
-    }
+    background-color:$grayLBg;
+    line-height:30px;
   }
   .header-search{
     text-align:center;
@@ -45,7 +42,7 @@ header.hby-header{
         cursor:pointer;
         display:inline-block;
         color:$white;
-        min-width:200px;
+        min-width:150px;
         text-align:center;
         font-size:$fontSize-xl;
 
@@ -56,7 +53,7 @@ header.hby-header{
 
 .menu-drop-down-1{
   .ivu-select-dropdown{
-    min-width:200px;
+    min-width:150px;
     border-radius:0;
     color:$baseFC!important;
     line-height:35px!important;

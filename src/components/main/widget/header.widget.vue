@@ -2,9 +2,11 @@
   <header class="hby-header layout-row">
     <div class="header-top-bar">
       <div class="middle text-right">
-        <a @click="showLogin()">登录</a>
-        <a @click="showRegister()">注册</a>
-        <a>登出</a>
+        <a class="margin-right-10" @click="showLogin()">登录</a>
+        <a class="border-left padding-left-10 margin-right-10" @click="showRegister()">注册</a>
+        <!--<a>登出</a>-->
+        <Icon class="fc-theme" type="ios-telephone" size="16"></Icon>
+        <span class="fc-theme">400-659-9818</span>
       </div>
     </div>
     <div class="header-search middle">
@@ -16,7 +18,7 @@
       <div class="middle header-menu-list">
         <Dropdown class="menu-item menu-drop-down-1">
           <span>
-            导航
+            企业服务导航
             <Icon type="arrow-down-b"></Icon>
           </span>
           <DropdownMenu slot="list">
@@ -51,9 +53,13 @@
             </Dropdown>
           </DropdownMenu>
         </Dropdown>
-        <span class="menu-item" to="main">首页</span>
-        <span class="menu-item" to="main">导航</span>
-        <span class="menu-item" to="main">导航</span>
+        <span class="menu-item" to="main">呼首页</span>
+        <span class="menu-item" to="main">呼服务</span>
+        <span class="menu-item" to="main">提问题</span>
+        <span class="menu-item" to="main">选顾问</span>
+        <span class="menu-item" to="main">成功案</span>
+        <!--<span class="menu-item" to="main">呼新闻</span>-->
+        <!--<span class="menu-item" to="main">百城应</span>-->
       </div>
     </div>
     <div class="header-banner middle">
