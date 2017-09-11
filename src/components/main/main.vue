@@ -31,10 +31,27 @@
       从呼百应挑选你的专职顾问<br>
       20年的企业经验累积，为您企业发展提供全方位保驾护航
     </div>
-    <Tabs class="middle" value="name1">
+    <Tabs class="middle main-adviser-tabs">
       <TabPane label="分类1" name="name1">
-        <div>
-
+        <div class="main-adviser-area">
+          <Row class="main-adviser-list">
+            <Col span="6">
+              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
+              <span></span>
+            </Col>
+            <Col span="6">
+              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
+              <span></span>
+            </Col>
+            <Col span="6">
+              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
+              <span></span>
+            </Col>
+            <Col span="6">
+              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
+              <span></span>
+            </Col>
+          </Row>
         </div>
       </TabPane>
       <TabPane label="分类2" name="name2">标签二的内容</TabPane>

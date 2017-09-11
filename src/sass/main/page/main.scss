@@ -8,3 +8,26 @@
     }
   }
 }
+
+.main-adviser-tabs{
+  .ivu-tabs-bar{
+
+  }
+  .main-adviser-area{
+    background-color:$themeColor;
+    padding:20px;
+    .main-adviser-list{
+      background-color:$white;
+      position:relative;
+      overflow:hidden;
+      .ivu-col{
+        height:300px;
+        img{
+          width:100%;
+          height:100%;
+        }
+      }
+    }
+  }
+}
+
