@@ -1,7 +1,9 @@
 <template>
   <div class="layout-row">
     <div class="title-bar middle">
-      <label><Icon class="margin-right-10" type="ios-navigate"></Icon>热门服务</label>
+      <label>
+        <Icon class="margin-right-10" type="ios-navigate"></Icon>
+        热门服务</label>
       <a class="title-detail float-right margin-left-10">商标注册</a>
       <a class="title-detail float-right margin-left-10">商标注册</a>
       <a class="title-detail float-right margin-left-10">商标注册</a>
@@ -35,22 +37,34 @@
       <TabPane label="分类1" name="name1">
         <div class="main-adviser-area">
           <Row class="main-adviser-list">
-            <Col span="6">
+            <router-link to="/adviserDetail/1">
+              <Col span="6">
               <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <span></span>
-            </Col>
-            <Col span="6">
+              <label>董威</label><br>
+              <span>专注撸代码</span>
+              </Col>
+            </router-link>
+            <router-link to="/adviserDetail/1">
+              <Col span="6">
               <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <span></span>
-            </Col>
-            <Col span="6">
+              <label>董威</label><br>
+              <span>专注撸代码</span>
+              </Col>
+            </router-link>
+            <router-link to="/adviserDetail/1">
+              <Col span="6">
               <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <span></span>
-            </Col>
-            <Col span="6">
+              <label>董威</label><br>
+              <span>专注撸代码</span>
+              </Col>
+            </router-link>
+            <router-link to="/adviserDetail/1">
+              <Col span="6">
               <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <span></span>
-            </Col>
+              <label>董威</label><br>
+              <span>专注撸代码</span>
+              </Col>
+            </router-link>
           </Row>
         </div>
       </TabPane>
@@ -66,6 +80,7 @@
     },
     methods: {},
     created: function () {
+      window.vm.$refs.header.showBanners = true;
     }
   }
 </script>

@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    home
+  <div class="user-main middle">
+
   </div>
 </template>
 <script>
@@ -10,6 +10,7 @@
     },
     methods: {},
     created: function () {
+      window.vm.$refs.header.showBanners = false;
     }
   }
 </script>

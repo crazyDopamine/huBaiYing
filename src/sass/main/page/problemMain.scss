@@ -1,0 +1,30 @@
+.problem-main{
+  .search-bar{
+    margin:20px 0;
+    padding:20px 0;
+    border-bottom:3px solid $themeColor;
+  }
+  .problem-main-list{
+    border-bottom:3px solid $themeColor;
+    .problem-main-item{
+      overflow: hidden;
+      padding:20px 0;
+      &:not(:last-child){
+        border-bottom:1px solid $themeColor;
+      }
+      .problem-main-item-title{
+        font-size: $fontSize-xxl;
+      }
+      .problem-main-item-status{
+
+      }
+      .problem-main-item-content{
+        margin-top:10px;
+        color:$grayL;
+      }
+      .problem-main-item-date{
+
+      }
+    }
+  }
+}

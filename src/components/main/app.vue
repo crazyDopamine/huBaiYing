@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <hby-header></hby-header>
+    <hby-header ref="header"></hby-header>
     <router-view></router-view>
     <hby-footer></hby-footer>
   </div>
@@ -20,6 +20,7 @@
     },
     methods: {},
     created: function () {
+      window.vm = this;
     }
   }
 </script>

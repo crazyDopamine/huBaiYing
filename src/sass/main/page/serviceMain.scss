@@ -1,0 +1,29 @@
+.service-main{
+  padding:20px 0;
+  background-color: $grayLBg;
+}
+.service-main-title{
+  margin-top:20px;
+  margin-bottom:10px;
+  line-height: 50px;
+  font-size: $fontSize-xxl;
+  border-bottom:1px solid $themeColor;
+}
+.service-main-item{
+  padding:10px;
+  background-color:$white;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom:10px;
+  img{
+    width:80px;
+    float:left;
+  }
+  label{
+    font-size: $fontSize-l;
+    line-height: 40px;
+  }
+  span{
+    color:$grayL;
+  }
+}

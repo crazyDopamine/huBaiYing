@@ -3,7 +3,7 @@
     <div class="header-top-bar">
       <div class="middle text-right">
         <a class="margin-right-10" @click="showLogin()">登录</a>
-        <a class="border-left padding-left-10 margin-right-10" @click="showRegister()">注册</a>
+        <router-link to="/register" class="border-left padding-left-10 margin-right-10">注册</router-link>
         <!--<a>登出</a>-->
         <Icon class="fc-theme" type="ios-telephone" size="16"></Icon>
         <span class="fc-theme">400-659-9818</span>
@@ -11,8 +11,8 @@
     </div>
     <div class="header-search middle">
       <img class="float-left margin-left-10" :src="'imgs/logo.jpg' | localFile" style="height:100%;">
-      <Input class="header-search-input" v-model="search" icon="search" placeholder="请输入..."></Input>
-      <Button class="float-right margin-top-20 btn btn-theme" size="large" icon="plus-round">发布需求</Button>
+      <Input class="header-search-input" v-model="search" icon="search" placeholder="搜索问题"></Input>
+      <router-link to="/projectForm"><Button class="float-right margin-top-20 btn btn-theme" size="large" icon="plus-round">发布需求</Button></router-link>
     </div>
     <div class="header-menu">
       <div class="middle header-menu-list">
@@ -29,12 +29,24 @@
                   分类1-1
                   <DropdownMenu slot="list">
                     <ul>
-                      <li><router-link to="main">分类1-1-1</router-link></li>
-                      <li><router-link to="main">分类1-1-1</router-link></li>
-                      <li><router-link to="main">分类1-1-1</router-link></li>
-                      <li><router-link to="main">分类1-1-1</router-link></li>
-                      <li><router-link to="main">分类1-1-1</router-link></li>
-                      <li><router-link to="main">分类1-1-1</router-link></li>
+                      <li>
+                        <router-link to="main">分类1-1-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-1-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-1-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-1-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-1-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-1-1</router-link>
+                      </li>
                     </ul>
                   </DropdownMenu>
                 </Dropdown>
@@ -42,10 +54,18 @@
                   分类1-2
                   <DropdownMenu slot="list">
                     <ul>
-                      <li><router-link to="main">分类1-2-1</router-link></li>
-                      <li><router-link to="main">分类1-2-1</router-link></li>
-                      <li><router-link to="main">分类1-2-1</router-link></li>
-                      <li><router-link to="main">分类1-2-1</router-link></li>
+                      <li>
+                        <router-link to="main">分类1-2-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-2-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-2-1</router-link>
+                      </li>
+                      <li>
+                        <router-link to="main">分类1-2-1</router-link>
+                      </li>
                     </ul>
                   </DropdownMenu>
                 </Dropdown>
@@ -53,16 +73,17 @@
             </Dropdown>
           </DropdownMenu>
         </Dropdown>
-        <span class="menu-item" to="main">呼首页</span>
-        <span class="menu-item" to="main">呼服务</span>
-        <span class="menu-item" to="main">提问题</span>
-        <span class="menu-item" to="main">选顾问</span>
-        <span class="menu-item" to="main">成功案</span>
+        <router-link class="menu-item float-right" to="/adviserMain">呼案例</router-link>
+        <router-link class="menu-item float-right" to="/adviserMain">呼顾问</router-link>
+        <router-link class="menu-item float-right" to="/problemMain">呼问题</router-link>
+        <router-link class="menu-item float-right" to="/serviceMain">呼服务</router-link>
+        <router-link class="menu-item float-right" to="/main">呼首页</router-link>
+        <!--<span class="menu-item" to="main">成功案</span>-->
         <!--<span class="menu-item" to="main">呼新闻</span>-->
         <!--<span class="menu-item" to="main">百城应</span>-->
       </div>
     </div>
-    <div class="header-banner middle">
+    <div class="header-banner middle" v-show="showBanners">
       <Carousel autoplay>
         <CarouselItem>
           <img :src="'imgs/banner-1.jpg' | localFile">
@@ -75,9 +96,9 @@
         </CarouselItem>
       </Carousel>
     </div>
-    <Modal class="login-modal" v-model="loginPop" title="登录" width="360" :closable="true" :mask-closable="false">
+    <Modal class="login-modal" v-model="loginPop" width="360" :closable="true" :mask-closable="false">
       <div class="form-area">
-        <h1 class="text-center">用户登录</h1>
+        <h1 class="text-center">呼百应企业服务平台</h1>
         <div class="form-row clearfix">
           <i class="icon-user input-before" style="position:absolute;left:10px;"></i>
           <Input type="text" v-model="loginForm.fieldSet.username" placeholder="账号"></Input>
@@ -90,29 +111,7 @@
         </div>
       </div>
       <div slot="footer" class="text-right">
-        <Button size="large" type="primary" :loading="modalLoading"
-                @click="login()">登陆
-        </Button>
-      </div>
-    </Modal>
-    <Modal class="login-modal" v-model="registerPop" title="登录" width="360" :closable="true" :mask-closable="false">
-      <div class="form-area">
-        <h1 class="text-center">用户注册</h1>
-        <div class="form-row clearfix">
-          <i class="icon-user input-before" style="position:absolute;left:10px;"></i>
-          <Input type="text" v-model="registerForm.fieldSet.username" placeholder="账号"></Input>
-        </div>
-        <div class="form-row clearfix">
-          <i class="icon-key input-before" style="position:absolute;left:10px;"></i>
-          <Input type="password" v-model="registerForm.fieldSet.password" placeholder="密码"
-                 @keyup.enter="register()">
-          </Input>
-        </div>
-      </div>
-      <div slot="footer" class="text-right">
-        <Button size="large" type="primary" :loading="modalLoading"
-                @click="register()">注册
-        </Button>
+        <Button class="btn-theme" type="primary" :loading="modalLoading" @click="login()" long>登陆</Button>
       </div>
     </Modal>
   </header>
@@ -124,6 +123,7 @@
     mixins: [formValidate],
     data: function () {
       return {
+        showBanners:true,
         search: '',
         path: '',
         loginPop: false,
@@ -135,7 +135,10 @@
         loginForm: {
           fieldSet: {
             username: '',
-            password: ''
+            password: '',
+            phone:'',
+            city:'',
+            verify:''
           },
           rule: {
             username: {
@@ -148,23 +151,6 @@
             }
           }
         },
-        registerPop: false,
-        registerForm: {
-          fieldSet: {
-            username: '',
-            password: ''
-          },
-          rule: {
-            username: {
-              label: '账号',
-              required: true
-            },
-            password: {
-              label: '密码',
-              required: true
-            }
-          }
-        }
       }
     },
     methods: {

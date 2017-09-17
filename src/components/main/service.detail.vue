@@ -10,6 +10,7 @@
     },
     methods: {},
     created: function () {
+      window.vm.$refs.header.showBanners = false;
     }
   }
 </script>

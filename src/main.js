@@ -17,4 +17,4 @@ let config = {
   render: h => h(app)
 }
 
-window.vm = new Vue(config).$mount('#app-box')
+new Vue(config).$mount('#app-box')

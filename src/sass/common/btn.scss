@@ -28,4 +28,16 @@ a{
 .btn-theme{
   color:$white;
   background-color:$themeColor;
+  border:1px solid $themeColor;
+  &:hover{
+    color:$themeColor;
+    background-color: $white;
+    border:1px solid $themeColor;
+  }
 }
+
+.ivu-btn-ghost:hover{
+  border-color: $themeColor;
+  color: $themeColor;
+}
+

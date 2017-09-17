@@ -13,7 +13,8 @@ function resolve(dir) {
 
 let webpackConfig = {
   entry: {
-    app: './src/main.js'
+    main: './src/main.js',
+    admin: './src/admin.js'
   },
   output: {
     path: config.build.assetsRoot,

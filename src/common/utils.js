@@ -249,6 +249,10 @@ var getQuery = function(obj){
   return mix({},getHashObj(),getSearchObj(),obj)
 }
 
+var sendVerfiy = function(){
+
+}
+
 
 export {
   mix,
@@ -263,5 +267,6 @@ export {
   getAddress,
   getSkill,
   filteNullParams,
-  getQuery
+  getQuery,
+  sendVerfiy
 }

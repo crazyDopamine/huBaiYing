@@ -115,3 +115,23 @@ $tableBorderHeight:1px;
   text-align: center;
 }
 
+
+
+//reset iview
+.ivu-page-item:hover{
+  border-color:$themeColor;
+  color:$themeColor;
+  a{
+    color:$themeColor;
+  }
+}
+.ivu-page-item-active{
+  background-color:$themeColor;
+  border-color:$themeColor;
+}
+.ivu-page-options-elevator input:hover{
+  border-color:$themeColor;
+}
+.ivu-page-next:hover, .ivu-page-prev:hover{
+  border-color:$themeColor;
+}
