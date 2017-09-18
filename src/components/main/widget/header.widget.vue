@@ -98,17 +98,28 @@
     </div>
     <Modal class="login-modal" v-model="loginPop" width="360" :closable="true" :mask-closable="false">
       <div class="form-area">
-        <h1 class="text-center">呼百应企业服务平台</h1>
-        <div class="form-row clearfix">
-          <i class="icon-user input-before" style="position:absolute;left:10px;"></i>
-          <Input type="text" v-model="loginForm.fieldSet.username" placeholder="账号"></Input>
-        </div>
-        <div class="form-row clearfix">
-          <i class="icon-key input-before" style="position:absolute;left:10px;"></i>
-          <Input type="password" v-model="loginForm.fieldSet.password" placeholder="密码"
-                 @keyup.enter="login()">
-          </Input>
-        </div>
+        <h1 class="text-center margin-bottom-20">呼百应企业服务平台</h1>
+          <Form ref="loginForm" :model="loginForm" :rules="rule">
+          <FormItem prop="user">
+            <Input type="text" v-model="loginForm.username" placeholder="Username" size="large">
+            <Icon type="ios-person-outline" slot="prepend"></Icon>
+            </Input>
+          </FormItem>
+          <FormItem prop="password">
+            <Input type="password" v-model="loginForm.password" placeholder="Password" size="large">
+            <Icon type="ios-locked-outline" slot="prepend"></Icon>
+            </Input>
+          </FormItem>
+        </Form>
+        <!--<div class="form-row clearfix">-->
+          <!--<i class="icon-user input-before" style="position:absolute;left:10px;"></i>-->
+          <!--<Input type="text" v-model="loginForm.fieldSet.username" placeholder="账号"></Input>-->
+        <!--</div>-->
+        <!--<div class="form-row clearfix">-->
+          <!--<i class="icon-key input-before" style="position:absolute;left:10px;"></i>-->
+          <!--<Input type="password" v-model="loginForm.fieldSet.password" placeholder="密码" @keyup.enter="login()">-->
+          <!--</Input>-->
+        <!--</div>-->
       </div>
       <div slot="footer" class="text-right">
         <Button class="btn-theme" type="primary" :loading="modalLoading" @click="login()" long>登陆</Button>
@@ -133,24 +144,18 @@
         ],
         currentMenu: false,
         loginForm: {
-          fieldSet: {
-            username: '',
-            password: '',
-            phone:'',
-            city:'',
-            verify:''
-          },
-          rule: {
-            username: {
-              label: '账号',
-              required: true
-            },
-            passWord: {
-              label: '密码',
-              required: true
-            }
-          }
+          username: '',
+          password: ''
         },
+        rule: {
+          username: [
+            { required: true, message: '请填写用户名', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请填写密码', trigger: 'blur' },
+            { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+          ]
+        }
       }
     },
     methods: {
@@ -161,6 +166,14 @@
       },
       login: function () {
         this.modalLoading = true
+        this.$refs.loginForm.validate((valid) => {
+          this.modalLoading = false
+          if (valid) {
+            this.$Message.success('提交成功!');
+          } else {
+            this.$Message.error('表单验证失败!');
+          }
+        });
         if (this.validate(true, this.loginForm)) {
 //          var params = this.getValues(this.loginForm)
 //          this.modalLoading = true
