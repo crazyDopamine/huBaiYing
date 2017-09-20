@@ -16,19 +16,37 @@
         <Submenu name="task">
           <template slot="title">
             <Icon type="ios-paper"></Icon>
-            任务管理
+            项目管理
           </template>
-          <router-link to="/taskManage">
-            <Menu-item name="/taskManage">任务管理</Menu-item>
+          <router-link to="/projectManage">
+            <Menu-item name="/projectManage">项目管理</Menu-item>
           </router-link>
         </Submenu>
         <Submenu name="user">
           <template slot="title">
             <Icon type="person"></Icon>
-            账号管理
+            顾问管理
           </template>
-          <router-link to="/adminManage">
-            <Menu-item name="/adminManage">账号管理</Menu-item>
+          <router-link to="/adviserManage">
+            <Menu-item name="/adviserManage">顾问管理</Menu-item>
+          </router-link>
+        </Submenu>
+        <Submenu name="user">
+          <template slot="title">
+            <Icon type="ios-help-outline"></Icon>
+            提问管理
+          </template>
+          <router-link to="/problemManage">
+            <Menu-item name="/problemManage">提问管理</Menu-item>
+          </router-link>
+        </Submenu>
+        <Submenu name="user">
+          <template slot="title">
+            <Icon type="ios-paperplane-outline"></Icon>
+            服务管理
+          </template>
+          <router-link to="/serviceManage">
+            <Menu-item name="/serviceManage">服务管理</Menu-item>
           </router-link>
         </Submenu>
         <Submenu name="data">
@@ -77,23 +95,83 @@
       </div>
     </Modal>
   </div>
-  </div>
 </template>
 <script>
 
   import router from '../../adminRouter'
+  import formValidate from '../../common/formValidate'
+  import {cookie} from 'vux'
   import header from './widget/header.vue'
 
-  export default {
-  	components:{
-
-    },
+  let config = {
     router,
-    data: function () {
-      return {}
+    components: {
+      'admin-header': header
     },
-    methods: {},
+    mixins: [formValidate],
+    data: function () {
+      return {
+        path: '',
+        loginPop: false,
+        modalLoading: false,
+        loginForm: {
+          fieldSet: {
+            userName: '',
+            passWord: ''
+          },
+          rule: {
+            userName: {
+              label: '账号',
+              required: true
+            },
+            passWord: {
+              label: '密码',
+              required: true
+            }
+          }
+        }
+      }
+    },
+    methods: {
+      login: function () {
+        if (this.validate(true, this.loginForm)) {
+          var params = this.getValues(this.loginForm)
+          this.modalLoading = true
+          this.$http.post(this.url('login'), params).then(this.rspHandler((data) => {
+            var token = data.token
+            cookie.set(this.consts.ticketKey, token)
+            this.loginPop = false
+            this.modalLoading = false
+            this.getUserInfo()
+          }), () => {
+            this.modalLoading = false
+          })
+        }
+      },
+      getUserInfo: function () {
+        this.$http.get(this.url('admin/getUserInfo')).then(this.rspHandler((data) => {
+          window.vm.userInfo = data
+          window.vm.userInfoLoaded = 1
+          window.vm.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)
+        }),(data) => {
+          window.vm.userInfo = {}
+          window.vm.userInfoLoaded = 2
+          window.vm.$emit(this.consts.loadedFailEvent)
+          this.loginPop = true
+        })
+      }
+    },
     created: function () {
+      window.vm = this
+//      this.getUserInfo()
+      this.path = this.$route.path
+      this.$router.afterEach((to, from) => {
+        this.path = to.path
+      })
+      this.$on(this.consts.loginOutEvent, function () {
+        this.loginPop = true
+      })
     }
   }
+  export default config
 </script>

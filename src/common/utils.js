@@ -103,13 +103,29 @@ var rspHandler = function (callback) {
   }
 }
 
-var filteNullParams = function (obj) {
+var filterNullParams = function (obj) {
   if (typeof obj !== 'object')return
   each(obj, function (value, key) {
     if (value === '' || value === null) {
       delete obj[key]
     }
   })
+}
+
+var resetObject = function (obj,isDeep) {
+  each(obj, function (value, key) {
+    if (obj[key] instanceof Array) {
+      obj[key] = [];
+    } else if (typeof obj[key] == 'object') {
+      if(isDeep){
+        resetObject(obj[key])
+      }else{
+        obj[key] = {};
+      }
+    } else {
+      obj[key] = '';
+    }
+  });
 }
 
 window.dicMap = {}
@@ -207,13 +223,42 @@ Array.prototype.each = function (callback) {
     callback(this[i], i)
   }
 }
+// Object.prototype.each = function (callback) {
+//   var keys = Object.keys(this)
+//   for (let i = 0; i < keys.length; i++) {
+//     callback(this[keys[i]],keys[i],i)
+//   }
+// }
+// if (!Object.prototype.adfasfas) {
+//   Object.prototype.adfasfas = function () {
+//     var keys = Object.keys(this)
+//     var item;
+//     for (let i = 0; i < keys.length; i++) {
+//       item = this[keys[i]]
+//       if (item instanceof Array) {
+//         item.clear()
+//       } else if (typeof item == 'object') {
+//         item.clear()
+//       } else if (typeof item == 'string') {
+//         item = ''
+//       } else if (typeof item == 'number') {
+//         item = 0
+//       } else if (typeof item == 'boolean') {
+//         item = false
+//       } else {
+//         item = ''
+//       }
+//     }
+//   }
+// }
+
 
 /**
  * 获取search参数
  * @returns {{}}
  */
 var getHashObj = function () {
-  var qs = location.hash.length > 0 && location.hash.indexOf("?")>0 ? location.hash.substr(location.hash.indexOf("?")+1, location.hash.length): '',
+  var qs = location.hash.length > 0 && location.hash.indexOf("?") > 0 ? location.hash.substr(location.hash.indexOf("?") + 1, location.hash.length) : '',
     args = {},
     items = qs.length > 0 ? qs.split('&') : [],
     item = null, name = null, value = null, i = 0, len = items.length;
@@ -229,28 +274,24 @@ var getHashObj = function () {
 }
 
 var getSearchObj = function () {
-  var  qs = location.search.length>0 ? location.search.substr(1):'',
+  var qs = location.search.length > 0 ? location.search.substr(1) : '',
     args = {},
-    items = qs.length>0 ? qs.split('&'):[],
-    item = null,name = null,value = null,i = 0,len = items.length;
-  for(i = 0;i < len; i++){
+    items = qs.length > 0 ? qs.split('&') : [],
+    item = null, name = null, value = null, i = 0, len = items.length;
+  for (i = 0; i < len; i++) {
     item = items[i].split('=');
     name = decodeURIComponent(item[0]);
     value = decodeURIComponent(item[1]);
 
-    if(name.length){
+    if (name.length) {
       args[name] = value;
     }
   }
   return args;
 }
 
-var getQuery = function(obj){
-  return mix({},getHashObj(),getSearchObj(),obj)
-}
-
-var sendVerfiy = function(){
-
+var getQuery = function (obj) {
+  return mix({}, getHashObj(), getSearchObj(), obj)
 }
 
 
@@ -266,7 +307,7 @@ export {
   toMap,
   getAddress,
   getSkill,
-  filteNullParams,
+  filterNullParams,
   getQuery,
-  sendVerfiy
+  resetObject
 }

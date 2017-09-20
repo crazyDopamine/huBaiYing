@@ -7,10 +7,13 @@ import 'iview/dist/styles/iview.css';
 import  './sass/main/style.scss'
 import VueRouter from 'vue-router'
 import filters from './common/filters'
+import {loadedMixins, common} from './common/mixins'
 
 Vue.use(VueRouter)
 Vue.use(iView)
 Vue.use(filters)
+Vue.mixin(loadedMixins)
+Vue.mixin(common)
 
 /* eslint-disable no-new */
 let config = {

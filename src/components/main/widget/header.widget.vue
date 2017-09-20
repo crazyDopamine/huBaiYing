@@ -101,12 +101,12 @@
         <h1 class="text-center margin-bottom-20">呼百应企业服务平台</h1>
           <Form ref="loginForm" :model="loginForm" :rules="rule">
           <FormItem prop="user">
-            <Input type="text" v-model="loginForm.username" placeholder="Username" size="large">
+            <Input type="text" v-model="loginForm.username" placeholder="手机号" size="large">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
             </Input>
           </FormItem>
           <FormItem prop="password">
-            <Input type="password" v-model="loginForm.password" placeholder="Password" size="large">
+            <Input type="password" v-model="loginForm.password" placeholder="密码" size="large">
             <Icon type="ios-locked-outline" slot="prepend"></Icon>
             </Input>
           </FormItem>
@@ -223,7 +223,12 @@
 //      }
     },
     created: function () {
-
+      this.$watch('loginPop',function(isShow){
+      	if(isShow){
+          this.resetObject(this.loginForm)
+      		this.$refs.loginForm.resetFields()
+        }
+      })
     }
   }
 

@@ -1,6 +1,17 @@
 .form-area{
   background-color:$white;
   padding:30px 0;
+  &.half-input{
+    .ivu-input-wrapper{
+      width:50%;
+    }
+    .ivu-cascader{
+      width:50%;
+      .ivu-input-wrapper{
+        width:100%;
+      }
+    }
+  }
   .form-row{
     position:relative;
     line-height:30px;

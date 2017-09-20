@@ -1,5 +1,5 @@
 import consts from './const'
-import {rspHandler, url, toKV, toMap} from './utils'
+import {rspHandler, url, toKV, toMap, resetObject} from './utils'
 var loadedMixins = {
   data: function () {
     return {
@@ -58,9 +58,41 @@ var common = {
   methods: {
     rspHandler: rspHandler,
     url: url,
-    toKV:toKV,
-    toMap:toMap
+    toKV: toKV,
+    toMap: toMap,
+    resetObject: resetObject
   }
 }
 
-export {loadedMixins, common}
+var verify = {
+  data: function () {
+    return {
+      sendBtnText: '发送验证码',
+      defaultDelay: 10,
+      timeDelay: 0,
+      sendBtnDisabled: false
+    }
+  },
+  methods: {
+    sendVerify: function () {
+      this.timeDelay = this.defaultDelay
+      this.sendBtnText = this.timeDelay + '秒后可重新发送'
+      this.sendBtnDisabled = true
+      var delay = () => {
+        setTimeout(() => {
+          this.timeDelay--
+          if (this.timeDelay != 0) {
+            this.sendBtnText = this.timeDelay + '秒后可重新发送'
+            delay()
+          } else {
+            this.sendBtnText = '重新发送验证码'
+            this.sendBtnDisabled = false
+          }
+        }, 1000)
+      }
+      delay()
+    }
+  }
+}
+
+export {loadedMixins, common, verify}

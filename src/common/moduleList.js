@@ -1,4 +1,4 @@
-import {mix, each, url, rspHandler, filteNullParams} from './utils'
+import {mix, each, url, rspHandler, filterNullParams} from './utils'
 import consts from './const'
 var listConfig = {
   url: '',
@@ -52,7 +52,7 @@ export default {
       this.$vux.loading.show({
         text: '加载中'
       })
-      filteNullParams(params)
+      filterNullParams(params)
       if (listNode.options.mothed) {
         this.$http.post(url(listNode.url), params, {
           // contentType: 'application/json'
