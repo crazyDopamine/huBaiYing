@@ -1,5 +1,11 @@
 a{
   cursor:pointer;
+  color:$baseFC;
+  &:-webkit-any-link{
+    &:hover{
+      color:$themeColor;
+    }
+  }
 }
 
 .btn{

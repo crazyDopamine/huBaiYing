@@ -101,7 +101,7 @@
   import router from '../../adminRouter'
   import formValidate from '../../common/formValidate'
   import {cookie} from 'vux'
-  import header from './widget/header.vue'
+  import header from './widget/header.widget.vue'
 
   let config = {
     router,

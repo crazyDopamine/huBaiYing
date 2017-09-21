@@ -6,7 +6,7 @@ import serviceManage from './components/admin/service.vue'
 import userManage from './components/admin/user.vue'
 
 const routes = [
-  {path: '/',redirect: '/projectManage'},
+  {path: '/',redirect: '/userManage'},
   {path: '/projectManage', component: projectManage},
   {path: '/serviceManage', component: serviceManage},
   {path: '/userManage', component: userManage},

@@ -13,6 +13,7 @@ import 'iview/dist/styles/iview.css'
 import 'vueg/css/transition-min.css'
 import './sass/admin/style.scss'
 
+
 Vue.use(VueRouter)
 Vue.use(iView)
 Vue.component('img-input',imgInput)
@@ -21,6 +22,10 @@ Vue.mixin(common)
 Vue.use(filters)
 Vue.use(VueResource)
 Vue.http.interceptors.push(httpInterceptor)
+
+//widget
+import VueQuillEditor from 'vue-quill-editor'
+Vue.use(VueQuillEditor)
 
 let config = {
   render: h => h(app)

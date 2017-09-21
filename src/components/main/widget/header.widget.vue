@@ -2,6 +2,8 @@
   <header class="hby-header layout-row">
     <div class="header-top-bar">
       <div class="middle text-right">
+        <span>欢迎登陆呼百应</span>
+        <router-link to="/userMain" class="padding-left-10 margin-right-10">用户中心</router-link>
         <a class="margin-right-10" @click="showLogin()">登录</a>
         <router-link to="/register" class="border-left padding-left-10 margin-right-10">注册</router-link>
         <!--<a>登出</a>-->
