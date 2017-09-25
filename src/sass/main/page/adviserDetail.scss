@@ -1,0 +1,22 @@
+.adviser-detail-area{
+  margin-top:20px;
+  overflow: hidden;
+  >img{
+    border-radius: 50%;
+    width:240px;
+    height:240px;
+    float:left;
+  }
+  .detail{
+    .title{
+      font-size: $fontSize-xxl;
+      line-height: 50px;
+    }
+    margin-left:20px;
+    float: left;
+  }
+}
+.adviser-detail-container{
+  margin-top:20px;
+  overflow: hidden;
+}

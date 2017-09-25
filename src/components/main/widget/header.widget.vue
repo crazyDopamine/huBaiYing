@@ -32,41 +32,22 @@
                   <DropdownMenu slot="list">
                     <ul>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
-                      </li>
-                    </ul>
-                  </DropdownMenu>
-                </Dropdown>
-                <Dropdown class="menu-drop-down-3" placement="right-start">
-                  分类1-2
-                  <DropdownMenu slot="list">
-                    <ul>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                     </ul>
                   </DropdownMenu>
@@ -176,19 +157,6 @@
             this.$Message.error('表单验证失败!');
           }
         });
-        if (this.validate(true, this.loginForm)) {
-//          var params = this.getValues(this.loginForm)
-//          this.modalLoading = true
-//          this.$http.post(this.url('login'), params).then(this.rspHandler((data) => {
-//              var token = data.token
-//              cookie.set(this.consts.ticketKey, token)
-//          this.loginPop = false
-//          this.modalLoading = false
-//          this.getUserInfo()
-//         }), () => {
-//             this.modalLoading = false
-//           })
-        }
       },
       showRegister: function () {
         this.reset(this.registerForm)

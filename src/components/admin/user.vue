@@ -75,17 +75,6 @@
                     },
                     on: {
                       click: (e) => {
-                        this.remove(params.row, e)
-                      }
-                    }
-                  }, [h('Icon', {props: {type: 'trash-a'},class:{'margin-right-10':true}}), '删除']),
-                  h('Button', {
-                    props: {
-                      type: 'text',
-                      size: 'small'
-                    },
-                    on: {
-                      click: (e) => {
                         this.edit(params.row, e)
                       }
                     }

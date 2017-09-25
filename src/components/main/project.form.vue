@@ -1,16 +1,16 @@
 <template>
   <div class="register">
-    <Form class="middle form-area half-input" ref="form" :model="form" :rules="rule" :label-width="80">
+    <Form class="middle form-area half-input" ref="form" :model="form" :rules="rule" :label-width="100">
       <FormItem label="项目名称" prop="title">
         <Input type="text" v-model="form.username"></Input>
       </FormItem>
-      <FormItem label="密码" prop="password">
-        <Input type="password" v-model="form.password"></Input>
+      <FormItem label="项目类型" prop="type">
+        <Cascader :data="selections.city" v-model="form.city"></Cascader>
       </FormItem>
-      <FormItem label="确认密码" prop="password">
-        <Input type="password" v-model="form.password"></Input>
+      <FormItem label="项目详情" prop="type">
+        <Input type="textarea" :rows="4" v-model="form.username"></Input>
       </FormItem>
-      <FormItem label="手机号" prop="phone">
+      <FormItem label="联系人手机" prop="phone">
         <Input type="password" v-model="form.phone"></Input>
       </FormItem>
       <FormItem label="验证码" prop="verify">
@@ -23,8 +23,8 @@
       <FormItem label="邀请码" prop="visitNum">
         <Input type="password" v-model="form.password"></Input>
       </FormItem>
-      <div class="btn-area" style="padding-left:80px;">
-        <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">注册</Button>
+      <div class="btn-area" style="padding-left:100px;">
+        <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">提交</Button>
       </div>
     </Form>
   </div>
