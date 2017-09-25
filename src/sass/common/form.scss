@@ -74,12 +74,20 @@
 
 .detail-area{
   background-color:$white;
-  padding:30px;
   .detail-row{
     overflow: hidden;
+    margin-bottom:20px;
     position:relative;
     line-height:30px;
     font-size:$fontSize-m;
+    .detail-title{
+      display: inline-block;
+      width:30%;
+    }
+    .detail-content{
+      display: inline-block;
+      width:70%;
+    }
   }
 }
 

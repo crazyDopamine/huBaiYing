@@ -4,9 +4,9 @@
       <label>
         <Icon class="margin-right-10" type="ios-navigate"></Icon>
         热门服务</label>
-      <a class="title-detail float-right margin-left-10">商标注册</a>
-      <a class="title-detail float-right margin-left-10">商标注册</a>
-      <a class="title-detail float-right margin-left-10">商标注册</a>
+      <!--<a class="title-detail float-right margin-left-10">商标注册</a>-->
+      <!--<a class="title-detail float-right margin-left-10">商标注册</a>-->
+      <!--<a class="title-detail float-right margin-left-10">商标注册</a>-->
     </div>
     <div class="middle">
       <Row>

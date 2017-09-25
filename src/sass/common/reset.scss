@@ -1,4 +1,3 @@
-$linkFontColor:$btnFontColor;
 
 * {
   -webkit-box-sizing: border-box;
@@ -12,20 +11,6 @@ a,b,img,i,div,p,input,ul,li,ol,dl,dd,dt,span,strong,em,textarea,body{
   resize:none;
   margin:0;
   padding:0;
-}
-a{
-  color:$linkFontColor;
-  &:hover{
-    color:$themeColor;
-  }
-}
-a:-webkit-any-link{
-  color:$linkFontColor;
-}
-
-a.btn:active{
-  box-shadow:none;
-  -webkit-box-shadow:none;
 }
 
 label{

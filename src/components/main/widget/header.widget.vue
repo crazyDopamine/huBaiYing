@@ -34,41 +34,22 @@
                   <DropdownMenu slot="list">
                     <ul>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                       <li>
-                        <router-link to="main">分类1-1-1</router-link>
-                      </li>
-                    </ul>
-                  </DropdownMenu>
-                </Dropdown>
-                <Dropdown class="menu-drop-down-3" placement="right-start">
-                  分类1-2
-                  <DropdownMenu slot="list">
-                    <ul>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="main">分类1-2-1</router-link>
+                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
                       </li>
                     </ul>
                   </DropdownMenu>
@@ -103,8 +84,8 @@
     <Modal class="login-modal" v-model="loginPop" width="360" :closable="true" :mask-closable="false">
       <div class="form-area">
         <h1 class="text-center margin-bottom-20">呼百应企业服务平台</h1>
-        <Tabs class="margin-top-20">
-          <TabPane label="账号密码">
+        <!--<Tabs class="margin-top-20">-->
+          <!--<TabPane label="账号密码">-->
             <Form ref="loginForm" :model="loginForm" :rules="rule">
               <FormItem prop="user">
                 <Input type="text" v-model="loginForm.username" placeholder="手机号" size="large">
@@ -117,7 +98,7 @@
                 </Input>
               </FormItem>
             </Form>
-          </TabPane>
+          <!--</TabPane>-->
           <!--<TabPane label="手机快速登录">-->
             <!--<Form ref="loginForm" :model="loginForm" :rules="rule">-->
               <!--<FormItem prop="user">-->
@@ -132,7 +113,7 @@
               <!--</FormItem>-->
             <!--</Form>-->
           <!--</TabPane>-->
-        </Tabs>
+        <!--</Tabs>-->
         <!--<div class="form-row clearfix">-->
         <!--<i class="icon-user input-before" style="position:absolute;left:10px;"></i>-->
         <!--<Input type="text" v-model="loginForm.fieldSet.username" placeholder="账号"></Input>-->
@@ -196,19 +177,6 @@
             this.$Message.error('表单验证失败!');
           }
         });
-        if (this.validate(true, this.loginForm)) {
-//          var params = this.getValues(this.loginForm)
-//          this.modalLoading = true
-//          this.$http.post(this.url('login'), params).then(this.rspHandler((data) => {
-//              var token = data.token
-//              cookie.set(this.consts.ticketKey, token)
-//          this.loginPop = false
-//          this.modalLoading = false
-//          this.getUserInfo()
-//         }), () => {
-//             this.modalLoading = false
-//           })
-        }
       },
       showRegister: function () {
         this.reset(this.registerForm)

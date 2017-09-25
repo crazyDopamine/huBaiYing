@@ -32,11 +32,11 @@ a{
 }
 
 .btn-theme{
-  color:$white;
+  color:$white!important;
   background-color:$themeColor;
   border:1px solid $themeColor;
   &:hover{
-    color:$themeColor;
+    color:$themeColor!important;
     background-color: $white;
     border:1px solid $themeColor;
   }

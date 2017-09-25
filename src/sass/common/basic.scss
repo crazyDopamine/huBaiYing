@@ -20,6 +20,16 @@ a{
         text-decoration: none;
     }
 }
+a:-webkit-any-link{
+  color:$btnFontColor;
+  &:hover{
+    color:$themeColor;
+  }
+}
+a:active{
+  box-shadow:none;
+  -webkit-box-shadow:none;
+}
 ul,li{
     list-style:none;
     padding:0;
