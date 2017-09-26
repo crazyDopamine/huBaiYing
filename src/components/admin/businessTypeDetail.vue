@@ -17,12 +17,31 @@
       :mask-closable="false">
       <div class="form-area">
         <div class="form-row clearfix">
-          <label class="col-8">账号：</label>
-          <Input class="col-16" v-model="fieldSet.userName"></Input>
+          <label class="col-6">序列号:</label>
+          <div class="col-18">
+            <input type="number" v-model="fieldSet.caseIndex"/>
+          </div>
         </div>
         <div class="form-row clearfix">
-          <label class="col-8">密码：</label>
-          <Input class="col-16" type="password" v-model="fieldSet.passWord"></Input>
+          <label class="col-6">显示方式:</label>
+          <div class="col-18">
+            <Radio-group v-model="fieldSet.caseShow" type="button">
+              <Radio label="1">固定显示</Radio>
+              <Radio label="0">更多内容</Radio>
+            </Radio-group>
+          </div>
+        </div>
+        <div class="form-row clearfix">
+          <label class="col-6">图片:<br/>(建议宽度300-600像素)</label>
+          <div class="col-18">
+            <img-input v-model="fieldSet.caseUrl" :maxLength="1" stype="margin-left:25%;"></img-input>
+          </div>
+        </div>
+        <div class="form-row clearfix">
+          <label class="col-6">描述文本：</label>
+          <div class="col-18">
+            <Input v-model="fieldSet.caseText" type="textarea" :rows="4" ></Input>
+          </div>
         </div>
       </div>
       <div slot="footer">
@@ -31,10 +50,10 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
   import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
-  import {dateFormat} from 'vux'
+  import {dateFormat, cookie} from 'vux'
   export default {
     mixins: [formValidate, moduleList],
     data: function () {
@@ -43,32 +62,28 @@
         pop: false,
         modalLoading: false,
         fieldSet: {
-          userName: '',
-          passWord: ''
+          caseIndex: 1,
+          caseShow: '1',
+          caseUrl: '',
+          caseText: '',
+          businessId: ''
         },
-        rule: {
-          userName: {
-            label: '账号',
-            required: true
-          },
-          passWord: {
-            label: '密码',
-            required: true
+        rule:{
+          caseIndex:{
+          	label:'序列',
+            required:true,
+            number:true,
+            digits:true
           }
         },
         list: {
           columns: [
-            {title: '账号', key: 'userName'},
-            {
-              title: '更新时间', key: 'updatedAt', render: (h, params) => {
-              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-            }
-            },
+            {title: '序列', key: 'caseIndex'},
             {
               title: '操作',
               key: 'action',
               render: (h, params) => {
-                return h('div', [
+                return h('div', {}, [
                   h('Button', {
                     props: {
                       type: 'text',
@@ -95,7 +110,11 @@
               }
             }
           ],
-          url: 'admin/getUsers',
+          url: 'business/queryCaseBases',
+          params:{
+          	id:''
+          },
+          page:0
         }
       }
     },
@@ -107,24 +126,31 @@
       edit: function (data) {
         this.reset()
         this.setValues(data)
-        this.fieldSet.passWord = '';
         this.pop = true
       },
       submit: function () {
         if (this.validate(true)) {
           var params = this.getValues()
           this.modalLoading = true
-          this.$http.post(this.url('admin/addUser'), params).then(this.rspHandler(() => {
+          this.$http.post(this.url('admin/addCaseBases'), params).then(this.rspHandler(() => {
             this.modalLoading = false
             this.pop = false
-            this.refreshList(1)
+            this.refreshList()
+          }, () => {
+            this.modalLoading = false
           }))
         }
       },
       reset: function () {
         this.fieldSet = {
-          userName: '',
-          passWord: ''
+          caseIndex: 1,
+          caseShow: 1,
+          caseUrl: '',
+          caseText: '',
+          businessId: ''
+        }
+        if(this.$route.params.id){
+          this.fieldSet.businessId = this.$route.params.id
         }
       },
       remove: function (data) {
@@ -132,18 +158,21 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            console.log(this)
-            this.$http.get(this.url('admin/deleteUser/' + data.id)).then(this.rspHandler(() => {
-              this.refreshList(1)
+            this.$http.get(this.url('admin/deleteCaseBase'),{params:{id:data.id}}).then(this.rspHandler((data)=>{
+              this.refreshList()
             }))
           }
         });
-      }
+      },
     },
     created: function () {
       this.initList(this.list)
+      if(this.$route.params.id){
+        this.list.params.id = this.$route.params.id
+      }
+      this.reset()
       this.$on(this.consts.loadedEvent, function () {
-        this.refreshList(1)
+        this.refreshList()
       })
     }
   }

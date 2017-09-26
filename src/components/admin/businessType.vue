@@ -17,13 +17,26 @@
       :mask-closable="false">
       <div class="form-area">
         <div class="form-row clearfix">
-          <label class="col-8">账号：</label>
-          <Input class="col-16" v-model="fieldSet.userName"></Input>
+          <label class="col-8">业务类型名称：</label>
+          <Input class="col-16" v-model="fieldSet.businessName"></Input>
         </div>
         <div class="form-row clearfix">
-          <label class="col-8">密码：</label>
-          <Input class="col-16" type="password" v-model="fieldSet.passWord"></Input>
+          <label class="col-8">业务分类：</label>
+          <Select class="col-16" v-model="fieldSet.parentId" clearable>
+            <Option v-for="item in selections.parentId" :value="item.id" :key="item">{{ item.businessName }}</Option>
+          </Select>
         </div>
+        <div class="form-row clearfix">
+          <label class="col-8">图片：<br/>(建议宽度300-600像素)</label>
+          <div class="col-16">
+            <img-input v-model="fieldSet.imageUrl" :maxLength="1"></img-input>
+          </div>
+        </div>
+        <!--<div class="form-row clearfix">-->
+        <!--<Upload multiple :action="uploadUrl" :on-success="onUploaded" :headers="uploadHeaders">-->
+        <!--<Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>-->
+        <!--</Upload>-->
+        <!--</div>-->
       </div>
       <div slot="footer">
         <Button type="primary" :loading="modalLoading" @click="submit()">{{fieldSet.id ? '修改' : '新增'}}</Button>
@@ -31,10 +44,10 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
   import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
-  import {dateFormat} from 'vux'
+  import {dateFormat, cookie} from 'vux'
   export default {
     mixins: [formValidate, moduleList],
     data: function () {
@@ -42,33 +55,21 @@
         status: 0,
         pop: false,
         modalLoading: false,
+        uploadUrl: '',
+        uploadHeaders: {},
         fieldSet: {
-          userName: '',
-          passWord: ''
-        },
-        rule: {
-          userName: {
-            label: '账号',
-            required: true
-          },
-          passWord: {
-            label: '密码',
-            required: true
-          }
+          businessName: '',
+          parentId: '',
+          imageUrl: ''
         },
         list: {
           columns: [
-            {title: '账号', key: 'userName'},
-            {
-              title: '更新时间', key: 'updatedAt', render: (h, params) => {
-              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-            }
-            },
+            {title: '业务类型名称', key: 'businessName'},
             {
               title: '操作',
               key: 'action',
               render: (h, params) => {
-                return h('div', [
+                return h('div', {}, [
                   h('Button', {
                     props: {
                       type: 'text',
@@ -76,10 +77,10 @@
                     },
                     on: {
                       click: (e) => {
-                        this.remove(params.row, e)
+                        this.showDetail(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'trash-a'}, class: {'margin-right-10': true}}), '删除']),
+                  }, [h('Icon', {props: {type: 'ios-paper-outline'}, class: {'margin-right-10': true}}), '查看详情']),
                   h('Button', {
                     props: {
                       type: 'text',
@@ -90,12 +91,26 @@
                         this.edit(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])
+                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改']),
+                  h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    on: {
+                      click: (e) => {
+                        this.remove(params.row, e)
+                      }
+                    }
+                  }, [h('Icon', {props: {type: 'trash-a'}, class: {'margin-right-10': true}}), '删除'])
                 ]);
               }
             }
           ],
-          url: 'admin/getUsers',
+          url: 'admin/queryBusinessType',
+        },
+        selections: {
+          parentId: []
         }
       }
     },
@@ -107,24 +122,26 @@
       edit: function (data) {
         this.reset()
         this.setValues(data)
-        this.fieldSet.passWord = '';
         this.pop = true
       },
       submit: function () {
         if (this.validate(true)) {
           var params = this.getValues()
           this.modalLoading = true
-          this.$http.post(this.url('admin/addUser'), params).then(this.rspHandler(() => {
+          this.$http.post(this.url('admin/addBusiness'), params).then(this.rspHandler(() => {
             this.modalLoading = false
             this.pop = false
             this.refreshList(1)
+          }, () => {
+            this.modalLoading = false
           }))
         }
       },
       reset: function () {
         this.fieldSet = {
-          userName: '',
-          passWord: ''
+          businessName: '',
+          parentId: '',
+          imageUrl: ''
         }
       },
       remove: function (data) {
@@ -132,18 +149,30 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            console.log(this)
-            this.$http.get(this.url('admin/deleteUser/' + data.id)).then(this.rspHandler(() => {
-              this.refreshList(1)
+            this.$http.get(this.url('admin/deleteBusiness'),{params:{id:data.id}}).then(this.rspHandler((data)=>{
+              this.refreshList()
             }))
           }
         });
+      },
+      showDetail: function (data) {
+        this.$router.push('/businessTypeDetail/'+data.id)
+      },
+      refreshSelections: function () {
+        this.$http.get(this.url('admin/queryBusinessList')).then(this.rspHandler((data) => {
+          this.selections.parentId = data
+        }))
       }
     },
     created: function () {
       this.initList(this.list)
+
       this.$on(this.consts.loadedEvent, function () {
+        this.uploadUrl = this.url('admin/fileUpload')
+        this.uploadHeaders = {}
+        this.uploadHeaders[this.consts.ticketKey] = cookie.get(this.consts.ticketKey)
         this.refreshList(1)
+        this.refreshSelections()
       })
     }
   }
