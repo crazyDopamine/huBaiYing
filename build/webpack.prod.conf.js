@@ -52,9 +52,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
+      filename: 'index.html',
       template: 'pages/index.html',
       inject: true,
       minify: {
@@ -66,12 +64,10 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency',
-      chunks:['vendor','main']
+      chunks:['manifest','vendor','main']
     }),
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'admin.html'
-        : config.build.index,
+      filename: 'admin.html',
       template: 'pages/admin.html',
       inject: true,
       minify: {
@@ -83,7 +79,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency',
-      chunks:['vendor','admin']
+      chunks:['manifest','vendor','admin']
     }),
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({

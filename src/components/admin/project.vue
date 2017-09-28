@@ -30,7 +30,7 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
   import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'

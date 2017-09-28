@@ -9,6 +9,7 @@ import filters from './common/filters'
 import {httpInterceptor} from './common/interceptors'
 import iView from 'iview'
 import imgInput from './components/admin/widget/imgInput.vue'
+import editor from './components/admin/widget/editor.widget.vue'
 import 'iview/dist/styles/iview.css'
 import 'vueg/css/transition-min.css'
 import './sass/admin/style.scss'
@@ -17,6 +18,7 @@ import './sass/admin/style.scss'
 Vue.use(VueRouter)
 Vue.use(iView)
 Vue.component('img-input',imgInput)
+Vue.component('editor',editor)
 Vue.mixin(loadedMixins)
 Vue.mixin(common)
 Vue.use(filters)
@@ -24,8 +26,8 @@ Vue.use(VueResource)
 Vue.http.interceptors.push(httpInterceptor)
 
 //widget
-import VueQuillEditor from 'vue-quill-editor'
-Vue.use(VueQuillEditor)
+// import VueQuillEditor from 'vue-quill-editor'
+// Vue.use(VueQuillEditor)
 
 let config = {
   render: h => h(app)
