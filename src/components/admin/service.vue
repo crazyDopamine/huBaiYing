@@ -16,11 +16,11 @@
       :mask-closable="false">
       <div class="form-area">
         <div class="form-row clearfix">
-          <label class="col-8">账号：</label>
-          <Input class="col-16" v-model="fieldSet.userName"></Input>
+          <label class="col-8">服务名称：</label>
+          <Input class="col-16" v-model="fieldSet.name"></Input>
         </div>
         <div class="form-row clearfix">
-          <label class="col-8">密码：</label>
+          <label class="col-8">服务类型：</label>
           <Input class="col-16" type="password" v-model="fieldSet.passWord"></Input>
         </div>
       </div>
