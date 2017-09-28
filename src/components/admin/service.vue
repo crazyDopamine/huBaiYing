@@ -13,37 +13,42 @@
     <Modal
       v-model="pop"
       :title="fieldSet.id?'修改':'新增'"
+      :width="1232"
       :mask-closable="false">
-      <div class="form-area">
-        <div class="form-row clearfix">
-          <label class="col-8">服务名称：</label>
-          <Input class="col-16" v-model="fieldSet.name"></Input>
-        </div>
-        <div class="form-row clearfix">
-          <label class="col-8">服务类型：</label>
-          <Input class="col-16" type="password" v-model="fieldSet.passWord"></Input>
-        </div>
-      </div>
+      <Form ref="loginForm" :model="fieldSet" :rules="rule">
+        <FormItem prop="user">
+          <label>服务名称：</label>
+          <Input type="text" v-model="fieldSet.username" placeholder="服务名称" size="large">
+          </Input>
+        </FormItem>
+        <FormItem prop="password">
+          <label>详情：</label>
+          <editor v-model="fieldSet.content"></editor>
+          </Input>
+        </FormItem>
+      </Form>
       <div slot="footer">
         <Button type="primary" :loading="modalLoading" @click="submit()">{{fieldSet.id?'修改':'新增'}}</Button>
       </div>
     </Modal>
   </div>
 </template>
-<script>
-  import formValidate from '../../common/formValidate'
+<script type="es6">
   import moduleList from '../../common/moduleList'
+  import consts from '../../common/const'
   import {dateFormat} from 'vux'
   export default {
-    mixins: [formValidate, moduleList],
+    mixins: [moduleList],
     data: function () {
       return {
         status: 0,
         pop: false,
         modalLoading: false,
+        editorOption:consts.quillOptions,
         fieldSet: {
           userName: '',
-          passWord:''
+          passWord:'',
+          content:'<p>test</p>'
         },
         rule:{
           userName: {
@@ -99,15 +104,7 @@
         this.pop = true
       },
       submit: function () {
-        if (this.validate(true)) {
-          var params = this.getValues()
-          this.modalLoading = true
-          this.$http.post(this.url('admin/addUser'), params).then(this.rspHandler(() => {
-            this.modalLoading = false
-            this.pop=false
-            this.refreshList(1)
-          }))
-        }
+        console.log(this.fieldSet)
       },
       reset: function () {
         this.fieldSet = {
