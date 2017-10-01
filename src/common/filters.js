@@ -1,10 +1,9 @@
 import {dateFormat, numberComma, numberPad, numberRandom} from 'vux'
 
 var selectionsFilter = function (value, selectionsMap) {
-  console.log(selectionsMap)
-  if(selectionsMap&&selectionsMap[value]){
+  if (selectionsMap && selectionsMap[value]) {
     return selectionsMap[value].desc
-  }else{
+  } else {
     return value
   }
   // if (window.dicLoaded[code] === 2 && window.dicMapMap[code][value]) {
@@ -40,9 +39,26 @@ export default {
         return Number(num).toFixed(length)
       }
     })
+    Vue.filter('selections', selectionsFilter)
+    var defaultImg = '/static/imgs/img-default.jpg'
+    var imgFilter = function(src, type){
+      var zipImgDic = window.baseUrl + 'breviary/'
+      var bigImgDic = window.baseUrl + 'upload/'
+      if (!src)return defaultImg
+      if (src.indexOf('http') >= 0) {
+        return src
+      } else if (type == 1) {
+        return bigImgDic + src
+      } else {
+        return zipImgDic + src
+      }
+    }
+    Vue.filter('img', imgFilter)
+    Vue.filter('movie', function (src, type) {
+      return imgFilter(src,1)
+    })
     Vue.filter('localFile', function (file) {
       return 'static/'+file;
     })
-    Vue.filter('selections', selectionsFilter)
   }
 }
