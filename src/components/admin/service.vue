@@ -13,14 +13,18 @@
     <Modal
       v-model="pop"
       :title="fieldSet.id?'修改':'新增'"
-      :width="1232"
+      :width="1332"
       :mask-closable="false">
-      <Form ref="form" :model="fieldSet" :rules="rule">
-        <FormItem prop="name" label="服务名称">
-          <Input type="text" v-model="fieldSet.name" placeholder="服务名称" size="large">
+      <Form ref="loginForm" :model="fieldSet" :rules="rule" :label-width="100">
+        <FormItem prop="user" label="服务名称：">
+          <Input type="text" v-model="fieldSet.username" placeholder="服务名称" size="large">
           </Input>
         </FormItem>
-        <FormItem prop="password" label="详情">
+        <FormItem prop="user" label="服务logo：">
+          <img-input v-model="fieldSet.img"></img-input>
+          </Input>
+        </FormItem>
+        <FormItem prop="password" label="详情：">
           <editor v-model="fieldSet.content"></editor>
           </Input>
         </FormItem>
@@ -46,6 +50,7 @@
         fieldSet: {
           userName: '',
           passWord:'',
+          img:'',
           content:'<p>test</p>'
         },
         rule:{

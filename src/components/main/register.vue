@@ -7,18 +7,21 @@
       <FormItem label="密码" prop="password">
         <Input type="password" v-model="form.password"></Input>
       </FormItem>
-      <FormItem label="确认密码" prop="password">
-        <Input type="password" v-model="form.password"></Input>
+      <FormItem label="确认密码" prop="passwordConfirm">
+        <Input type="password" v-model="form.passwordConfirm"></Input>
+      </FormItem>
+      <FormItem label="昵称" prop="nickName">
+        <Input type="text" v-model="form.nickName"></Input>
       </FormItem>
       <FormItem label="手机号" prop="phone">
-        <Input type="password" v-model="form.phone"></Input>
+        <Input type="text" v-model="form.phone"></Input>
       </FormItem>
       <FormItem label="验证码" prop="verify">
-        <Input type="password" v-model="form.verify"></Input>
+        <Input type="text" v-model="form.verify"></Input>
         <Button class="btn-theme margin-left-10" @click="sendVerify()" :disabled="sendBtnDisabled">{{sendBtnText}}</Button>
       </FormItem>
-      <FormItem label="城市" prop="city">
-        <Cascader :data="selections.city" v-model="form.city"></Cascader>
+      <FormItem label="城市" prop="cityId">
+        <Cascader :data="selections.cityId" v-model="form.cityId"></Cascader>
       </FormItem>
       <FormItem label="邀请码" prop="visitNum">
         <Input type="password" v-model="form.password"></Input>
@@ -39,8 +42,10 @@
         form: {
           username: '',
           password: '',
+          passwordConfirm:'',
+          nickName:'',
           phone: '',
-          city: [],
+          cityId: [],
           verify: ''
         },
         rule: {
@@ -48,7 +53,7 @@
           password: [{required: true, message: '密码不能为空！', trigger: 'blur'}]
         },
         selections: {
-          city: [{
+          cityId: [{
             value: 'beijing',
             label: '北京',
             children: [
@@ -100,7 +105,16 @@
     },
     methods: {
       submit: function () {
-        console.log(this.form)
+        this.$refs.form.validate((valid) => {
+          this.modalLoading = true
+          if (valid) {
+          	var params = this.form
+          	console.log(params)
+            this.$http.post(this.url('user/register'),params).then(this.rspHandler((data)=>{
+              this.modalLoading = true
+            }))
+          }
+        });
       }
     },
     created: function () {
