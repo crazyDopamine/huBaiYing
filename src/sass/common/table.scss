@@ -150,3 +150,18 @@ $tableBorderHeight:1px;
 .ivu-tabs-ink-bar{
   background-color:$themeColor;
 }
+
+.ivu-spin{
+  min-height:300px;
+  position:relative;
+  .ivu-spin-main{
+    position:relative;
+    top:134px;
+  }
+  .ivu-spin-dot{
+    background-color:$themeColor;
+    left:50%;
+    margin-left:16px;
+  }
+}
+

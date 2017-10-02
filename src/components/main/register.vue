@@ -1,5 +1,5 @@
 <template>
-  <div class="register">
+  <div class="register page">
     <Form class="middle form-area half-input" ref="form" :model="form" :rules="rule" :label-width="80">
       <FormItem label="用户名" prop="username">
         <Input type="text" v-model="form.username"></Input>
@@ -16,15 +16,18 @@
       <FormItem label="手机号" prop="phone">
         <Input type="text" v-model="form.phone"></Input>
       </FormItem>
-      <FormItem label="验证码" prop="verify">
-        <Input type="text" v-model="form.verify"></Input>
-        <Button class="btn-theme margin-left-10" @click="sendVerify()" :disabled="sendBtnDisabled">{{sendBtnText}}</Button>
+      <FormItem label="验证码" prop="verificationCode">
+        <Input type="text" v-model="form.verificationCode"></Input>
+        <Button class="btn-theme margin-left-10" @click="sendVerify()" :disabled="sendBtnDisabled">{{sendBtnText}}
+        </Button>
       </FormItem>
       <FormItem label="城市" prop="cityId">
-        <Cascader :data="selections.cityId" v-model="form.cityId"></Cascader>
+        <Select v-model="form.cityId">
+          <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
+        </Select>
       </FormItem>
-      <FormItem label="邀请码" prop="visitNum">
-        <Input type="password" v-model="form.password"></Input>
+      <FormItem label="邀请码" prop="inviteCode">
+        <Input type="text" v-model="form.inviteCode"></Input>
       </FormItem>
       <div class="btn-area" style="padding-left:80px;">
         <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">注册</Button>
@@ -32,7 +35,7 @@
     </Form>
   </div>
 </template>
-<script>
+<script type="es6">
   import {verify} from '../../common/mixins'
   export default {
     mixins: [verify],
@@ -42,76 +45,45 @@
         form: {
           username: '',
           password: '',
-          passwordConfirm:'',
-          nickName:'',
+          passwordConfirm: '',
+          nickName: '',
           phone: '',
-          cityId: [],
-          verify: ''
+          cityId: '',
+          verificationCode: '',
+          inviteCode: ''
         },
         rule: {
           username: [{required: true, message: '用户名不能为空！', trigger: 'blur'}],
-          password: [{required: true, message: '密码不能为空！', trigger: 'blur'}]
+          password: [{required: true, message: '密码不能为空！', trigger: 'blur'}],
+          passwordConfirm: [{required: true, message: '确认密码不能为空！', trigger: 'blur'}],
+          nickName: [{required: true, message: '昵称不能为空！', trigger: 'blur'}],
+          phone: [{required: true, message: '手机号码不能为空！', trigger: 'blur'}],
+          verificationCode:[{required: true, message: '验证码不能为空！', trigger: 'blur'}],
+          cityId: [{type: 'number', required: true, message: '城市不能为空！', trigger: 'blur'}]
         },
         selections: {
-          cityId: [{
-            value: 'beijing',
-            label: '北京',
-            children: [
-              {
-                value: 'gugong',
-                label: '故宫'
-              },
-              {
-                value: 'tiantan',
-                label: '天坛'
-              },
-              {
-                value: 'wangfujing',
-                label: '王府井'
-              }
-            ]
-          }, {
-            value: 'jiangsu',
-            label: '江苏',
-            children: [
-              {
-                value: 'nanjing',
-                label: '南京',
-                children: [
-                  {
-                    value: 'fuzimiao',
-                    label: '夫子庙',
-                  }
-                ]
-              },
-              {
-                value: 'suzhou',
-                label: '苏州',
-                children: [
-                  {
-                    value: 'zhuozhengyuan',
-                    label: '拙政园',
-                  },
-                  {
-                    value: 'shizilin',
-                    label: '狮子林',
-                  }
-                ]
-              }
-            ],
-          }]
+          cityId: []
         }
       }
     },
     methods: {
+      refresh: function () {
+        this.$http.get(this.url('city/getAllCity')).then(this.rspHandler((data)=> {
+          this.selections.cityId = data
+        }))
+      },
       submit: function () {
         this.$refs.form.validate((valid) => {
-          this.modalLoading = true
           if (valid) {
-          	var params = this.form
-          	console.log(params)
-            this.$http.post(this.url('user/register'),params).then(this.rspHandler((data)=>{
+            var params = this.form
+            if (params.passwordConfirm != params.password) {
+              this.$Message.error('两次输入的密码图不相同!')
+              return
+            }
+            this.modalLoading = true
+            this.$http.post(this.url('user/register'), params).then(this.rspHandler((data)=> {
               this.modalLoading = true
+              this.$Message.success('注册成功')
             }))
           }
         });
@@ -119,6 +91,7 @@
     },
     created: function () {
       window.vm.$refs.header.showBanners = false;
+      this.refresh()
     }
   }
 </script>

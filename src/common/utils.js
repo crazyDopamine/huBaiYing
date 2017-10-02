@@ -74,6 +74,19 @@ var toKV = function (array, valueField, labelField) {
   return result
 }
 
+var toVL = function (array, valueField, labelField) {
+  if (!valueField) valueField = 'id'
+  if (!labelField) labelField = 'name'
+  var result = []
+  each(array, function (data, index) {
+    result.push({value: data[valueField], label: data[labelField], data: data})
+    if (data.children) {
+      result.children = toVL(data.children)
+    }
+  })
+  return result
+}
+
 var toMap = function (array, valueField) {
   if (!valueField) valueField = 'id'
   var result = {}
@@ -92,13 +105,18 @@ var url = function (url) {
   }
 }
 
-var rspHandler = function (callback) {
+var rspHandler = function (callback, errorCallback) {
   return function (rsp) {
     var data = rsp.data
     if (data.code === consts.CODE_SUCC) {
       callback(data.data)
     } else {
-      window.vm.$vux.toast.text(rsp.message, 'bottom')
+      if (window.vm.$vux) {
+        window.vm.$vux.toast.text(data.message, 'bottom')
+      } else if (window.vm.$Message) {
+        window.vm.$Message.error(data.message);
+      }
+      if (errorCallback) errorCallback(data)
     }
   }
 }
@@ -112,14 +130,14 @@ var filterNullParams = function (obj) {
   })
 }
 
-var resetObject = function (obj,isDeep) {
+var resetObject = function (obj, isDeep) {
   each(obj, function (value, key) {
     if (obj[key] instanceof Array) {
       obj[key] = [];
     } else if (typeof obj[key] == 'object') {
-      if(isDeep){
+      if (isDeep) {
         resetObject(obj[key])
-      }else{
+      } else {
         obj[key] = {};
       }
     } else {
@@ -149,67 +167,8 @@ var selections = function (code) {
     }
   })
   return promise
-  // if (!window.dicMap[code]) {
-  //   window.vm.$http.get(url('dataDictionary/getByCode/' + code)).then(rspHandler(function (data) {
-  //     window.dicMap[code] = data
-  //   }))
-  // }
-  // return window.dicMap[code]
 }
 
-window.type = []
-window.typeLoaded = 0
-var getType = function (vm) {
-  var promise = new Promise(function (resolve, reject) {
-    if (!window.typeLoaded) {
-      window.typeLoaded = 1
-      vm.$http.get(url('business/getBusinessInfo')).then(rspHandler(function (data) {
-        window.type = data
-        window.typeLoaded = 2
-        resolve(window.type)
-      }))
-    } else {
-      resolve(window.type)
-    }
-  })
-  return promise
-}
-
-window.skill = []
-window.skillLoaded = 0
-var getSkill = function (vm) {
-  var promise = new Promise(function (resolve, reject) {
-    if (!window.skillLoaded) {
-      window.skillLoaded = 1
-      vm.$http.get(url('skill/getSkillInfo')).then(rspHandler(function (data) {
-        window.skill = data
-        window.skillLoaded = 2
-        resolve(window.skill)
-      }))
-    } else {
-      resolve(window.skill)
-    }
-  })
-  return promise
-}
-
-window.address = []
-window.addressLoaded = 0
-var getAddress = function (vm) {
-  var promise = new Promise(function (resolve, reject) {
-    if (!window.addressLoaded) {
-      window.addressLoaded = 1
-      vm.$http.get(url('city/getAllCity')).then(rspHandler(function (data) {
-        window.address = data
-        window.addressLoaded = 2
-        resolve(window.address)
-      }))
-    } else {
-      resolve(window.address)
-    }
-  })
-  return promise
-}
 
 Array.prototype.contains = function (item) {
   var result = false
@@ -300,13 +259,11 @@ export {
   each,
   toNV,
   toKV,
+  toVL,
   url,
   selections,
-  getType,
   rspHandler,
   toMap,
-  getAddress,
-  getSkill,
   filterNullParams,
   getQuery,
   resetObject

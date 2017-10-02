@@ -8,7 +8,8 @@ var listConfig = {
   pageSize: 10,
   params: {},
   selected: {},
-  options: {}
+  options: {},
+  loadFlag:0
 }
 export default {
   methods: {
@@ -44,18 +45,20 @@ export default {
           listNode.dataList = data.rows
           listNode.total = data.total
         }
-        self.$vux.loading.hide()
+        listNode.loadFlag = 2
+        // self.$vux.loading.hide()
         // self.$forceUpdate()
         self.$emit(consts.listLoadEvent, listNode)
       })
       listNode.dataList = []
-      this.$vux.loading.show({
-        text: '加载中'
-      })
+      // this.$vux.loading.show({
+      //   text: '加载中'
+      // })
       filterNullParams(params)
+      listNode.loadFlag = 1
+      listNode.dataList = []
       if (listNode.options.mothed) {
         this.$http.post(url(listNode.url), params, {
-          // contentType: 'application/json'
         }).then(callback)
       } else {
         this.$http.get(url(listNode.url), {params: params}).then(callback)

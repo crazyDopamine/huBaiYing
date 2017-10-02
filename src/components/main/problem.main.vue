@@ -3,13 +3,13 @@
     <div class="search-bar">
       <Row class="middle" type="flex">
         <Col span="6" class="padding-right-20">
-        <Cascader :data="selections.city" placeholder="服务类型"></Cascader>
+        <Cascader :data="selections.business" placeholder="服务类型" v-model="list.serviceType"></Cascader>
         </Col>
         <Col span="12" class="padding-right-20">
         <Input type="text" v-model="list.params.title" placeholder="问题标题"></Input>
         </Col>
         <Col span="3" class="padding-right-20">
-        <Button class="margin-right-20" type="ghost" icon="ios-search">查询</Button>
+        <Button class="margin-right-20" type="ghost" icon="ios-search" @click="refreshList(1)">查询</Button>
         </Col>
         <Col span="3" class="text-right">
         <Button type="primary" class="btn-theme" icon="help" @click="showPop()">提问</Button>
@@ -18,13 +18,17 @@
     </div>
     <div class="problem-main-list">
       <ul class="middle">
-        <li class="problem-main-item">
+        <li class="problem-main-item" v-for="(data,index) in list.dataList">
           <router-link class="problem-main-item-title" to="/problemDetail/1">问题标题</router-link>
           <span class="margin-left-20 problem-main-item-status fc-theme">已解决</span>
           <span class="problem-main-item-date float-right">2017-9-17 14：45</span><br>
           <p class="problem-main-item-content">内容</p>
         </li>
+        <li class="">
+
+        </li>
       </ul>
+      <Spin size="large" v-if="list.loadFlag==1"></Spin>
       <div class="middle page-bar">
         <Page :total="100" show-elevator></Page>
       </div>
@@ -53,13 +57,25 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
+  import moduleList from '../../common/moduleList'
+  import {toVL} from '../../common/utils'
   export default {
+    mixins:[moduleList],
     data: function () {
       return {
+        list: {
+          url: 'problem/queryAllProblem',
+          serviceType:[],
+          params: {
+            serviceType:'',
+            title: ''
+          }
+        },
         formPop: false,
         modalLoading:false,
         form:{
+          serviceType:[],
           title:'',
           content:'',
           type:[]
@@ -67,59 +83,8 @@
         rule:{
 
         },
-        list: {
-          params: {
-            title: ''
-          },
-        },
         selections: {
-          city: [{
-            value: 'beijing',
-            label: '北京',
-            children: [
-              {
-                value: 'gugong',
-                label: '故宫'
-              },
-              {
-                value: 'tiantan',
-                label: '天坛'
-              },
-              {
-                value: 'wangfujing',
-                label: '王府井'
-              }
-            ]
-          }, {
-            value: 'jiangsu',
-            label: '江苏',
-            children: [
-              {
-                value: 'nanjing',
-                label: '南京',
-                children: [
-                  {
-                    value: 'fuzimiao',
-                    label: '夫子庙',
-                  }
-                ]
-              },
-              {
-                value: 'suzhou',
-                label: '苏州',
-                children: [
-                  {
-                    value: 'zhuozhengyuan',
-                    label: '拙政园',
-                  },
-                  {
-                    value: 'shizilin',
-                    label: '狮子林',
-                  }
-                ]
-              }
-            ],
-          }]
+          business: []
         }
       }
     },
@@ -137,10 +102,21 @@
             this.$Message.error('表单验证失败!');
           }
         });
+      },
+      refresh:function(){
+        this.$http.get(this.url('business/getAll')).then(this.rspHandler((data)=> {
+          this.selections.business = toVL(data,'id','businessName')
+        }))
       }
     },
     created: function () {
       window.vm.$refs.header.showBanners = true;
+      this.initList(this.list)
+      this.refresh()
+      this.refreshList()
+      this.$watch('list.serviceType',function(v){
+        this.list.params.serviceType = v.toString()
+      })
     }
   }
 </script>

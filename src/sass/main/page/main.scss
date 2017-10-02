@@ -13,39 +13,39 @@
   .ivu-tabs-bar{
 
   }
-  .main-adviser-area{
-    background-color:$themeColor;
-    padding:20px;
-    .main-adviser-list{
-      background-color:$white;
-      position:relative;
-      overflow:hidden;
-      a{
-        &:not(:last-child){
-          .ivu-col{
-            border-right:1px solid $borderColor;
-          }
-        }
-        .ivu-col{
-          height:290px;
-          padding:20px;
-          text-align: center;
-          img{
-            border-radius: 50%;
-            width:60%;
-            height:60%;
-          }
-          label{
-            font-size: $fontSize-xxl;
-            line-height: 50px;
-          }
-          span{
-            color: $grayL;
-          }
-        }
-      }
-
-    }
-  }
 }
 
+.main-adviser-area{
+  background-color:$themeColor;
+  padding:20px;
+  .main-adviser-list{
+    background-color:$white;
+    position:relative;
+    overflow:hidden;
+    a{
+      &:not(:last-child){
+        .ivu-col{
+          border-right:1px solid $borderColor;
+        }
+      }
+      .ivu-col{
+        height:290px;
+        padding:20px;
+        text-align: center;
+        img{
+          border-radius: 50%;
+          width:60%;
+          height:60%;
+        }
+        label{
+          font-size: $fontSize-xxl;
+          line-height: 50px;
+        }
+        span{
+          color: $grayL;
+        }
+      }
+    }
+
+  }
+}

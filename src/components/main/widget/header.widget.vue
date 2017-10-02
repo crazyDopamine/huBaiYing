@@ -26,8 +26,8 @@
             <Icon type="arrow-down-b"></Icon>
           </span>
           <DropdownMenu slot="list">
-            <Dropdown class="menu-drop-down-2" placement="right-start">
-              分类1
+            <Dropdown class="menu-drop-down-2" placement="right-start" v-for="(data,index) in selections.business" :key="index">
+              {{data.businessName}}
               <DropdownMenu slot="list">
                 <Dropdown class="menu-drop-down-3" placement="right-start">
                   分类1-1
@@ -87,8 +87,8 @@
         <!--<Tabs class="margin-top-20">-->
           <!--<TabPane label="账号密码">-->
             <Form ref="loginForm" :model="loginForm" :rules="rule">
-              <FormItem prop="user">
-                <Input type="text" v-model="loginForm.username" placeholder="手机号" size="large">
+              <FormItem prop="phone">
+                <Input type="text" v-model="loginForm.phone" placeholder="手机号" size="large">
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
                 </Input>
               </FormItem>
@@ -131,10 +131,10 @@
   </header>
 </template>
 <script type="es6">
-  import formValidate from '../../../common/formValidate'
+  import {loadedMixins} from '../../../common/mixins'
   import {cookie} from 'vux'
   let config = {
-    mixins: [formValidate],
+    mixins: [loadedMixins],
     data: function () {
       return {
         showBanners: true,
@@ -147,23 +147,31 @@
         ],
         currentMenu: false,
         loginForm: {
-          username: '',
-          password: ''
+          phone: '',
+          password: '',
+          type:'account'
         },
         rule: {
           username: [
-            {required: true, message: '请填写用户名', trigger: 'blur'}
+            {required: true, message: '请填写手机号', trigger: 'blur'}
           ],
           password: [
             {required: true, message: '请填写密码', trigger: 'blur'},
             {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
           ]
+        },
+        selections:{
+          business:[]
         }
       }
     },
     methods: {
+      refresh:function(){
+          this.$http.get(this.url('business/getAll')).then(this.rspHandler((data)=>{
+            this.selections.business = data
+          }))
+      },
       showLogin: function () {
-        this.reset(this.loginForm)
         this.modalLoading = false
         this.loginPop = true
       },
@@ -172,20 +180,25 @@
         this.$refs.loginForm.validate((valid) => {
           this.modalLoading = false
           if (valid) {
-            this.$Message.success('提交成功!');
-          } else {
-            this.$Message.error('表单验证失败!');
+            var params = this.loginForm
+            this.$http.post(this.url('user/login'),params).then(this.rspHandler((data)=>{
+              this.loginPop = false
+              window.vm.getUserInfo()
+            },()=>{
+              this.$Message.error('登陆失败！')
+            }),()=>{
+              window.$Message.error('登陆失败！')
+            })
           }
         });
       },
       showRegister: function () {
-        this.reset(this.registerForm)
         this.modalLoading = false
         this.registerPop = true
       },
-      register: function () {
-        this.modalLoading = true
-        if (this.validate(true, this.registerForm)) {
+      // register: function () {
+      //   this.modalLoading = true
+      //   if (this.validate(true, this.registerForm)) {
 //          var params = this.getValues(this.loginForm)
 //          this.modalLoading = true
 //          this.$http.post(this.url('login'), params).then(this.rspHandler((data) => {
@@ -197,8 +210,8 @@
 //         }), () => {
 //             this.modalLoading = false
 //           })
-        }
-      }
+//         }
+//       }
 //      getUserInfo: function () {
 //        this.$http.get(this.url('admin/getUserInfo')).then(this.rspHandler((data) => {
 //          window.vm.userInfo = data
@@ -216,9 +229,11 @@
       this.$watch('loginPop', function (isShow) {
         if (isShow) {
           this.resetObject(this.loginForm)
+          this.loginForm.type = 'account'
           this.$refs.loginForm.resetFields()
         }
       })
+      this.refresh()
     }
   }
 
