@@ -13,7 +13,9 @@ export function httpInterceptor(request, next){
         window.vm.$vux.loading.hide()
         window.vm.$vux.toast.text(rsp.data.message, 'bottom',2000)
       }else if(window.vm.$Message){
-        window.vm.$Message.error(rsp.data.message);
+        if(rsp.data&&rsp.data.message){
+          window.vm.$Message.error(rsp.data.message)
+        }
       }
     }
   });

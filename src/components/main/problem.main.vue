@@ -24,13 +24,15 @@
           <span class="problem-main-item-date float-right">2017-9-17 14：45</span><br>
           <p class="problem-main-item-content">内容</p>
         </li>
-        <li class="">
-
-        </li>
       </ul>
-      <Spin size="large" v-if="list.loadFlag==1"></Spin>
+      <Spin size="large" v-if="list.showLoading"></Spin>
+      <div class="empty-view" v-if="!list.showLoading&&list.dataList.length==0">
+        <Icon type="ios-box-outline"></Icon><br/>
+        无数据
+      </div>
       <div class="middle page-bar">
-        <Page :total="100" show-elevator></Page>
+        <Page v-show="list.showPage" :current="list.page" :total="list.total" :page-size="list.pageSize"
+              @on-change="refreshList($event)" show-elevator></Page>
       </div>
     </div>
     <Modal v-model="formPop" width="500" :closable="true" :mask-closable="false">
@@ -104,9 +106,9 @@
         });
       },
       refresh:function(){
-        this.$http.get(this.url('business/getAll')).then(this.rspHandler((data)=> {
+        this.getSelections('business').then((data)=>{
           this.selections.business = toVL(data,'id','businessName')
-        }))
+        })
       }
     },
     created: function () {

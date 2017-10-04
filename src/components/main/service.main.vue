@@ -29,9 +29,9 @@
     },
     methods: {
       refresh: function () {
-        this.$http.get(this.url('business/getAll')).then(this.rspHandler((data)=> {
+        this.getSelections('business').then((data)=>{
           this.business = data
-        }))
+        })
       },
     },
     created: function () {

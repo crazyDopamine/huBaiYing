@@ -15,7 +15,8 @@
       </FormItem>
       <FormItem label="验证码" prop="verify">
         <Input type="password" v-model="form.verify"></Input>
-        <Button class="btn-theme margin-left-10" @click="sendVerify()" :disabled="sendBtnDisabled">{{sendBtnText}}</Button>
+        <Button class="btn-theme margin-left-10" @click="sendVerify()" :disabled="sendBtnDisabled">{{sendBtnText}}
+        </Button>
       </FormItem>
       <FormItem label="城市" prop="city">
         <Cascader :data="selections.city" v-model="form.city"></Cascader>
@@ -101,6 +102,12 @@
     methods: {
       submit: function () {
         console.log(this.form)
+      },
+      refresh: function () {
+      	if(this.$route.params.id){
+
+        }
+
       }
     },
     created: function () {

@@ -19,6 +19,9 @@ Vue.mixin(common)
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
+import {httpInterceptor} from './common/interceptors'
+Vue.http.interceptors.push(httpInterceptor)
+
 import app from './components/main/app.vue'
 import  './sass/main/style.scss'
 

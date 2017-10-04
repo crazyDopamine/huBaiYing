@@ -2,11 +2,11 @@
   <header class="hby-header layout-row">
     <div class="header-top-bar">
       <div class="middle text-right">
-        <span>欢迎登陆呼百应</span>
-        <router-link to="/userMain" class="padding-left-10 margin-right-10">用户中心</router-link>
-        <a class="margin-right-10" @click="showLogin()">登录</a>
-        <router-link to="/register" class="border-left padding-left-10 margin-right-10">注册</router-link>
-        <!--<a>登出</a>-->
+        <span v-if="userInfoLoaded==1">欢迎登陆呼百应</span>
+        <router-link to="/userMain" class="padding-left-10 margin-right-10" v-if="userInfoLoaded==1">用户中心</router-link>
+        <a class="margin-right-10" @click="showLogin()" v-if="userInfoLoaded==0">登录</a>
+        <router-link to="/register" class="border-left padding-left-10 margin-right-10" v-if="userInfoLoaded==0">注册</router-link>
+        <a v-if="userInfoLoaded==1" @click="loginOut()">登出</a>
         <Icon class="fc-theme" type="ios-telephone" size="16"></Icon>
         <span class="fc-theme">400-659-9818</span>
       </div>
@@ -28,28 +28,13 @@
           <DropdownMenu slot="list">
             <Dropdown class="menu-drop-down-2" placement="right-start" v-for="(data,index) in selections.business" :key="index">
               {{data.businessName}}
-              <DropdownMenu slot="list">
-                <Dropdown class="menu-drop-down-3" placement="right-start">
-                  分类1-1
-                  <DropdownMenu slot="list">
+              <DropdownMenu slot="list" v-if="data.children">
+                <Dropdown class="menu-drop-down-3" placement="right-start" v-for="(item,index) in data.children" :key="index">
+                  {{data.businessName}}
+                  <DropdownMenu slot="list" v-if="item.children">
                     <ul>
-                      <li>
-                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
-                      </li>
-                      <li>
-                        <router-link to="/serviceDetail/1">分类1-1-1</router-link>
+                      <li v-for="(service,index) in item.children" :key="index">
+                        <router-link :to="'/serviceDetail/'+service.id">{{service.businessName}}</router-link>
                       </li>
                     </ul>
                   </DropdownMenu>
@@ -167,23 +152,28 @@
     },
     methods: {
       refresh:function(){
-          this.$http.get(this.url('business/getAll')).then(this.rspHandler((data)=>{
-            this.selections.business = data
-          }))
+      	this.getSelections('business').then((data)=>{
+          this.selections.business = data
+        })
       },
       showLogin: function () {
         this.modalLoading = false
         this.loginPop = true
       },
       login: function () {
-        this.modalLoading = true
+        this.modalLoading = false
         this.$refs.loginForm.validate((valid) => {
-          this.modalLoading = false
+          this.modalLoading = true
           if (valid) {
             var params = this.loginForm
             this.$http.post(this.url('user/login'),params).then(this.rspHandler((data)=>{
-              this.loginPop = false
+              this.$Message.success('登陆成功！')
+              if(data){
+                cookie.set(this.consts.ticketKey,data.token)
+              }
               window.vm.getUserInfo()
+              this.modalLoading = false
+              this.loginPop = false
             },()=>{
               this.$Message.error('登陆失败！')
             }),()=>{
@@ -192,10 +182,16 @@
           }
         });
       },
-      showRegister: function () {
-        this.modalLoading = false
-        this.registerPop = true
-      },
+      loginOut:function(){
+        cookie.set(this.consts.ticketKey,'')
+        window.vm.userInfo={}
+        window.vm.userInfoLoaded=0
+        window.vm.$emit(this.consts.loadedFailEvent)
+      }
+//      showRegister: function () {
+//        this.modalLoading = false
+//        this.registerPop = true
+//      },
       // register: function () {
       //   this.modalLoading = true
       //   if (this.validate(true, this.registerForm)) {

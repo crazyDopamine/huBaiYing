@@ -78,11 +78,13 @@ var toVL = function (array, valueField, labelField) {
   if (!valueField) valueField = 'id'
   if (!labelField) labelField = 'name'
   var result = []
+  var item = {}
   each(array, function (data, index) {
-    result.push({value: data[valueField], label: data[labelField], data: data})
+    item = {value: data[valueField], label: data[labelField], data: data}
     if (data.children) {
-      result.children = toVL(data.children)
+      item.children = toVL(data.children, valueField, labelField)
     }
+    result.push(item)
   })
   return result
 }

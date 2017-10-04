@@ -99,11 +99,11 @@ $tableBorderHeight:1px;
   }
 }
 
-.empty-list{
+.empty-view{
   text-align:center;
-  margin-top:50px;
-  img{
-    width:130px;
+  margin-top:100px;
+  .ivu-icon{
+    font-size: 80px;
   }
 }
 
@@ -152,16 +152,15 @@ $tableBorderHeight:1px;
 }
 
 .ivu-spin{
-  min-height:300px;
+  margin-top: 100px;
   position:relative;
   .ivu-spin-main{
     position:relative;
-    top:134px;
+    text-align: center;
   }
   .ivu-spin-dot{
+    display: inline-block;
     background-color:$themeColor;
-    left:50%;
-    margin-left:16px;
   }
 }
 

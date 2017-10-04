@@ -58,7 +58,11 @@ export default {
       return imgFilter(src,1)
     })
     Vue.filter('localFile', function (file) {
-      return 'static/'+file;
+      if(file){
+        return 'static/'+file;
+      }else{
+        return ''
+      }
     })
   }
 }

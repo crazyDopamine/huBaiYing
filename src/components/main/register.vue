@@ -68,9 +68,9 @@
     },
     methods: {
       refresh: function () {
-        this.$http.get(this.url('city/getAllCity')).then(this.rspHandler((data)=> {
+        this.getSelections('city').then((data)=>{
           this.selections.cityId = data
-        }))
+        })
       },
       submit: function () {
         this.$refs.form.validate((valid) => {
@@ -84,6 +84,7 @@
             this.$http.post(this.url('user/register'), params).then(this.rspHandler((data)=> {
               this.modalLoading = true
               this.$Message.success('注册成功')
+              this.$router.push('/main')
             }))
           }
         });

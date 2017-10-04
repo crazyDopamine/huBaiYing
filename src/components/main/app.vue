@@ -10,6 +10,7 @@
   import widgetHeader from '../../components/main/widget/header.widget.vue'
   import widgetFooter from '../../components/main/widget/footer.widget.vue'
   import {loadedMixins} from '../../common/mixins'
+  import {cookie} from 'vux'
   export default {
     mixins:[loadedMixins],
     components:{
@@ -23,15 +24,19 @@
     },
     methods: {
       getUserInfo: function () {
-        this.$http.get(this.url('techMaster/queryMasterDetail')).then(this.rspHandler((data) => {
+        this.$http.get(this.url('user/selectUserInfo')).then(this.rspHandler((data) => {
           this.userInfo = data
           this.userInfoLoaded = 1
-        this.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)
+          this.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)
       }))
       }
     },
     created: function () {
       window.vm = this;
+      var ticket = cookie.get(this.consts.ticketKey)
+      if(ticket){
+      	this.getUserInfo()
+      }
     }
   }
 </script>

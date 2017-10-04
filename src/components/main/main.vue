@@ -35,7 +35,7 @@
     </div>
     <!--<Tabs class="middle main-adviser-tabs">-->
       <!--<TabPane label="分类1" name="name1">-->
-        <div class="main-adviser-area">
+        <div class="main-adviser-area middle">
           <Row class="main-adviser-list">
             <router-link to="/adviserDetail/1">
               <Col span="6">

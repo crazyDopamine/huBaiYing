@@ -9,7 +9,8 @@ var listConfig = {
   params: {},
   selected: {},
   options: {},
-  loadFlag:0
+  loadFlag:0,
+  showLoading:false
 }
 export default {
   methods: {
@@ -46,6 +47,9 @@ export default {
           listNode.total = data.total
         }
         listNode.loadFlag = 2
+        setTimeout(()=>{
+          listNode.showLoading = false
+        },1000)
         // self.$vux.loading.hide()
         // self.$forceUpdate()
         self.$emit(consts.listLoadEvent, listNode)
@@ -56,6 +60,7 @@ export default {
       // })
       filterNullParams(params)
       listNode.loadFlag = 1
+      listNode.showLoading = true
       listNode.dataList = []
       if (listNode.options.mothed) {
         this.$http.post(url(listNode.url), params, {

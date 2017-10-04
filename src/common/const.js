@@ -1,5 +1,5 @@
 export default {
-  ticketKey: 'ticket',
+  ticketKey: 'COFFEE_TOKEN',
   loginEvent: 'loginEvent',
   loadedEvent: 'loaded',
   loadedFailEvent: 'loadedFail',
@@ -10,8 +10,6 @@ export default {
   CODE_ERROR: -999999,
   CODE_PARAM_ERR: 10002,
   CODE_VERIFI_ERROR: 10012,
-  loadedStatus: 1,
-  loadedFailStatus: 2,
   // quillOptions:{
   //   modules:{
   //     toolbar:[
