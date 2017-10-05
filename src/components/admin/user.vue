@@ -30,12 +30,12 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
   import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
   export default {
-    mixins: [formValidate, moduleList],
+    mixins: [ moduleList],
     data: function () {
       return {
         status: 0,
@@ -46,14 +46,6 @@
           passWord:''
         },
         rule:{
-          userName: {
-            label: '账号',
-            required: true
-          },
-          passWord: {
-            label: '密码',
-            required: true
-          }
         },
         list: {
           columns: [

@@ -39,22 +39,22 @@
       <div class="form-area">
         <h1 class="text-center margin-bottom-20">提问题</h1>
         <Form ref="form" :model="form" :rules="rule">
-          <FormItem prop="type">
-            <Cascader :data="selections.city" v-model="form.type" placeholder="服务类型"></Cascader>
+          <FormItem prop="businessType">
+            <Cascader :data="selections.business" v-model="businessType" placeholder="服务类型"></Cascader>
             </Input>
           </FormItem>
-          <FormItem prop="title">
-            <Input type="text" v-model="form.title" placeholder="问题标题" size="large">
+          <FormItem prop="businessTitle">
+            <Input type="text" v-model="form.businessTitle" placeholder="问题标题" size="large">
             </Input>
           </FormItem>
-          <FormItem prop="content">
-            <Input type="textarea" v-model="form.content" :rows="4" placeholder="问题详情" size="large">
+          <FormItem prop="businessDetail">
+            <Input type="textarea" v-model="form.businessDetail" :rows="4" placeholder="问题详情" size="large">
             </Input>
           </FormItem>
         </Form>
       </div>
       <div slot="footer" class="text-right">
-        <Button class="btn-theme" type="primary" :loading="modalLoading" @click="addProblem()">提交</Button>
+        <Button class="btn-theme" type="primary" :loading="modalLoading" @click="submit()">提交</Button>
       </div>
     </Modal>
   </div>
@@ -76,14 +76,17 @@
         },
         formPop: false,
         modalLoading:false,
+        businessType:[],
         form:{
-          serviceType:[],
-          title:'',
-          content:'',
-          type:[]
+          businessType:'',
+          businessTitle:'',
+          businessDetail:'',
+          problemType:''
         },
         rule:{
-
+          businessType:[{required: true, message: '服务类型不能为空！', trigger: 'blur'}],
+          businessTitle:[{required: true, message: '问题标题不能为空！', trigger: 'blur'}],
+          businessDetail:[{required: true, message: '问题详情不能为空！', trigger: 'blur'}]
         },
         selections: {
           business: []
@@ -93,15 +96,19 @@
     methods: {
       showPop:function(){
       	this.formPop = true;
+        this.$refs.form.resetFields()
       },
-      addProblem:function(){
-        this.modalLoading = true
+      submit:function(){
+        console.log(this.form)
         this.$refs.form.validate((valid) => {
-          this.modalLoading = false
           if (valid) {
-            this.$Message.success('提交成功!');
-          } else {
-            this.$Message.error('表单验证失败!');
+            var params = this.form
+            this.modalLoading = true
+            this.$http.post(this.url('problem/createProblem'), params).then(this.rspHandler((data)=> {
+              this.modalLoading = true
+              this.$Message.success('提交成功')
+              this.refreshList(1)
+            }))
           }
         });
       },
@@ -118,6 +125,10 @@
       this.refreshList()
       this.$watch('list.serviceType',function(v){
         this.list.params.serviceType = v.toString()
+      })
+      this.$watch('businessType',function(v){
+        console.log(v.toString())
+        this.form.businessType = v.toString()
       })
     }
   }
