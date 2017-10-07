@@ -95,13 +95,10 @@
       	this.formPop = true;
       },
       addProblem:function(){
-        this.modalLoading = true
         this.$refs.form.validate((valid) => {
-          this.modalLoading = false
           if (valid) {
-            this.$Message.success('提交成功!');
-          } else {
-            this.$Message.error('表单验证失败!');
+            this.modalLoading = true
+//            this.
           }
         });
       },

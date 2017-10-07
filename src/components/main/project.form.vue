@@ -1,28 +1,22 @@
 <template>
   <div class="register">
     <Form class="middle form-area half-input" ref="form" :model="form" :rules="rule" :label-width="100">
-      <FormItem label="项目名称" prop="title">
-        <Input type="text" v-model="form.username"></Input>
+      <FormItem label="项目名称" prop="projectName">
+        <Input type="text" v-model="form.projectName"></Input>
       </FormItem>
-      <FormItem label="项目类型" prop="type">
-        <Cascader :data="selections.city" v-model="form.city"></Cascader>
+      <FormItem label="项目类型" prop="businessId">
+        <Cascader :data="selections.businessId" v-model="businessId"></Cascader>
       </FormItem>
-      <FormItem label="项目详情" prop="type">
-        <Input type="textarea" :rows="4" v-model="form.username"></Input>
+      <FormItem label="项目详情" prop="projectDetail">
+        <Input type="textarea" :rows="4" v-model="form.projectDetail"></Input>
       </FormItem>
       <FormItem label="联系人手机" prop="phone">
-        <Input type="password" v-model="form.phone"></Input>
+        <Input type="text" v-model="form.phone"></Input>
       </FormItem>
-      <FormItem label="验证码" prop="verify">
-        <Input type="password" v-model="form.verify"></Input>
-        <Button class="btn-theme margin-left-10" @click="sendVerify()" :disabled="sendBtnDisabled">{{sendBtnText}}
-        </Button>
-      </FormItem>
-      <FormItem label="城市" prop="city">
-        <Cascader :data="selections.city" v-model="form.city"></Cascader>
-      </FormItem>
-      <FormItem label="邀请码" prop="visitNum">
-        <Input type="password" v-model="form.password"></Input>
+      <FormItem label="城市" prop="cityId">
+        <Select v-model="form.cityId">
+          <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
+        </Select>
       </FormItem>
       <div class="btn-area" style="padding-left:100px;">
         <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">提交</Button>
@@ -31,87 +25,69 @@
   </div>
 </template>
 <script>
-  import {verify} from '../../common/mixins'
+  import {toVL , mix} from '../../common/utils'
+  import {loadedMixins} from '../../common/mixins'
   export default {
-    mixins: [verify],
+    mixins: [loadedMixins],
     data: function () {
       return {
         modalLoading: false,
+        businessId:[],
         form: {
-          title: '',
-          password: '',
+          projectName: '',
+          businessId:'',
+          projectDetail: '',
           phone: '',
-          city: [],
-          verify: ''
+          cityId: ''
         },
         rule: {
-          title: [{required: true, message: '用户名不能为空！', trigger: 'blur'}],
-          password: [{required: true, message: '密码不能为空！', trigger: 'blur'}]
+          projectName: {required: true, message: '项目名称不能为空！', trigger: 'blur'},
+          businessId: {required: true, message: '项目类型不能为空！', trigger: 'blur'},
+          projectDetail: {required: true, message: '项目详情不能为空！', trigger: 'blur'},
+          phone: {required: true, message: '联系人手机不能为空！', trigger: 'blur'},
+          cityId: {type:'number',required: true, message: '城市不能为空！', trigger: 'blur'}
         },
         selections: {
-          city: [{
-            value: 'beijing',
-            label: '北京',
-            children: [
-              {
-                value: 'gugong',
-                label: '故宫'
-              },
-              {
-                value: 'tiantan',
-                label: '天坛'
-              },
-              {
-                value: 'wangfujing',
-                label: '王府井'
-              }
-            ]
-          }, {
-            value: 'jiangsu',
-            label: '江苏',
-            children: [
-              {
-                value: 'nanjing',
-                label: '南京',
-                children: [
-                  {
-                    value: 'fuzimiao',
-                    label: '夫子庙',
-                  }
-                ]
-              },
-              {
-                value: 'suzhou',
-                label: '苏州',
-                children: [
-                  {
-                    value: 'zhuozhengyuan',
-                    label: '拙政园',
-                  },
-                  {
-                    value: 'shizilin',
-                    label: '狮子林',
-                  }
-                ]
-              }
-            ],
-          }]
+          cityId: [],
+          businessId: []
         }
       }
     },
     methods: {
       submit: function () {
         console.log(this.form)
+        this.$refs.form.validate((valid) => {
+          if (valid) {
+            this.modalLoading = true
+            var params = this.form
+            this.$http.post(this.url('project/createProject'),params).then(this.rspHandler((data)=>{
+            	this.$router.push('/userMain')
+            }))
+          }
+        });
       },
       refresh: function () {
-      	if(this.$route.params.id){
+        if (this.$route.params.id) {
 
         }
-
+        this.getSelections('business').then((data) => {
+          this.selections.businessId = toVL(data, 'id', 'businessName')
+        })
+        this.getSelections('city').then((data)=>{
+          this.selections.cityId = data
+        })
       }
     },
     created: function () {
       window.vm.$refs.header.showBanners = false;
+      this.refresh()
+      this.$on(this.consts.loadedEvent,function(){
+        this.form.phone = this.userInfo.phone+''
+        console.log(this.$refs.form)
+      })
+      this.$watch('businessId',function(v){
+      	this.form.businessId = v.toString()
+      })
     }
   }
 </script>

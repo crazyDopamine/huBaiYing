@@ -7,7 +7,7 @@
         <a class="margin-right-10" @click="showLogin()" v-if="userInfoLoaded==0">登录</a>
         <router-link to="/register" class="border-left padding-left-10 margin-right-10" v-if="userInfoLoaded==0">注册</router-link>
         <a v-if="userInfoLoaded==1" @click="loginOut()">登出</a>
-        <Icon class="fc-theme" type="ios-telephone" size="16"></Icon>
+        <Icon class="fc-theme margin-left-10" type="ios-telephone" size="16"></Icon>
         <span class="fc-theme">400-659-9818</span>
       </div>
     </div>

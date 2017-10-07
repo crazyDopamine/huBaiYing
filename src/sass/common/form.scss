@@ -104,7 +104,12 @@
 .ivu-cascader-menu .ivu-cascader-menu-item-active{
   color:$themeColor;
 }
-
+.ivu-select-selection:hover{
+  border-color:$themeColor;
+}
+.ivu-select-visible .ivu-select-selection{
+  border-color:$themeColor;
+}
 .hby-editor{
   .ql-container{
     min-height:500px;
