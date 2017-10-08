@@ -20,6 +20,7 @@ const routes = [
   {path: '/adviserMain',component: adviserMain},
   {path: '/adviserDetail/:id',component: adviserDetail},
   {path: '/problemMain',component: problemMain},
+  {path: '/problemMain/:title',component: problemMain},
   {path: '/problemDetail/:id',component: problemDetail},
   {path: '/projectList',component: projectList},
   {path: '/projectForm',component: projectForm},

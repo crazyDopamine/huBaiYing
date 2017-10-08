@@ -8,23 +8,21 @@
       <!--<a class="title-detail float-right margin-left-10">商标注册</a>-->
       <!--<a class="title-detail float-right margin-left-10">商标注册</a>-->
     </div>
-    <div class="middle">
+    <div class="middle" style="margin-bottom: 50px;">
       <Row>
-        <Col span="8">
+        <Col span="8" :class="{'padding-right-10':index%3!=2}" v-for="(data,index) in hotBusiness" :key="index">
         <Card class="hot-service">
           <p slot="title">
-            快速开公司
+            {{data.businessName}}
           </p>
-          <div>注册</div>
-          <ul class="hot-service-item">
-            <li><a>商标注册</a></li>
-            <li><a>商标注册</a></li>
-            <li><a>商标注册</a></li>
-            <li><a>商标注册</a></li>
-            <li><a>商标注册</a></li>
-            <li><a>商标注册</a></li>
-            <li><a>商标注册</a></li>
-          </ul>
+          <template v-for="(item,index) in data.children">
+            <div>{{item.businessName}}</div>
+            <ul class="hot-service-item margin-bottom-10">
+              <li class="fs-l" v-for="(service,index) in item.children" :key="index">
+                <router-link :to="'/serviceDetail/'+service.id">{{service.businessName}}</router-link>
+              </li>
+            </ul>
+          </template>
         </Card>
         </Col>
       </Row>
@@ -80,7 +78,7 @@
     },
     methods: {
       refresh: function () {
-        this.$http.get(this.url('business/getHotBusiness')).then(this.rspHandler((data)=> {
+        this.$http.get(this.url('business/getAll')).then(this.rspHandler((data)=> {
           this.hotBusiness = data
         }))
       }

@@ -59,11 +59,22 @@
 <script>
   export default {
     data: function () {
-      return {}
+      return {
+        detail:{}
+      }
     },
-    methods: {},
+    methods: {
+    	refresh:function(){
+    		if(this.$route.params.id){
+    			this.$http.get(this.url('problem/queryDetailById'),{params:{id:this.$route.params.id}}).then(this.rspHandler((data)=>{
+    				this.detail = data
+          }))
+        }
+      }
+    },
     created: function () {
       window.vm.$refs.header.showBanners = false;
+      this.refresh()
     }
   }
 </script>

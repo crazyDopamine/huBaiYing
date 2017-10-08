@@ -42,7 +42,7 @@
           <li><router-link to="/serviceMain">呼服务</router-link></li>
           <li><router-link to="/problemMain">呼问题</router-link></li>
           <li><router-link to="/adviserMain">呼顾问</router-link></li>
-          <li><router-link to="/main">呼案例</router-link></li>
+          <!--<li><router-link to="/main">呼案例</router-link></li>-->
         </ul>
         <span>Copyright © 2017 呼百应企业服务平台All Rights Reserved    沪ICP备13033793号-1</span>
       </div>

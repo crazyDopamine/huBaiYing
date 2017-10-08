@@ -2,20 +2,22 @@
   <div class="service-main layout-row">
     <div class="middle">
       <template v-for="(data,index) in business">
-        <div class="service-main-title">
-          分类1-1
-        </div>
-        <Row type="flex" justify="space-between">
-          <Col span="7">
-          <router-link to="/serviceDetail/1">
-            <div class="service-main-item">
-              <img :src="'imgs/service-logo.jpg' | localFile">
-              <label>代理记账</label><br/>
-              <span>花小钱，享私人服务</span>
-            </div>
-          </router-link>
-          </Col>
-        </Row>
+        <template v-for="(item,index) in data.children">
+          <div class="service-main-title">
+            {{item.businessName}}
+          </div>
+          <Row type="flex" justify="space-between">
+            <Col span="7" v-for="(service,index) in item.children" :key="index">
+            <router-link :to="'/serviceDetail/'+service.id">
+              <div class="service-main-item">
+                <img :src="'imgs/service-logo.jpg' | localFile">
+                <label>{{service.businessName}}</label><br/>
+                <span>花小钱，享私人服务</span>
+              </div>
+            </router-link>
+            </Col>
+          </Row>
+        </template>
       </template>
     </div>
   </div>

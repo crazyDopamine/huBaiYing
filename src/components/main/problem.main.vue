@@ -19,10 +19,10 @@
     <div class="problem-main-list">
       <ul class="middle">
         <li class="problem-main-item" v-for="(data,index) in list.dataList">
-          <router-link class="problem-main-item-title" to="/problemDetail/1">问题标题</router-link>
+          <router-link class="problem-main-item-title" :to="'/problemDetail/'+data.id">{{data.problemTitle}}</router-link>
           <span class="margin-left-20 problem-main-item-status fc-theme">已解决</span>
-          <span class="problem-main-item-date float-right">2017-9-17 14：45</span><br>
-          <p class="problem-main-item-content">内容</p>
+          <span class="problem-main-item-date float-right">{{data.createdAt | date}}</span><br>
+          <p class="problem-main-item-content">{{data.problemDetail}}</p>
         </li>
       </ul>
       <Spin size="large" v-if="list.showLoading"></Spin>
@@ -40,16 +40,16 @@
       <div class="form-area">
         <h1 class="text-center margin-bottom-20">提问题</h1>
         <Form ref="form" :model="form" :rules="rule">
-          <FormItem prop="businessType">
-            <Cascader :data="selections.business" v-model="businessType" placeholder="服务类型"></Cascader>
+          <FormItem prop="businessId">
+            <Cascader :data="selections.business" v-model="businessId" placeholder="服务类型"></Cascader>
             </Input>
           </FormItem>
-          <FormItem prop="businessTitle">
-            <Input type="text" v-model="form.businessTitle" placeholder="问题标题" size="large">
+          <FormItem prop="problemTitle">
+            <Input type="text" v-model="form.problemTitle" placeholder="问题标题" size="large">
             </Input>
           </FormItem>
-          <FormItem prop="businessDetail">
-            <Input type="textarea" v-model="form.businessDetail" :rows="4" placeholder="问题详情" size="large">
+          <FormItem prop="problemDetail">
+            <Input type="textarea" v-model="form.problemDetail" :rows="4" placeholder="问题详情" size="large">
             </Input>
           </FormItem>
         </Form>
@@ -77,17 +77,16 @@
         },
         formPop: false,
         modalLoading: false,
-        businessType: [],
+        businessId: [],
         form: {
-          businessType: '',
-          businessTitle: '',
-          businessDetail: ''
-//          problemType: ''
+          businessId: '',
+          problemTitle: '',
+          problemDetail: ''
         },
         rule: {
-          businessType: [{required: true, message: '服务类型不能为空！', trigger: 'blur'}],
-          businessTitle: [{required: true, message: '问题标题不能为空！', trigger: 'blur'}],
-          businessDetail: [{required: true, message: '问题详情不能为空！', trigger: 'blur'}]
+          businessId: {required: true, message: '服务类型不能为空！', trigger: 'blur'},
+          problemTitle: {required: true, message: '问题标题不能为空！', trigger: 'blur'},
+          problemDetail: {required: true, message: '问题详情不能为空！', trigger: 'blur'}
         },
         selections: {
           business: []
@@ -96,8 +95,10 @@
     },
     methods: {
       showPop: function () {
-        this.formPop = true;
+        this.modalLoading = false
+        this.formPop = true
         this.$refs.form.resetFields()
+        this.businessId = []
       },
       submit: function () {
         console.log(this.form)
@@ -106,7 +107,8 @@
             var params = this.form
             this.modalLoading = true
             this.$http.post(this.url('problem/createProblem'), params).then(this.rspHandler((data) => {
-              this.modalLoading = true
+              this.modalLoading = false
+              this.formPop = false
               this.$Message.success('提交成功')
               this.refreshList(1)
             }))
@@ -121,15 +123,18 @@
     },
     created: function () {
       window.vm.$refs.header.showBanners = true;
+      console.log(this.$route.params)
+      if(this.$route.params.title){
+      	this.list.params.title = this.$route.params.title
+      }
       this.initList(this.list)
       this.refresh()
       this.refreshList()
       this.$watch('list.serviceType', function (v) {
         this.list.params.serviceType = v.toString()
       })
-      this.$watch('businessType', function (v) {
-        console.log(v.toString())
-        this.form.businessType = v.toString()
+      this.$watch('businessId', function (v) {
+        this.form.businessId = v.toString()
       })
     }
   }

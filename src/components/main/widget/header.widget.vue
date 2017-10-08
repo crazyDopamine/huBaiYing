@@ -13,7 +13,7 @@
     </div>
     <div class="header-search middle">
       <img class="float-left margin-left-10" :src="'imgs/logo.jpg' | localFile" style="height:100%;">
-      <Input class="header-search-input" v-model="search" icon="search" placeholder="搜索问题"></Input>
+      <!--<Input class="header-search-input" v-model="search" icon="search" placeholder="搜索问题" @on-enter="searchProblem()" @on-click="searchProblem()"></Input>-->
       <router-link to="/projectForm">
         <Button class="float-right margin-top-20 btn btn-theme" size="large" icon="plus-round">发布需求</Button>
       </router-link>
@@ -30,7 +30,7 @@
               {{data.businessName}}
               <DropdownMenu slot="list" v-if="data.children">
                 <Dropdown class="menu-drop-down-3" placement="right-start" v-for="(item,index) in data.children" :key="index">
-                  {{data.businessName}}
+                  {{item.businessName}}
                   <DropdownMenu slot="list" v-if="item.children">
                     <ul>
                       <li v-for="(service,index) in item.children" :key="index">
@@ -43,7 +43,7 @@
             </Dropdown>
           </DropdownMenu>
         </Dropdown>
-        <router-link class="menu-item float-right" to="/adviserMain">呼案例</router-link>
+        <!--<router-link class="menu-item float-right" to="/adviserMain">呼案例</router-link>-->
         <router-link class="menu-item float-right" to="/adviserMain">呼顾问</router-link>
         <router-link class="menu-item float-right" to="/problemMain">呼问题</router-link>
         <router-link class="menu-item float-right" to="/serviceMain">呼服务</router-link>
@@ -187,6 +187,11 @@
         window.vm.userInfo={}
         window.vm.userInfoLoaded=0
         window.vm.$emit(this.consts.loadedFailEvent)
+      },
+      searchProblem:function(){
+        if(this.search){
+          this.$router.push('/problemMain/'+this.search)
+        }
       }
 //      showRegister: function () {
 //        this.modalLoading = false

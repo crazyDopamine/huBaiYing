@@ -1,8 +1,8 @@
 import {dateFormat, numberComma, numberPad, numberRandom} from 'vux'
 
-var selectionsFilter = function (value, selectionsMap) {
+var selectionsFilter = function (value, selectionsMap ,descField) {
   if (selectionsMap && selectionsMap[value]) {
-    return selectionsMap[value].desc
+    return descField?selectionsMap[value][descField]:selectionsMap[value].desc
   } else {
     return value
   }

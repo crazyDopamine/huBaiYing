@@ -10,7 +10,8 @@ var listConfig = {
   selected: {},
   options: {},
   loadFlag:0,
-  showLoading:false
+  showLoading:false,
+  showPage:false
 }
 export default {
   methods: {
@@ -42,14 +43,18 @@ export default {
         if (data instanceof Array) {
           listNode.dataList = data
           listNode.total = data.length
+          listNode.showPage = false
         } else {
           listNode.dataList = data.rows
           listNode.total = data.total
+          if(listNode.total > listNode.pageSize || (listNode.total <= listNode.pageSize && listNode.page !== 1)){
+            listNode.showPage = true
+          }else{
+            listNode.showPage = false
+          }
         }
         listNode.loadFlag = 2
-        setTimeout(()=>{
-          listNode.showLoading = false
-        },1000)
+        listNode.showLoading = false
         // self.$vux.loading.hide()
         // self.$forceUpdate()
         self.$emit(consts.listLoadEvent, listNode)

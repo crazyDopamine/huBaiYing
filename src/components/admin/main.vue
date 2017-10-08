@@ -77,7 +77,7 @@
     </div>
     <Modal class="login-modal" v-model="loginPop" title="登录" width="360" :closable="false" :mask-closable="false">
       <div class="form-area">
-        <h1 class="text-center">搜罗猫运营系统</h1>
+        <h1 class="text-center">呼百应运营系统</h1>
         <div class="form-row clearfix">
           <i class="icon-user input-before" style="position:absolute;left:10px;"></i>
           <Input class="col-24" type="text" v-model="loginForm.fieldSet.userName" placeholder="账号"></Input>
@@ -163,7 +163,7 @@
     },
     created: function () {
       window.vm = this
-//      this.getUserInfo()
+      this.getUserInfo()
       this.path = this.$route.path
       this.$router.afterEach((to, from) => {
         this.path = to.path
