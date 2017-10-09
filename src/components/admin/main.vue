@@ -57,15 +57,6 @@
           <router-link to="/cityManage">
             <Menu-item name="/cityManage">城市管理</Menu-item>
           </router-link>
-          <router-link to="/industryManage">
-            <Menu-item name="/industryManage">行业管理</Menu-item>
-          </router-link>
-          <router-link to="/skillManage">
-            <Menu-item name="/skillManage">技能管理</Menu-item>
-          </router-link>
-          <router-link to="/businessTypeManage">
-            <Menu-item name="/businessTypeManage">业务类型管理</Menu-item>
-          </router-link>
           <router-link to="/dictionaryManage">
             <Menu-item name="/dictionaryManage">数据字典</Menu-item>
           </router-link>
@@ -78,15 +69,18 @@
     <Modal class="login-modal" v-model="loginPop" title="登录" width="360" :closable="false" :mask-closable="false">
       <div class="form-area">
         <h1 class="text-center">呼百应运营系统</h1>
-        <div class="form-row clearfix">
-          <i class="icon-user input-before" style="position:absolute;left:10px;"></i>
-          <Input class="col-24" type="text" v-model="loginForm.fieldSet.userName" placeholder="账号"></Input>
-        </div>
-        <div class="form-row clearfix">
-          <i class="icon-key input-before" style="position:absolute;left:10px;"></i>
-          <Input class="col-24" type="password" v-model="loginForm.fieldSet.passWord" placeholder="密码"
-                 @keyup.enter="login()"></Input>
-        </div>
+        <Form ref="loginForm" :model="loginForm" :rules="rule">
+          <FormItem prop="phone">
+            <Input type="text" v-model="loginForm.phone" placeholder="手机号" size="large">
+            <Icon type="ios-person-outline" slot="prepend"></Icon>
+            </Input>
+          </FormItem>
+          <FormItem prop="password">
+            <Input type="password" v-model="loginForm.password" placeholder="密码" size="large">
+            <Icon type="ios-locked-outline" slot="prepend"></Icon>
+            </Input>
+          </FormItem>
+        </Form>
       </div>
       <div slot="footer" class="text-right">
         <Button size="large" type="primary" :loading="modalLoading"
@@ -96,7 +90,7 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
 
   import router from '../../adminRouter'
   import formValidate from '../../common/formValidate'
@@ -115,45 +109,42 @@
         loginPop: false,
         modalLoading: false,
         loginForm: {
-          fieldSet: {
-            userName: '',
-            passWord: ''
-          },
-          rule: {
-            userName: {
-              label: '账号',
-              required: true
-            },
-            passWord: {
-              label: '密码',
-              required: true
-            }
-          }
-        }
+          phone: '11111111111',
+          password: '123456',
+          type: 'account'
+        },
+        rule: {
+          phone: {required: true, message: '请填写手机号', trigger: 'blur'},
+          password: {required: true, message: '请填写密码', trigger: 'blur'}
+        },
       }
     },
     methods: {
       login: function () {
-        if (this.validate(true, this.loginForm)) {
-          var params = this.getValues(this.loginForm)
+        this.$refs.loginForm.validate((valid) => {
           this.modalLoading = true
-          this.$http.post(this.url('login'), params).then(this.rspHandler((data) => {
-            var token = data.token
-            cookie.set(this.consts.ticketKey, token)
-            this.loginPop = false
-            this.modalLoading = false
-            this.getUserInfo()
-          }), () => {
-            this.modalLoading = false
-          })
-        }
+          if (valid) {
+            var params = this.loginForm
+            this.$http.post(this.url('admin/login'), params).then(this.rspHandler((data)=> {
+              this.$Message.success('登陆成功！')
+              if (data) {
+                cookie.set(this.consts.adminTicketKey, data.token)
+              }
+              this.getUserInfo()
+              this.modalLoading = false
+              this.loginPop = false
+            }, ()=> {
+              this.modalLoading = false
+            }))
+          }
+        });
       },
       getUserInfo: function () {
-        this.$http.get(this.url('admin/getUserInfo')).then(this.rspHandler((data) => {
+        this.$http.get(this.url('admin/getConsultantInfo')).then(this.rspHandler((data) => {
           window.vm.userInfo = data
           window.vm.userInfoLoaded = 1
           window.vm.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)
-        }),(data) => {
+        }), (data) => {
           window.vm.userInfo = {}
           window.vm.userInfoLoaded = 2
           window.vm.$emit(this.consts.loadedFailEvent)
@@ -170,6 +161,7 @@
       })
       this.$on(this.consts.loginOutEvent, function () {
         this.loginPop = true
+        this.modalLoading = false
       })
     }
   }

@@ -24,7 +24,7 @@
     </Form>
   </div>
 </template>
-<script>
+<script type="es6">
   import {toVL , mix} from '../../common/utils'
   import {loadedMixins} from '../../common/mixins'
   export default {
@@ -55,13 +55,15 @@
     },
     methods: {
       submit: function () {
-        console.log(this.form)
         this.$refs.form.validate((valid) => {
           if (valid) {
             this.modalLoading = true
             var params = this.form
             this.$http.post(this.url('project/createProject'),params).then(this.rspHandler((data)=>{
+              this.$Message.success('发布成功!')
             	this.$router.push('/userMain')
+            },()=>{
+              this.modalLoading = false
             }))
           }
         });

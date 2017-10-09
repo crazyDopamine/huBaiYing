@@ -111,6 +111,8 @@
               this.formPop = false
               this.$Message.success('提交成功')
               this.refreshList(1)
+            },()=>{
+              this.modalLoading = false
             }))
           }
         });

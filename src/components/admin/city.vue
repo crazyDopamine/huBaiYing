@@ -17,8 +17,8 @@
       :mask-closable="false">
       <div class="form-area">
         <Form ref="form" :model="form" :rules="rule">
-          <FormItem prop="phone" label="手机号" :label-width="100">
-            <Input type="text" v-model="form.phone" placeholder="手机号" size="large">
+          <FormItem prop="cityName" label="城市名称" :label-width="100">
+            <Input type="text" v-model="form.cityName" placeholder="城市名称" size="large">
             </Input>
           </FormItem>
         </Form>
@@ -40,16 +40,17 @@
         pop: false,
         modalLoading: false,
         form: {
-          phone: ''
+          cityName: '',
+          // cityCode: '',
+          hotTop: 0
         },
         rule:{
-          phone:{required: true, message: '手机号码不能为空！', trigger: 'blur'}
+          cityName:{required: true, message: '城市名称不能为空！', trigger: 'blur'}
         },
         list: {
           url:'admin/queryCityList',
           columns: [
-            {title: '姓名', key: 'actualName'},
-            {title: '手机号', key: 'phone'},
+            {title: '城市名称', key: 'cityName'},
             {
               title: '操作',
               key: 'action',
@@ -66,6 +67,17 @@
                       }
                     }
                   }, [h('Icon', {props: {type: 'trash-a'}, class: {'margin-right-10': true}}), '删除']),
+                  h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    on: {
+                      click: (e) => {
+                        this.edit(params.row, e)
+                      }
+                    }
+                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])
                 ]);
               }
             }
@@ -77,24 +89,25 @@
       add: function () {
         this.$refs.form.resetFields()
         this.resetObject(this.form)
+        this.form.hotTop = 0
         delete this.form.id
         this.modalLoading = false
         this.pop = true
       },
-      // edit: function (data) {
-      //   this.$refs.form.resetFields()
-      //   this.resetObject(this.form)
-      //   this.setValues(this.form,data)
-      //   this.$set(this.form,'id',data.id)
-      //   this.modalLoading = false
-      //   this.pop = true
-      // },
+      edit: function (data) {
+        this.$refs.form.resetFields()
+        this.resetObject(this.form)
+        this.setValues(this.form,data)
+        this.$set(this.form,'id',data.id)
+        this.modalLoading = false
+        this.pop = true
+      },
       submit: function () {
         this.$refs.form.validate((valid) => {
           if (valid) {
             this.modalLoading = true
             var params = this.form
-            this.$http.post(this.url('admin/insertConsultant'),params).then(this.rspHandler((data)=>{
+            this.$http.post(this.url('admin/addOrUpdateCity'),params).then(this.rspHandler((data)=>{
               this.modalLoading = false
               this.pop = false
               this.refreshList(1)

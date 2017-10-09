@@ -2,28 +2,34 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
-import {loadedMixins, common} from './common/mixins'
-import app from './components/admin/main.vue'
-import filters from './common/filters'
-import {httpInterceptor} from './common/interceptors'
-import iView from 'iview'
-import imgInput from './components/admin/widget/imgInput.widget.vue'
-import editor from './components/admin/widget/editor.widget.vue'
-import 'iview/dist/styles/iview.css'
 import 'vueg/css/transition-min.css'
-import './sass/admin/style.scss'
-
-
 Vue.use(VueRouter)
+
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
 Vue.use(iView)
-Vue.component('img-input',imgInput)
-Vue.component('editor',editor)
+
+import {loadedMixins, common} from './common/mixins'
 Vue.mixin(loadedMixins)
 Vue.mixin(common)
+
+import filters from './common/filters'
 Vue.use(filters)
-Vue.use(VueResource)
+
+import {httpInterceptor} from './components/admin/interceptors'
 Vue.http.interceptors.push(httpInterceptor)
+
+import imgInput from './components/admin/widget/imgInput.widget.vue'
+Vue.component('img-input',imgInput)
+
+import editor from './components/admin/widget/editor.widget.vue'
+Vue.component('editor',editor)
+
+import './sass/admin/style.scss'
+import app from './components/admin/main.vue'
 
 //widget
 // import VueQuillEditor from 'vue-quill-editor'

@@ -1,5 +1,6 @@
 export default {
   ticketKey: 'COFFEE_TOKEN',
+  adminTicketKey: 'ADMIN_TOKEN',
   loginEvent: 'loginEvent',
   loadedEvent: 'loaded',
   loadedFailEvent: 'loadedFail',

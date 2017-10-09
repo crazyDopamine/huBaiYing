@@ -137,7 +137,7 @@
           type:'account'
         },
         rule: {
-          username: [
+          phone: [
             {required: true, message: '请填写手机号', trigger: 'blur'}
           ],
           password: [
@@ -161,7 +161,6 @@
         this.loginPop = true
       },
       login: function () {
-        this.modalLoading = false
         this.$refs.loginForm.validate((valid) => {
           this.modalLoading = true
           if (valid) {
@@ -175,10 +174,8 @@
               this.modalLoading = false
               this.loginPop = false
             },()=>{
-              this.$Message.error('登陆失败！')
-            }),()=>{
-              window.$Message.error('登陆失败！')
-            })
+              this.modalLoading = false
+            }))
           }
         });
       },

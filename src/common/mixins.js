@@ -1,5 +1,5 @@
 import consts from './const'
-import {rspHandler, url, toKV, toMap, resetObject} from './utils'
+import {rspHandler, url, toKV, toMap, resetObject, setValues} from './utils'
 import {getSelections} from './selections'
 var loadedMixins = {
   data: function () {
@@ -50,6 +50,7 @@ var common = {
     toKV: toKV,
     toMap: toMap,
     resetObject: resetObject,
+    setValues: setValues,
     getSelections: getSelections
   }
 }

@@ -148,28 +148,36 @@ var resetObject = function (obj, isDeep) {
   });
 }
 
-window.dicMap = {}
-window.dicMapMap = {}
-window.dicLoaded = {}
-var selections = function (code) {
-  var promise = new Promise(function (resolve, reject) {
-    if (!window.dicLoaded[code]) {
-      window.dicLoaded[code] = 1
-      window.vm.$http.get(url('dataDictionary/getByCode/' + code)).then(rspHandler(function (data) {
-        window.dicMap[code] = data
-        window.dicMapMap[code] = {}
-        data.each((item, index) => {
-          window.dicMapMap[code][item.value] = item
-        })
-        window.dicLoaded[code] = 2
-        resolve(window.dicMap[code])
-      }))
-    } else {
-      resolve(window.dicMap[code])
+var setValues = function (form, values) {
+  each(form, function (value, key) {
+    if(values[key]!=undefined){
+      form[key] = values[key]
     }
   })
-  return promise
 }
+
+// window.dicMap = {}
+// window.dicMapMap = {}
+// window.dicLoaded = {}
+// var selections = function (code) {
+//   var promise = new Promise(function (resolve, reject) {
+//     if (!window.dicLoaded[code]) {
+//       window.dicLoaded[code] = 1
+//       window.vm.$http.get(url('dataDictionary/getByCode/' + code)).then(rspHandler(function (data) {
+//         window.dicMap[code] = data
+//         window.dicMapMap[code] = {}
+//         data.each((item, index) => {
+//           window.dicMapMap[code][item.value] = item
+//         })
+//         window.dicLoaded[code] = 2
+//         resolve(window.dicMap[code])
+//       }))
+//     } else {
+//       resolve(window.dicMap[code])
+//     }
+//   })
+//   return promise
+// }
 
 
 Array.prototype.contains = function (item) {
@@ -263,10 +271,10 @@ export {
   toKV,
   toVL,
   url,
-  selections,
   rspHandler,
   toMap,
   filterNullParams,
   getQuery,
-  resetObject
+  resetObject,
+  setValues
 }
