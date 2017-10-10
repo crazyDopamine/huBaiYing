@@ -6,6 +6,7 @@ export default {
   loadedFailEvent: 'loadedFail',
   listLoadEvent: 'listLoadEvent',
   formErrorEvent: 'formErrorEvent',
+  loginOutEvent: 'loginOutEvent',
   CODE_SUCC: 200,
   CODE_FAIL: 200000,
   CODE_ERROR: -999999,

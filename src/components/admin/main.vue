@@ -3,7 +3,7 @@
     <admin-header @login-out="loginPop=true"></admin-header>
     <div class="main-body">
       <!--<nav-left :path="path"></nav-left>-->
-      <Menu class="menu" theme="dark" :open-names="['user','task','data']" :active-name="path">
+      <Menu class="menu" theme="dark" :open-names="['user','task','data']" :active-name="path" width="180px">
         <Submenu name="user">
           <template slot="title">
             <Icon type="ios-people"></Icon>
@@ -22,7 +22,7 @@
             <Menu-item name="/projectManage">项目管理</Menu-item>
           </router-link>
         </Submenu>
-        <Submenu name="user">
+        <Submenu name="user" v-if="userInfo.role == 'admin'">
           <template slot="title">
             <Icon type="person"></Icon>
             顾问管理
@@ -40,7 +40,7 @@
             <Menu-item name="/problemManage">提问管理</Menu-item>
           </router-link>
         </Submenu>
-        <Submenu name="user">
+        <Submenu name="user" v-if="userInfo.role == 'admin'">
           <template slot="title">
             <Icon type="ios-paperplane-outline"></Icon>
             服务管理
@@ -49,7 +49,7 @@
             <Menu-item name="/serviceManage">服务管理</Menu-item>
           </router-link>
         </Submenu>
-        <Submenu name="data">
+        <Submenu name="data" v-if="userInfo.role == 'admin'">
           <template slot="title">
             <Icon type="stats-bars"></Icon>
             数据管理
@@ -140,7 +140,7 @@
         });
       },
       getUserInfo: function () {
-        this.$http.get(this.url('admin/getConsultantInfo')).then(this.rspHandler((data) => {
+        this.$http.get(this.url('admin/getConsInfoByToken')).then(this.rspHandler((data) => {
           window.vm.userInfo = data
           window.vm.userInfoLoaded = 1
           window.vm.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)

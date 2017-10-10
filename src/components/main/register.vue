@@ -82,7 +82,6 @@
             }
             this.modalLoading = true
             this.$http.post(this.url('user/register'), params).then(this.rspHandler((data)=> {
-              this.modalLoading = true
               this.$Message.success('注册成功')
               this.$router.push('/main')
             }))

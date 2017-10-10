@@ -42,7 +42,6 @@
         <Form ref="form" :model="form" :rules="rule">
           <FormItem prop="businessId">
             <Cascader :data="selections.business" v-model="businessId" placeholder="服务类型"></Cascader>
-            </Input>
           </FormItem>
           <FormItem prop="problemTitle">
             <Input type="text" v-model="form.problemTitle" placeholder="问题标题" size="large">
@@ -95,13 +94,15 @@
     },
     methods: {
       showPop: function () {
+        if(this.userInfoLoaded != 1){
+          window.vm.$refs.header.loginPop = true
+        }
         this.modalLoading = false
         this.formPop = true
         this.$refs.form.resetFields()
         this.businessId = []
       },
       submit: function () {
-        console.log(this.form)
         this.$refs.form.validate((valid) => {
           if (valid) {
             var params = this.form

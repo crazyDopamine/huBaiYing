@@ -8,6 +8,7 @@ import businessType from './components/admin/businessType.vue'
 import dictionary from './components/admin/dictionary.vue'
 import userManage from './components/admin/user.vue'
 import cityManage from './components/admin/city.vue'
+import editMyInfo from './components/admin/editMyInfo.vue'
 
 const routes = [
   {path: '/',redirect: '/userManage'},
@@ -20,6 +21,7 @@ const routes = [
   {path: '/businessTypeManage', component: businessType},
   {path: '/dictionaryManage', component: dictionary},
   {path: '/cityManage', component: cityManage},
+  {path: '/editMyInfo', component: editMyInfo},
 ]
 
 export default new VueRouter({
