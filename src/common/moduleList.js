@@ -10,8 +10,9 @@ var listConfig = {
   selected: {},
   options: {},
   loadFlag:0,
-  showLoading:false,
-  showPage:false
+  loading:false,
+  showPage:false,
+  hideLoadingFn:null
 }
 export default {
   methods: {
@@ -54,7 +55,8 @@ export default {
           }
         }
         listNode.loadFlag = 2
-        listNode.showLoading = false
+        listNode.loading = false
+        setTimeout(listNode.hideLoadingFn,1000)
         // self.$vux.loading.hide()
         // self.$forceUpdate()
         self.$emit(consts.listLoadEvent, listNode)
@@ -65,7 +67,11 @@ export default {
       // })
       filterNullParams(params)
       listNode.loadFlag = 1
-      listNode.showLoading = true
+      listNode.loading = true
+      listNode.hideLoadingFn = self.$Message.loading({
+        content: '正在加载中...',
+        duration: 0
+      })
       listNode.dataList = []
       if (listNode.options.mothed) {
         this.$http.post(url(listNode.url), params, {

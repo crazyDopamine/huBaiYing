@@ -263,6 +263,13 @@ var getQuery = function (obj) {
   return mix({}, getHashObj(), getSearchObj(), obj)
 }
 
+var selectionValue = function (value, selectionsMap ,descField) {
+  if (selectionsMap && selectionsMap[value]) {
+    return descField?selectionsMap[value][descField]:selectionsMap[value].desc
+  } else {
+    return value
+  }
+}
 
 export {
   mix,
@@ -276,5 +283,6 @@ export {
   filterNullParams,
   getQuery,
   resetObject,
-  setValues
+  setValues,
+  selectionValue
 }

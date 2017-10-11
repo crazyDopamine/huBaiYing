@@ -2,10 +2,10 @@ import consts from '../../common/const'
 import {cookie} from 'vux'
 
 export function httpInterceptor(request, next){
-  var ticket = cookie.get(consts.adminTicketKey);
+  var ticket = cookie.get(consts.adminTicketKey)
   if (ticket) {
     // request.params[consts.ticketKey] = ticket;
-    request.headers.set(consts.adminTicketKey, ticket);
+    request.headers.set(consts.adminTicketKey, ticket)
   }
   next((rsp) => {
     if (rsp.data.code !== consts.CODE_SUCC){

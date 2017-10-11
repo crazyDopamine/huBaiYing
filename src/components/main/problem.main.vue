@@ -25,7 +25,7 @@
           <p class="problem-main-item-content">{{data.problemDetail}}</p>
         </li>
       </ul>
-      <Spin size="large" v-if="list.showLoading"></Spin>
+      <!--<Spin size="large" v-if="list.showLoading"></Spin>-->
       <div class="empty-view" v-if="!list.showLoading&&list.dataList.length==0">
         <Icon type="ios-box-outline"></Icon>
         <br/>

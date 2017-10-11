@@ -25,7 +25,7 @@
           <router-link to="/adviserDetail/1" class="btn btn-normal btn-theme btn-detail">查看详情</router-link>
         </li>
       </ul>
-      <Spin size="large" v-if="list.showLoading"></Spin>
+      <!--<Spin size="large" v-if="list.showLoading"></Spin>-->
       <div class="empty-view" v-if="!list.showLoading&&list.dataList.length==0">
         <Icon type="ios-box-outline"></Icon><br/>
         无数据
