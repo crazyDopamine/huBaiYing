@@ -1,4 +1,4 @@
-import {mix, each, url, rspHandler, filterNullParams} from './utils'
+import {mix, each, url, filterNullParams} from './utils'
 import consts from './const'
 var listConfig = {
   url: '',
@@ -9,10 +9,10 @@ var listConfig = {
   params: {},
   selected: {},
   options: {},
-  loadFlag:0,
-  loading:false,
-  showPage:false,
-  hideLoadingFn:null
+  loadFlag: 0,
+  loading: false,
+  showPage: false,
+  hideLoadingFn: null
 }
 export default {
   methods: {
@@ -20,7 +20,7 @@ export default {
       if (!listNode) {
         listNode = this.list
       }
-      listNode.options = mix({},listNode.options,options)
+      listNode.options = mix({}, listNode.options, options)
       var list = mix({}, listConfig, listNode)
       var self = this
       each(list, function (data, key) {
@@ -40,27 +40,6 @@ export default {
       params = mix(params, listNode.params)
       listNode.selected = {}
       if (!listNode.url) return
-      var callback = rspHandler(function (data) {
-        if (data instanceof Array) {
-          listNode.dataList = data
-          listNode.total = data.length
-          listNode.showPage = false
-        } else {
-          listNode.dataList = data.rows
-          listNode.total = data.total
-          if(listNode.total > listNode.pageSize || (listNode.total <= listNode.pageSize && listNode.page !== 1)){
-            listNode.showPage = true
-          }else{
-            listNode.showPage = false
-          }
-        }
-        listNode.loadFlag = 2
-        listNode.loading = false
-        setTimeout(listNode.hideLoadingFn,1000)
-        // self.$vux.loading.hide()
-        // self.$forceUpdate()
-        self.$emit(consts.listLoadEvent, listNode)
-      })
       listNode.dataList = []
       // this.$vux.loading.show({
       //   text: '加载中'
@@ -73,12 +52,31 @@ export default {
         duration: 0
       })
       listNode.dataList = []
-      if (listNode.options.mothed) {
-        this.$http.post(url(listNode.url), params, {
-        }).then(callback)
-      } else {
-        this.$http.get(url(listNode.url), {params: params}).then(callback)
-      }
+      this.$http.get(listNode.url, {params: params}).then((rsp)=> {
+        if (rsp.data instanceof Array) {
+          listNode.dataList = rsp.data
+          listNode.total = rsp.data.length
+          listNode.showPage = false
+        } else {
+          listNode.dataList = rsp.data.rows
+          listNode.total = rsp.data.total
+          if (listNode.total > listNode.pageSize || (listNode.total <= listNode.pageSize && listNode.page !== 1)) {
+            listNode.showPage = true
+          } else {
+            listNode.showPage = false
+          }
+        }
+        listNode.loadFlag = 2
+        listNode.loading = false
+        setTimeout(listNode.hideLoadingFn, 1000)
+        // self.$vux.loading.hide()
+        // self.$forceUpdate()
+        self.$emit(consts.listLoadEvent, listNode)
+      }, ()=> {
+        listNode.loadFlag = 2
+        listNode.loading = false
+        setTimeout(listNode.hideLoadingFn, 1000)
+      })
     }
   }
 }

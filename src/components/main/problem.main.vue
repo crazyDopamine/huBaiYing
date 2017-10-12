@@ -96,6 +96,7 @@
       showPop: function () {
         if(this.userInfoLoaded != 1){
           window.vm.$refs.header.loginPop = true
+          return
         }
         this.modalLoading = false
         this.formPop = true
@@ -107,14 +108,14 @@
           if (valid) {
             var params = this.form
             this.modalLoading = true
-            this.$http.post(this.url('problem/createProblem'), params).then(this.rspHandler((data) => {
+            this.$http.post('problem/createProblem', params).then(() => {
               this.modalLoading = false
               this.formPop = false
               this.$Message.success('提交成功')
               this.refreshList(1)
             },()=>{
               this.modalLoading = false
-            }))
+            })
           }
         });
       },
@@ -126,7 +127,6 @@
     },
     created: function () {
       window.vm.$refs.header.showBanners = true;
-      console.log(this.$route.params)
       if(this.$route.params.title){
       	this.list.params.title = this.$route.params.title
       }

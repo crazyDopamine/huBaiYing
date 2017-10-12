@@ -1,5 +1,5 @@
 import consts from './const'
-import {rspHandler, url, toKV, toMap, resetObject, setValues, selectionValue} from './utils'
+import {toKV, toMap, resetObject, setValues, selectionValue} from './utils'
 import {getSelections} from './selections'
 var loadedMixins = {
   data: function () {
@@ -45,8 +45,6 @@ var common = {
     }
   },
   methods: {
-    rspHandler: rspHandler,
-    url: url,
     toKV: toKV,
     toMap: toMap,
     resetObject: resetObject,
@@ -60,7 +58,7 @@ var verify = {
   data: function () {
     return {
       sendBtnText: '发送验证码',
-      defaultDelay: 10,
+      defaultDelay: 60,
       timeDelay: 0,
       sendBtnDisabled: false
     }

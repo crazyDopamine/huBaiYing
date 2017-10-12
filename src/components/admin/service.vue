@@ -113,10 +113,6 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            console.log(this)
-            this.$http.get(this.url('admin/deleteUser/'+data.id)).then(this.rspHandler(() => {
-              this.refreshList(1)
-            }))
           }
         });
       }

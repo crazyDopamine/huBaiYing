@@ -78,9 +78,9 @@
     },
     methods: {
       refresh: function () {
-        this.$http.get(this.url('business/getAll')).then(this.rspHandler((data)=> {
-          this.hotBusiness = data
-        }))
+        this.$http.get('business/getAll').then((rsp)=> {
+          this.hotBusiness = rsp.data
+        })
       }
     },
     created: function () {

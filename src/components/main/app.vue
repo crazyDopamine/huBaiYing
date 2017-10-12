@@ -24,11 +24,11 @@
     },
     methods: {
       getUserInfo: function () {
-        this.$http.get(this.url('user/selectUserInfo')).then(this.rspHandler((data) => {
-          this.userInfo = data
+        this.$http.get('user/selectUserInfo').then((rsp) => {
+          this.userInfo = rsp.data
           this.userInfoLoaded = 1
-          this.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)
-      }))
+          this.$emit(this.consts.loadedEvent, rsp.data, this.consts.loadedStatus)
+      })
       }
     },
     created: function () {

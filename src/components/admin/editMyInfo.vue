@@ -91,12 +91,12 @@
             //   return
             // }
             this.modalLoading = true
-            this.$http.post(this.url('admin/perfectPersonalInfo'), params).then(this.rspHandler((data)=> {
+            this.$http.post('admin/perfectPersonalInfo', params).then((rsp)=> {
               this.modalLoading = false
               this.$Message.success('保存成功')
             },()=>{
               this.modalLoading = false
-            }))
+            })
           }
         });
       },

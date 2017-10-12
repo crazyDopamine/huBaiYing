@@ -99,15 +99,6 @@
         console.log(data)
       },
       submit: function () {
-        if (this.validate(true)) {
-          var params = this.getValues()
-          this.modalLoading = true
-          this.$http.post(this.url('admin/addUser'), params).then(this.rspHandler(() => {
-            this.modalLoading = false
-            this.pop = false
-            this.refreshList(1)
-          }))
-        }
       },
       reset: function () {
         this.fieldSet = {
@@ -120,10 +111,6 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            console.log(this)
-            this.$http.get(this.url('admin/deleteUser/' + data.id)).then(this.rspHandler(() => {
-              this.refreshList(1)
-            }))
           }
         });
       }

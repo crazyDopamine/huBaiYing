@@ -165,17 +165,17 @@
           this.modalLoading = true
           if (valid) {
             var params = this.loginForm
-            this.$http.post(this.url('user/login'),params).then(this.rspHandler((data)=>{
+            this.$http.post('user/login',params).then((rsp)=>{
               this.$Message.success('登陆成功！')
               if(data){
-                cookie.set(this.consts.ticketKey,data.token)
+                cookie.set(this.consts.ticketKey,rsp.data.token)
               }
               window.vm.getUserInfo()
               this.modalLoading = false
               this.loginPop = false
             },()=>{
               this.modalLoading = false
-            }))
+            })
           }
         });
       },
@@ -190,38 +190,6 @@
           this.$router.push('/problemMain/'+this.search)
         }
       }
-//      showRegister: function () {
-//        this.modalLoading = false
-//        this.registerPop = true
-//      },
-      // register: function () {
-      //   this.modalLoading = true
-      //   if (this.validate(true, this.registerForm)) {
-//          var params = this.getValues(this.loginForm)
-//          this.modalLoading = true
-//          this.$http.post(this.url('login'), params).then(this.rspHandler((data) => {
-//              var token = data.token
-//              cookie.set(this.consts.ticketKey, token)
-//          this.loginPop = false
-//          this.modalLoading = false
-//          this.getUserInfo()
-//         }), () => {
-//             this.modalLoading = false
-//           })
-//         }
-//       }
-//      getUserInfo: function () {
-//        this.$http.get(this.url('admin/getUserInfo')).then(this.rspHandler((data) => {
-//          window.vm.userInfo = data
-//        window.vm.userInfoLoaded = 1
-//        window.vm.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)
-//      }),(data) => {
-//          window.vm.userInfo = {}
-//          window.vm.userInfoLoaded = 2
-//          window.vm.$emit(this.consts.loadedFailEvent)
-//          this.loginPop = true
-//        })
-//      }
     },
     created: function () {
       this.$watch('loginPop', function (isShow) {

@@ -21,7 +21,6 @@ Vue.use(VueResource)
 
 import {httpInterceptor} from './components/main/interceptors'
 Vue.http.interceptors.push(httpInterceptor)
-
 import app from './components/main/app.vue'
 import  './sass/main/style.scss'
 

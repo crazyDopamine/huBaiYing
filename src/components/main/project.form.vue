@@ -59,12 +59,12 @@
           if (valid) {
             this.modalLoading = true
             var params = this.form
-            this.$http.post(this.url('project/createProject'),params).then(this.rspHandler((data)=>{
+            this.$http.post('project/createProject',params).then(()=>{
               this.$Message.success('发布成功!')
             	this.$router.push('/userMain')
             },()=>{
               this.modalLoading = false
-            }))
+            })
           }
         });
       },

@@ -30,7 +30,7 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
   import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
@@ -102,11 +102,11 @@
         if (this.validate(true)) {
           var params = this.getValues()
           this.modalLoading = true
-          this.$http.post(this.url('admin/addUser'), params).then(this.rspHandler(() => {
+          this.$http.post('admin/addUser', params).then(() => {
             this.modalLoading = false
             this.pop=false
             this.refreshList(1)
-          }))
+          })
         }
       },
       reset: function () {
@@ -120,10 +120,6 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            console.log(this)
-            this.$http.get(this.url('admin/deleteUser/'+data.id)).then(this.rspHandler(() => {
-              this.refreshList(1)
-            }))
           }
         });
       }

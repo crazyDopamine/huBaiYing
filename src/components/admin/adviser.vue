@@ -75,6 +75,7 @@
 </template>
 <script type="es6">
   import moduleList from '../../common/moduleList'
+  import expandRow from './widget/adviserExpandRow.widget.vue'
   import {dateFormat} from 'vux'
   export default {
     mixins: [moduleList],
@@ -91,27 +92,49 @@
         rule:{
           phone:{required: true, message: '手机号码不能为空！', trigger: 'blur'}
         },
+        selections:{
+          cityId:[]
+        },
         list: {
           url:'admin/getConsultantList',
           columns: [
+            {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                return h(expandRow, {
+                  props: {
+                    data: params.row
+                  }
+                })
+              }
+            },
             {title: '姓名', key: 'actualName'},
+            {title:'服务类型',key:'businessName',render:(h,params)=>{
+              return h('span',params.row.businessName.toString())
+            }},
             {title: '手机号', key: 'phone'},
+            {
+              title: '城市', key: 'phone', render: (h, params) => {
+                return h('span', {}, this.selectionValue(params.row.cityId, this.selections.cityId,'cityName'));
+              }
+            },
             {
               title: '操作',
               key: 'action',
               render: (h, params) => {
                 return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'text',
-                      size: 'small'
-                    },
-                    on: {
-                      click: (e) => {
-                        this.showDetail(params.row, e)
-                      }
-                    }
-                  }, [h('Icon', {props: {type: 'ios-paper-outline'}, class: {'margin-right-10': true}}), '查看详情']),
+                  // h('Button', {
+                  //   props: {
+                  //     type: 'text',
+                  //     size: 'small'
+                  //   },
+                  //   on: {
+                  //     click: (e) => {
+                  //       this.showDetail(params.row, e)
+                  //     }
+                  //   }
+                  // }, [h('Icon', {props: {type: 'ios-paper-outline'}, class: {'margin-right-10': true}}), '查看详情']),
                   h('Button', {
                     props: {
                       type: 'text',
@@ -141,9 +164,9 @@
       showDetail:function(data){
         this.detailPop = true
         this.detail = {}
-        this.$http.get(this.url('admin/getConsultantDetail'),{params:{id:data.id}}).then(this.rspHandler((data)=>{
-          this.detail = data
-        }))
+        this.$http.get('admin/getConsultantDetail',{params:{id:data.id}}).then((rsp)=>{
+          this.detail = rsp.data
+        })
       },
       // edit: function (data) {
       //   this.$refs.form.resetFields()
@@ -158,13 +181,13 @@
           if (valid) {
             this.modalLoading = true
             var params = this.form
-            this.$http.post(this.url('admin/insertConsultant'),params).then(this.rspHandler((data)=>{
+            this.$http.post('admin/insertConsultant',params).then((rsp)=>{
               this.modalLoading = false
               this.pop = false
               this.refreshList(1)
             },()=>{
               this.modalLoading = false
-            }))
+            })
           }
         });
       },
@@ -173,9 +196,9 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            this.$http.get(this.url('admin/failCity'), {params: {id: data.id}}).then(this.rspHandler(() => {
+            this.$http.get('admin/failCity', {params: {id: data.id}}).then(() => {
               this.refreshList(1)
-            }))
+            })
           }
         });
       }
@@ -183,7 +206,10 @@
     created: function () {
       this.initList(this.list)
       this.$on(this.consts.loadedEvent, function () {
-        this.refreshList(1)
+        this.getSelections('city').then((data)=>{
+          this.selections.cityId = data
+          this.refreshList(1)
+        })
       })
     }
   }

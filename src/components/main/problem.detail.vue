@@ -56,7 +56,7 @@
     </div>
   </div>
 </template>
-<script>
+<script type="es6">
   export default {
     data: function () {
       return {
@@ -66,9 +66,9 @@
     methods: {
     	refresh:function(){
     		if(this.$route.params.id){
-    			this.$http.get(this.url('problem/queryDetailById'),{params:{id:this.$route.params.id}}).then(this.rspHandler((data)=>{
-    				this.detail = data
-          }))
+    			this.$http.get('problem/queryDetailById',{params:{id:this.$route.params.id}}).then((rsp)=>{
+    				this.detail = rsp.data
+          })
         }
       }
     },

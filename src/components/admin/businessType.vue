@@ -55,8 +55,6 @@
         status: 0,
         pop: false,
         modalLoading: false,
-        uploadUrl: '',
-        uploadHeaders: {},
         fieldSet: {
           businessName: '',
           parentId: '',
@@ -128,13 +126,13 @@
         if (this.validate(true)) {
           var params = this.getValues()
           this.modalLoading = true
-          this.$http.post(this.url('admin/addBusiness'), params).then(this.rspHandler(() => {
+          this.$http.post('admin/addBusiness', params).then(() => {
             this.modalLoading = false
             this.pop = false
             this.refreshList(1)
           }, () => {
             this.modalLoading = false
-          }))
+          })
         }
       },
       reset: function () {
@@ -149,9 +147,9 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            this.$http.get(this.url('admin/deleteBusiness'),{params:{id:data.id}}).then(this.rspHandler((data)=>{
+            this.$http.get('admin/deleteBusiness',{params:{id:data.id}}).then((rsp)=>{
               this.refreshList()
-            }))
+            })
           }
         });
       },
@@ -159,18 +157,14 @@
         this.$router.push('/businessTypeDetail/'+data.id)
       },
       refreshSelections: function () {
-        this.$http.get(this.url('admin/queryBusinessList')).then(this.rspHandler((data) => {
-          this.selections.parentId = data
-        }))
+        this.$http.get('admin/queryBusinessList').then((rsp) => {
+          this.selections.parentId = rsp.data
+        })
       }
     },
     created: function () {
       this.initList(this.list)
-
       this.$on(this.consts.loadedEvent, function () {
-        this.uploadUrl = this.url('admin/fileUpload')
-        this.uploadHeaders = {}
-        this.uploadHeaders[this.consts.ticketKey] = cookie.get(this.consts.ticketKey)
         this.refreshList(1)
         this.refreshSelections()
       })

@@ -105,10 +105,10 @@
         }
         var formData = new FormData()
         formData.append('file', file)
-        this.$http.post(this.url('admin/fileUpload'), formData).then(this.rspHandler((data) => {
-          this.imgs.push(data)
+        this.$http.post('admin/fileUpload', formData).then((rsp) => {
+          this.imgs.push(rsp.data)
           this.$emit('input', this.imgs.toString())
-        }))
+        })
       },
       remove: function (index) {
         this.imgs.splice(index, 1)

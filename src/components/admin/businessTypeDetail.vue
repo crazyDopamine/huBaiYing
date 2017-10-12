@@ -132,13 +132,13 @@
         if (this.validate(true)) {
           var params = this.getValues()
           this.modalLoading = true
-          this.$http.post(this.url('admin/addCaseBases'), params).then(this.rspHandler(() => {
+          this.$http.post('admin/addCaseBases', params).then(() => {
             this.modalLoading = false
             this.pop = false
             this.refreshList()
           }, () => {
             this.modalLoading = false
-          }))
+          })
         }
       },
       reset: function () {
@@ -158,9 +158,9 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            this.$http.get(this.url('admin/deleteCaseBase'),{params:{id:data.id}}).then(this.rspHandler((data)=>{
+            this.$http.get('admin/deleteCaseBase',{params:{id:data.id}}).then(()=>{
               this.refreshList()
-            }))
+            })
           }
         });
       },

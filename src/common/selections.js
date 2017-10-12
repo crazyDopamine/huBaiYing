@@ -1,4 +1,4 @@
-import {url, rspHandler} from '../common/utils'
+import {url} from '../common/utils'
 
 window.selections = {}
 
@@ -15,10 +15,12 @@ var getSelections = function (key) {
         reject()
         return
       }
-      window.vm.$http.get(url(selectionsUrl[key])).then(rspHandler(function (data) {
-        window.selections[key] = data
+      window.vm.$http.get(selectionsUrl[key]).then((rsp)=> {
+        window.selections[key] = rsp.data
         resolve(window.selections[key])
-      }))
+      },()=> {
+        reject()
+      })
     } else {
       resolve(window.selections[key])
     }

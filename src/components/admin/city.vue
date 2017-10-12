@@ -107,13 +107,13 @@
           if (valid) {
             this.modalLoading = true
             var params = this.form
-            this.$http.post(this.url('admin/addOrUpdateCity'),params).then(this.rspHandler((data)=>{
+            this.$http.post('admin/addOrUpdateCity',params).then(()=>{
               this.modalLoading = false
               this.pop = false
               this.refreshList(1)
             },()=>{
               this.modalLoading = false
-            }))
+            })
           }
         });
       },
@@ -122,9 +122,6 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            this.$http.get(this.url('admin/failCity'), {params: {id: data.id}}).then(this.rspHandler(() => {
-              this.refreshList(1)
-            }))
           }
         });
       }

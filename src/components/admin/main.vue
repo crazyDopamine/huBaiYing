@@ -125,30 +125,29 @@
           this.modalLoading = true
           if (valid) {
             var params = this.loginForm
-            this.$http.post(this.url('admin/login'), params).then(this.rspHandler((data)=> {
+            this.$http.post('admin/login', params).then((rsp)=> {
               this.$Message.success('登陆成功！')
-              if (data) {
-                cookie.set(this.consts.adminTicketKey, data.token)
+              if (rsp.data) {
+                cookie.set(this.consts.adminTicketKey, rsp.data.token)
               }
               this.getUserInfo()
               this.modalLoading = false
               this.loginPop = false
             }, ()=> {
               this.modalLoading = false
-            }))
+            })
           }
         });
       },
       getUserInfo: function () {
-        this.$http.get(this.url('admin/getConsInfoByToken')).then(this.rspHandler((data) => {
-          window.vm.userInfo = data
+        this.$http.get('admin/getConsInfoByToken').then((rsp) => {
+          window.vm.userInfo = rsp.data
           window.vm.userInfoLoaded = 1
-          window.vm.$emit(this.consts.loadedEvent, data, this.consts.loadedStatus)
-        }), (data) => {
+          window.vm.$emit(this.consts.loadedEvent, rsp.data, this.consts.loadedStatus)
+        }, () => {
           window.vm.userInfo = {}
           window.vm.userInfoLoaded = 2
           window.vm.$emit(this.consts.loadedFailEvent)
-          this.loginPop = true
         })
       }
     },

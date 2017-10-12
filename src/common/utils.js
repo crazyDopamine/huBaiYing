@@ -107,21 +107,21 @@ var url = function (url) {
   }
 }
 
-var rspHandler = function (callback, errorCallback) {
-  return function (rsp) {
-    var data = rsp.data
-    if (data.code === consts.CODE_SUCC) {
-      callback(data.data)
-    } else {
-      if (window.vm.$vux) {
-        window.vm.$vux.toast.text(data.message, 'bottom')
-      } else if (window.vm.$Message) {
-        window.vm.$Message.error(data.message);
-      }
-      if (errorCallback) errorCallback(data)
-    }
-  }
-}
+// var rspHandler = function (callback, errorCallback) {
+//   return function (rsp) {
+//     var data = rsp.data
+//     if (data.code === consts.CODE_SUCC) {
+//       callback(data.data)
+//     } else {
+//       if (window.vm.$vux) {
+//         window.vm.$vux.toast.text(data.message, 'bottom')
+//       } else if (window.vm.$Message) {
+//         window.vm.$Message.error(data.message);
+//       }
+//       if (errorCallback) errorCallback(data)
+//     }
+//   }
+// }
 
 var filterNullParams = function (obj) {
   if (typeof obj !== 'object')return
@@ -278,7 +278,7 @@ export {
   toKV,
   toVL,
   url,
-  rspHandler,
+  // rspHandler,
   toMap,
   filterNullParams,
   getQuery,

@@ -32,7 +32,7 @@
     </Modal>
   </div>
 </template>
-<script>
+<script type="es6">
   import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
@@ -111,13 +111,13 @@
         if (this.validate(true)) {
           var params = this.getValues()
           this.modalLoading = true
-          this.$http.post(this.url('admin/addDataDictionary'), params).then(this.rspHandler(() => {
+          this.$http.post('admin/addDataDictionary', params).then(() => {
             this.modalLoading = false
             this.pop=false
             this.refreshList(1)
           }, () => {
             this.modalLoading = false
-          }))
+          })
         }
       },
       reset: function () {
@@ -131,9 +131,6 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            this.$http.get(this.url('admin/failDataDictionary'), {params:{id:data.id}}).then(this.rspHandler(() => {
-              this.refreshList(1)
-            }))
           }
         });
       }
