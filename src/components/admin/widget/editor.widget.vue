@@ -1,5 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
-  <div class="editor-area">
+  <div class="editor-area" style="width:1222px;">
     <div class="editor-element" style="text-align:left"></div>
   </div>
 </template>
@@ -8,6 +8,7 @@
   import E from 'wangeditor'
   import 'wangeditor/release/wangEditor.css'
   import {cookie} from 'vux'
+  import {url} from '../../../common/utils'
   export default {
     name: 'editor',
     props: ['value'],
@@ -40,7 +41,7 @@
         'image',  // 插入图片
         'video',  // 插入视频
       ];
-      editor.customConfig.uploadImgServer = this.url('/upload')
+      editor.customConfig.uploadImgServer = url('/upload')
       editor.customConfig.uploadImgMaxLength = 10
       editor.customConfig.uploadImgMaxSize = 5 * 1024 * 1024
       editor.customConfig.uploadImgParams = {}

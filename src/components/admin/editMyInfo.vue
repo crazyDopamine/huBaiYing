@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="page-container" style="min-width:1300px;">
     <div class="form-area container">
       <Form class="middle form-area half-input" ref="form" :model="form" :rules="rule" :label-width="120">
         <!--<FormItem label="手机号" prop="phone">-->
