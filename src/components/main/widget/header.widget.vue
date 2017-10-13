@@ -99,15 +99,6 @@
             <!--</Form>-->
           <!--</TabPane>-->
         <!--</Tabs>-->
-        <!--<div class="form-row clearfix">-->
-        <!--<i class="icon-user input-before" style="position:absolute;left:10px;"></i>-->
-        <!--<Input type="text" v-model="loginForm.fieldSet.username" placeholder="账号"></Input>-->
-        <!--</div>-->
-        <!--<div class="form-row clearfix">-->
-        <!--<i class="icon-key input-before" style="position:absolute;left:10px;"></i>-->
-        <!--<Input type="password" v-model="loginForm.fieldSet.password" placeholder="密码" @keyup.enter="login()">-->
-        <!--</Input>-->
-        <!--</div>-->
       </div>
       <div slot="footer" class="text-right">
         <Button class="btn-theme" type="primary" :loading="modalLoading" @click="login()" long>登陆</Button>
@@ -167,7 +158,7 @@
             var params = this.loginForm
             this.$http.post('user/login',params).then((rsp)=>{
               this.$Message.success('登陆成功！')
-              if(data){
+              if(rsp.data){
                 cookie.set(this.consts.ticketKey,rsp.data.token)
               }
               window.vm.getUserInfo()

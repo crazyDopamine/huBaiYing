@@ -47,6 +47,7 @@ export default {
       filterNullParams(params)
       listNode.loadFlag = 1
       listNode.loading = true
+      self.$Message.destroy()
       listNode.hideLoadingFn = self.$Message.loading({
         content: '正在加载中...',
         duration: 0

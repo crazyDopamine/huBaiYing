@@ -56,8 +56,10 @@
           }
         },
         list: {
+          url: 'admin/getProjectList',
           columns: [
-            {title: '项目名称', key: 'name'},
+            {title: '项目名称', key: 'projectName'},
+            {title: '手机号', key: 'phone'},
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
               return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
@@ -82,8 +84,7 @@
                 ]);
               }
             }
-          ],
-          url: 'admin/getUsers',
+          ]
         }
       }
     },
