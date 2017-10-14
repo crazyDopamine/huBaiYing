@@ -29,10 +29,12 @@
         <!--<li><router-link to="main">关于我们</router-link></li>-->
         <!--</ul>-->
         <!--</Col>-->
-        <Col class="float-right" span="6">
-        在线支持<br>
+        <Col class="float-left" span="12">
+        在线支持:
         <span class="fc-theme"><Icon type="ios-telephone" class="margin-right-10" size="14"></Icon>919921023,1074990098,489695104</span><br>
-        服务时间<br>
+        </Col>
+        <Col class="float-right" span="12">
+        服务时间:
         周一至周五9:00-20:00     周六至周日9:00-18:00<br>
         </Col>
       </Row>

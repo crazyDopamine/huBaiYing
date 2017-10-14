@@ -6,7 +6,10 @@
         <BreadcrumbItem href="/serviceMain">服务</BreadcrumbItem>
         <BreadcrumbItem>服务详情</BreadcrumbItem>
       </Breadcrumb>
-      <div></div>
+      <div class="margin-top-20">
+        <h2 class="text-center">{{detail.businessName}}</h2>
+        <div class="margin-top-20" v-html="detail.businessDetail"></div>
+      </div>
     </div>
   </div>
 </template>

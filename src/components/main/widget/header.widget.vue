@@ -20,16 +20,16 @@
     </div>
     <div class="header-menu">
       <div class="middle header-menu-list">
-        <Dropdown class="menu-item menu-drop-down-1">
+        <Dropdown class="menu-item menu-drop-down-1" trigger="click">
           <span>
             企业服务导航
             <Icon type="arrow-down-b"></Icon>
           </span>
           <DropdownMenu slot="list">
-            <Dropdown class="menu-drop-down-2" placement="right-start" v-for="(data,index) in selections.business" :key="index">
+            <Dropdown class="menu-drop-down-2" trigger="click" placement="right-start" v-for="(data,index) in selections.business" :key="index">
               {{data.businessName}}
               <DropdownMenu slot="list" v-if="data.children">
-                <Dropdown class="menu-drop-down-3" placement="right-start" v-for="(item,index) in data.children" :key="index">
+                <Dropdown class="menu-drop-down-3" trigger="click" placement="right-start" v-for="(item,index) in data.children" :key="index">
                   {{item.businessName}}
                   <DropdownMenu slot="list" v-if="item.children">
                     <ul>
