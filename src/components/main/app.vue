@@ -27,7 +27,7 @@
         this.$http.get('user/selectUserInfo').then((rsp) => {
           this.userInfo = rsp.data
           this.userInfoLoaded = 1
-          this.$emit(this.consts.loadedEvent, rsp.data, this.consts.loadedStatus)
+          this.$emit(this.consts.loadedEvent, rsp.data)
       })
       }
     },
