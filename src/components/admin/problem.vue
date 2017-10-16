@@ -6,7 +6,8 @@
       </div>
       <Table :columns="list.columns" :data="list.dataList" border></Table>
       <div class="table-bottom-bar">
-        <Page v-show="list.showPage" :current="list.page" :total="list.total" :page-size="list.pageSize" @on-change="refreshList($event)"
+        <Page v-show="list.showPage" :current="list.page" :total="list.total" :page-size="list.pageSize"
+              @on-change="refreshList($event)"
               show-elevator></Page>
       </div>
     </div>
@@ -32,6 +33,7 @@
 </template>
 <script type="es6">
   import moduleList from '../../common/moduleList'
+  import expandRow from './widget/problemExpandRow.widget.vue'
   import {dateFormat} from 'vux'
   export default {
     mixins: [moduleList],
@@ -42,9 +44,9 @@
         modalLoading: false,
         fieldSet: {
           userName: '',
-          passWord:''
+          passWord: ''
         },
-        rule:{
+        rule: {
           userName: {
             label: '账号',
             required: true
@@ -55,12 +57,27 @@
           }
         },
         list: {
+          url: 'admin/getProblemList',
           columns: [
-            {title: '账号', key: 'userName'},
+            {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                return h(expandRow, {
+                  props: {
+                    data: params.row
+                  }
+                })
+              }
+            },
+            {
+              title: '标题',
+              key: 'problemTitle'
+            },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
-              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-            }
+                return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
+              }
             },
             {
               title: '操作',
@@ -77,12 +94,11 @@
                         this.edit(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'edit'},class:{'margin-right-10':true}}), '修改'])
+                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])
                 ]);
               }
             }
-          ],
-          url: 'admin/getUsers',
+          ]
         }
       }
     },
@@ -91,7 +107,7 @@
         this.reset()
         this.pop = true
       },
-      edit:function(data){
+      edit: function (data) {
         this.reset()
         this.setValues(data)
         this.fieldSet.passWord = '';
@@ -103,7 +119,7 @@
           this.modalLoading = true
           this.$http.post('admin/addUser', params).then(() => {
             this.modalLoading = false
-            this.pop=false
+            this.pop = false
             this.refreshList(1)
           })
         }
@@ -111,7 +127,7 @@
       reset: function () {
         this.fieldSet = {
           userName: '',
-          passWord:''
+          passWord: ''
         }
       },
       remove: function (data) {

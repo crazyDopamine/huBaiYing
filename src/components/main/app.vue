@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <hby-header ref="header"></hby-header>
-    <router-view></router-view>
+    <router-view :key="key"></router-view>
     <hby-footer></hby-footer>
   </div>
 </template>
@@ -12,15 +12,19 @@
   import {loadedMixins} from '../../common/mixins'
   import {cookie} from 'vux'
   export default {
-    mixins:[loadedMixins],
-    components:{
-      'hby-header':widgetHeader,
-      'hby-footer':widgetFooter
+    mixins: [loadedMixins],
+    components: {
+      'hby-header': widgetHeader,
+      'hby-footer': widgetFooter
     },
     router,
-    data: function () {
-      return {
+    computed: {
+      key() {
+        return this.$route.name !== undefined ? this.$route.name + new Date() : this.$route + new Date()
       }
+    },
+    data: function () {
+      return {}
     },
     methods: {
       getUserInfo: function () {
@@ -28,14 +32,14 @@
           this.userInfo = rsp.data
           this.userInfoLoaded = 1
           this.$emit(this.consts.loadedEvent, rsp.data)
-      })
+        })
       }
     },
     created: function () {
       window.vm = this;
       var ticket = cookie.get(this.consts.ticketKey)
-      if(ticket){
-      	this.getUserInfo()
+      if (ticket) {
+        this.getUserInfo()
       }
     }
   }

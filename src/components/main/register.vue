@@ -30,7 +30,8 @@
         <Input type="text" v-model="form.inviteCode"></Input>
       </FormItem>
       <div class="btn-area" style="padding-left:80px;">
-        <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">注册</Button>
+        <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">注册</Button><br>
+        <span style="line-height:30px;">点击注册则代表同意<router-link to="/register" class="fc-theme">呼百应平台用户协议</router-link></span>
       </div>
     </Form>
   </div>

@@ -51,7 +51,7 @@
   import moduleList from '../../common/moduleList'
   import consts from '../../common/const'
   import {dateFormat} from 'vux'
-  import {toVL} from '../../common/utils'
+  import {toVL,kvValue} from '../../common/utils'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -74,7 +74,8 @@
           businessImage:{required: true, message: '服务logo不能为空！', trigger: 'blur'}
         },
         selections:{
-          parentId:[]
+          parentId:[],
+          parentIdAll:[]
         },
         list: {
           url: 'admin/queryBusinessList',
@@ -131,6 +132,8 @@
         this.$refs.form.resetFields()
         this.setValues(this.form,data)
         this.form.id = data.id
+        if(data.parentId)this.parentId = kvValue(data.parentId,this.selections.parentIdAll,'id','businessName')
+        else this.parentId = []
         this.pop = true
       },
       submit: function () {
@@ -163,6 +166,7 @@
     created: function () {
       this.initList(this.list)
       this.getSelections('business').then((data)=>{
+        this.selections.parentIdAll = data
       	this.selections.parentId = toVL(data, 'id', 'businessName',2)
       })
       this.$on(this.consts.loadedEvent, function () {

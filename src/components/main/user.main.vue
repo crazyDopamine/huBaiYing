@@ -54,6 +54,7 @@
   import moduleList from '../../common/moduleList'
   import {loadedMixins} from '../../common/mixins'
   import {dateFormat} from 'vux'
+  import expandRow from './widget/problemExpandRow.widget.vue'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -85,19 +86,18 @@
             {
               title: '操作',
               render: (h, params) => {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'text',
-                      size: 'small'
-                    },
-                    on: {
-                      click: (e) => {
-                        this.edit(params.row, e)
-                      }
+                var btns = [h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  on: {
+                    click: (e) => {
+                      this.edit(params.row, e)
                     }
-                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])
-                ]);
+                  }
+                }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])]
+                return h('div', btns);
               }
             }
           ]
@@ -106,12 +106,24 @@
           url: 'user/getProblemBySelf',
           columns: [
             {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                return h(expandRow, {
+                  props: {
+                    data: params.row
+                  }
+                })
+              }
+            },
+            {
               title: '标题',
               key: 'problemTitle'
             },
             {
-              title: '详情',
-              key: 'problemDetail'
+              title: '更新时间', key: 'updatedAt', render: (h, params) => {
+                return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
+              }
             },
             {
               title: '操作',
@@ -124,10 +136,10 @@
                     },
                     on: {
                       click: (e) => {
-                        this.edit(params.row, e)
+                        this.finishProblem(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])
+                  }, [h('Icon', {props: {type: 'checkmark-round'}, class: {'margin-right-10': true}}), '确认解决'])
                 ]);
               }
             }
@@ -144,6 +156,9 @@
         this.applyPop = true
         this.modalLoading = false
         this.$refs.applyForm.resetFields()
+      },
+      finishProblem:function(){
+        // this.
       },
       applyService: function () {
         this.$refs.applyForm.validate((valid) => {
@@ -191,6 +206,7 @@
           this.refreshList(1, this.problemList)
         }
       })
+      if (this.$route.params.tab)this.tab = Number(this.$route.params.tab)
     }
   }
 </script>

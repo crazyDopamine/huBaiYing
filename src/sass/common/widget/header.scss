@@ -45,13 +45,13 @@ header.hby-header{
         min-width:150px;
         text-align:center;
         font-size:$fontSize-xl;
-
       }
     }
   }
 }
 
 .menu-drop-down-1{
+  font-size:12px;
   .ivu-select-dropdown{
     min-width:150px;
     max-width:200px;
@@ -63,6 +63,11 @@ header.hby-header{
   .ivu-select-dropdown{
     margin-top:0;
   }
+  .ivu-dropdown-menu{
+    .ivu-dropdown{
+      font-size:$fontSize-s;
+    }
+  }
 }
 .menu-drop-down-2{
   .ivu-select-dropdown{
@@ -71,6 +76,9 @@ header.hby-header{
       color:$baseFC;
     }
   }
+}
+.ivu-dropdown-item{
+  padding:7px 0;
 }
 .login-modal{
   .ivu-modal{

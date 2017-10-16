@@ -61,7 +61,7 @@
             var params = this.form
             this.$http.post('project/createProject',params).then(()=>{
               this.$Message.success('发布成功!')
-            	this.$router.push('/userMain')
+            	this.$router.push('/userMain/1')
             },()=>{
               this.modalLoading = false
             })

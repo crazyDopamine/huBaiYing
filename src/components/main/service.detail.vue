@@ -32,6 +32,12 @@
     created: function () {
       window.vm.$refs.header.showBanners = false;
       this.refresh()
+      // this.$router.afterEach((to, from) => {
+      //   console.log(to.matched[0])
+      //   if(to.matched[0]&&to.matched[0].path == '/serviceDetail/:id'){
+      //     this.refresh()
+      //   }
+      // })
     }
   }
 </script>

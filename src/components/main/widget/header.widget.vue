@@ -26,21 +26,27 @@
             <Icon type="arrow-down-b"></Icon>
           </span>
           <DropdownMenu slot="list">
-            <Dropdown class="menu-drop-down-2" trigger="click" placement="right-start" v-for="(data,index) in selections.business" :key="index">
-              {{data.businessName}}
-              <DropdownMenu slot="list" v-if="data.children">
-                <Dropdown class="menu-drop-down-3" trigger="click" placement="right-start" v-for="(item,index) in data.children" :key="index">
-                  {{item.businessName}}
-                  <DropdownMenu slot="list" v-if="item.children">
+            <ul>
+              <li class="ivu-dropdown-item" v-for="(data,index) in selections.business" :key="index">
+                <Dropdown class="menu-drop-down-2" trigger="click" placement="right">
+                  {{data.businessName}}
+                  <DropdownMenu slot="list" v-if="data.children">
                     <ul>
-                      <li v-for="(service,index) in item.children" :key="index">
-                        <router-link :to="'/serviceDetail/'+service.id">{{service.businessName}}</router-link>
+                      <li v-for="(item,index) in data.children" :key="index">
+                        <Dropdown class="menu-drop-down-3 ivu-dropdown-item" trigger="click" placement="right-start">
+                          {{item.businessName}}
+                          <DropdownMenu slot="list" v-if="item.children">
+                            <DropdownItem v-for="(service,index) in item.children" :key="index">
+                              <router-link :to="'/serviceDetail/'+service.id">{{service.businessName}}</router-link>
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </Dropdown>
                       </li>
                     </ul>
                   </DropdownMenu>
                 </Dropdown>
-              </DropdownMenu>
-            </Dropdown>
+              </li>
+            </ul>
           </DropdownMenu>
         </Dropdown>
         <!--<router-link class="menu-item float-right" to="/adviserMain">呼案例</router-link>-->

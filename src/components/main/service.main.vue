@@ -10,7 +10,8 @@
             <Col span="7" v-for="(service,index) in item.children" :key="index">
             <router-link :to="'/serviceDetail/'+service.id">
               <div class="service-main-item">
-                <img :src="'imgs/service-logo.jpg' | localFile">
+                <!--<img :src="'imgs/service-logo.jpg' | localFile">-->
+                <img :src="service.businessImage | img" class="margin-right-10">
                 <label>{{service.businessName}}</label><br/>
                 <span>花小钱，享私人服务</span>
               </div>

@@ -28,7 +28,8 @@ const routes = [
   {path: '/serviceMain',component: serviceMain},
   {path: '/serviceDetail/:id',component: serviceDetail},
   {path: '/register',component: register},
-  {path: '/userMain',component: userMain}
+  {path: '/userMain',component: userMain},
+  {path: '/userMain/:tab',component: userMain}
 ]
 
 export default new VueRouter({

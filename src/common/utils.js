@@ -108,6 +108,54 @@ var url = function (url) {
   }
 }
 
+var kvText = function(value,selections,valueField,textField){
+  var result = false
+  var childrenResult = ''
+  selections.each((item,index)=>{
+    if(item[valueField] == value){
+      result = item[textField]
+    }
+    if(item.children){
+      childrenResult = kvValue(value,item.children,valueField,textField)
+      if(childrenResult!=false){
+        result=[]
+        result.push(item[textField])
+        if(typeof childrenResult =='string'){
+          result.push(childrenResult)
+        }else if(childrenResult instanceof Array){
+          result.concat(childrenResult)
+        }
+      }
+    }
+  })
+  return result
+}
+
+var kvValue = function(value,selections,valueField){
+  var result = false
+  var childrenResult = ''
+  selections.each((item,index)=>{
+    if(item[valueField] == value){
+      result = item[valueField]
+    }
+    if(item.children){
+      childrenResult = kvValue(value,item.children,valueField)
+      if(childrenResult!=false){
+        result=[]
+        result.push(item[valueField])
+        if(typeof childrenResult =='string' || typeof childrenResult =='number'){
+          result.push(childrenResult)
+        }else if(childrenResult instanceof Array){
+          result.concat(childrenResult)
+        }
+      }
+    }
+  })
+  return result
+}
+
+
+
 // var rspHandler = function (callback, errorCallback) {
 //   return function (rsp) {
 //     var data = rsp.data
@@ -285,5 +333,6 @@ export {
   getQuery,
   resetObject,
   setValues,
-  selectionValue
+  selectionValue,
+  kvValue
 }
