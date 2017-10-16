@@ -74,15 +74,16 @@ var toKV = function (array, valueField, labelField) {
   return result
 }
 
-var toVL = function (array, valueField, labelField) {
+var toVL = function (array, valueField, labelField, num) {
+  if (num == undefined) num = 4;
   if (!valueField) valueField = 'id'
   if (!labelField) labelField = 'name'
   var result = []
   var item = {}
   each(array, function (data, index) {
     item = {value: data[valueField], label: data[labelField], data: data}
-    if (data.children) {
-      item.children = toVL(data.children, valueField, labelField)
+    if (data.children && num != 1) {
+      item.children = toVL(data.children, valueField, labelField, num - 1)
     }
     result.push(item)
   })
@@ -150,7 +151,7 @@ var resetObject = function (obj, isDeep) {
 
 var setValues = function (form, values) {
   each(form, function (value, key) {
-    if(values[key]!=undefined){
+    if (values[key] != undefined) {
       form[key] = values[key]
     }
   })
@@ -263,9 +264,9 @@ var getQuery = function (obj) {
   return mix({}, getHashObj(), getSearchObj(), obj)
 }
 
-var selectionValue = function (value, selectionsMap ,descField) {
+var selectionValue = function (value, selectionsMap, descField) {
   if (selectionsMap && selectionsMap[value]) {
-    return descField?selectionsMap[value][descField]:selectionsMap[value].desc
+    return descField ? selectionsMap[value][descField] : selectionsMap[value].desc
   } else {
     return value
   }

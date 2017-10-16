@@ -12,9 +12,11 @@ export function httpInterceptor(request, next) {
   }
   next((rsp) => {
     if (rsp.status == 200 && rsp.data && rsp.data.code == consts.CODE_SUCC) {
-      rsp.success = true
+    rsp.success = true
       rsp.data = rsp.data.data
       rsp.ok = true
+    }else if(rsp.status == 200 && rsp.data && rsp.data.code == consts.CODE_COOKIE_NULL){
+      window.vm.$emit(consts.loginOutEvent)
     }else{
       rsp.ok = false
       if(rsp.status != 200){

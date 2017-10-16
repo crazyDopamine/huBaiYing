@@ -40,4 +40,4 @@ let config = {
 }
 
 /* eslint-disable no-new */
-window.vm = new Vue(config).$mount('#app-box')
+new Vue(config).$mount('#app-box')

@@ -93,7 +93,6 @@
 <script type="es6">
 
   import router from '../../adminRouter'
-  import formValidate from '../../common/formValidate'
   import {cookie} from 'vux'
   import header from './widget/header.widget.vue'
 
@@ -102,7 +101,6 @@
     components: {
       'admin-header': header
     },
-    mixins: [formValidate],
     data: function () {
       return {
         path: '',
@@ -148,20 +146,21 @@
           window.vm.userInfo = {}
           window.vm.userInfoLoaded = 2
           window.vm.$emit(this.consts.loadedFailEvent)
+          window.vm.$emit(this.consts.loginOutEvent)
         })
       }
     },
     created: function () {
       window.vm = this
-      this.getUserInfo()
-      this.path = this.$route.path
-      this.$router.afterEach((to, from) => {
-        this.path = to.path
-      })
       this.$on(this.consts.loginOutEvent, function () {
         this.loginPop = true
         this.modalLoading = false
       })
+      this.path = this.$route.path
+      this.$router.afterEach((to, from) => {
+        this.path = to.path
+      })
+      this.getUserInfo()
     }
   }
   export default config

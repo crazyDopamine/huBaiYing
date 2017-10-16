@@ -31,11 +31,10 @@
   </div>
 </template>
 <script type="es6">
-  import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
   export default {
-    mixins: [formValidate, moduleList],
+    mixins: [moduleList],
     data: function () {
       return {
         status: 0,

@@ -12,6 +12,7 @@ export default {
   CODE_ERROR: -999999,
   CODE_PARAM_ERR: 10002,
   CODE_VERIFI_ERROR: 10012,
+  CODE_COOKIE_NULL: 'COOKIE_IS_NULL',
   // quillOptions:{
   //   modules:{
   //     toolbar:[

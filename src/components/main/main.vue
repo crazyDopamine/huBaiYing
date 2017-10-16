@@ -9,16 +9,16 @@
       <!--<a class="title-detail float-right margin-left-10">商标注册</a>-->
     </div>
     <div class="middle" style="margin-bottom: 50px;">
-      <Row>
-        <Col span="8" :class="{'padding-right-10':index%3!=2}" v-for="(data,index) in hotBusiness" :key="index">
+      <Row v-for="(item,itemIndex) in hotBusiness" class="margin-bottom-20" :key="itemIndex">
+        <Col span="8" :class="{'padding-right-10':index%3!=2}" v-for="(data,index) in item" :key="index">
         <Card class="hot-service">
           <p slot="title">
             {{data.businessName}}
           </p>
           <template v-for="(item,index) in data.children">
-            <div>{{item.businessName}}</div>
-            <ul class="hot-service-item margin-bottom-10">
-              <li class="fs-l" v-for="(service,index) in item.children" :key="index">
+            <div class="fs-s border-bottom padding-bottom-10 margin-bottom-10">{{item.businessName}}</div>
+            <ul class="hot-service-item margin-bottom-20">
+              <li class="margin-right-20" v-for="(service,index) in item.children" :key="index">
                 <router-link :to="'/serviceDetail/'+service.id">{{service.businessName}}</router-link>
               </li>
             </ul>
@@ -78,8 +78,19 @@
     },
     methods: {
       refresh: function () {
-        this.$http.get('business/getAll').then((rsp)=> {
-          this.hotBusiness = rsp.data
+        this.$http.get('business/getHotBusiness').then((rsp)=> {
+          var businessArray = []
+          var businessArrayItem = []
+          rsp.data.each((item,index)=>{
+            if(index%3==0){
+              businessArrayItem = []
+            }
+            businessArrayItem.push(item)
+            if(index%3==2||index==rsp.data.length-1){
+              businessArray.push(businessArrayItem)
+            }
+          })
+          this.hotBusiness = businessArray
         })
       }
     },

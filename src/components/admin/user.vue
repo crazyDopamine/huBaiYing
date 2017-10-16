@@ -32,7 +32,6 @@
   </div>
 </template>
 <script type="es6">
-  import formValidate from '../../common/formValidate'
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
   export default {
@@ -56,6 +55,8 @@
                 return h('span', {}, this.selectionValue(params.row.cityId, this.selections.cityId,'cityName'));
               }
             },
+            {title: '用户类型', key: 'type'},
+            {title: '状态', key: 'status'},
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
               return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
@@ -65,7 +66,7 @@
               title: '操作',
               key: 'action',
               render: (h, params) => {
-                return h('div', [
+              	var btns = [
                   h('Button', {
                     props: {
                       type: 'text',
@@ -76,8 +77,20 @@
                         this.showDetail(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'ios-paper-outline'}, class: {'margin-right-10': true}}), '查看详情'])
-                ]);
+                  }, [h('Icon', {props: {type: 'ios-paper-outline'}, class: {'margin-right-10': true}}), '查看详情']),
+                  h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    on: {
+                      click: (e) => {
+                        this.showDetail(params.row, e)
+                      }
+                    }
+                  }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '认证为服务商'])
+                ]
+                return h('div', btns);
               }
             }
           ]
