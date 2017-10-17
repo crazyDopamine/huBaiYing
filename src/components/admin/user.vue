@@ -77,17 +77,6 @@
                         this.showDetail(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'ios-paper-outline'}, class: {'margin-right-10': true}}), '查看详情']),
-                  h('Button', {
-                    props: {
-                      type: 'text',
-                      size: 'small'
-                    },
-                    on: {
-                      click: (e) => {
-                        this.showDetail(params.row, e)
-                      }
-                    }
                   }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '认证为服务商'])
                 ]
                 return h('div', btns);

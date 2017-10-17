@@ -51,7 +51,7 @@
   import moduleList from '../../common/moduleList'
   import consts from '../../common/const'
   import {dateFormat} from 'vux'
-  import {toVL,kvValue} from '../../common/utils'
+  import {toVL,kvValue,kvText} from '../../common/utils'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -81,6 +81,12 @@
           url: 'admin/queryBusinessList',
           columns: [
             {title: '服务名称', key: 'businessName'},
+            {
+              title: '服务类型', key: 'parentId', render: (h, params) => {
+              	var parentText = kvText(params.row.parentId, this.selections.parentIdAll,'id','businessName')
+              return h('span', {}, parentText?parentText.toString():'');
+            }
+            },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
               return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));

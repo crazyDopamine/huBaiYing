@@ -116,7 +116,7 @@ var kvText = function(value,selections,valueField,textField){
       result = item[textField]
     }
     if(item.children){
-      childrenResult = kvValue(value,item.children,valueField,textField)
+      childrenResult = kvText(value,item.children,valueField,textField)
       if(childrenResult!=false){
         result=[]
         result.push(item[textField])
@@ -334,5 +334,6 @@ export {
   resetObject,
   setValues,
   selectionValue,
-  kvValue
+  kvValue,
+  kvText
 }

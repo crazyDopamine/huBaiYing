@@ -13,7 +13,7 @@
                 <!--<img :src="'imgs/service-logo.jpg' | localFile">-->
                 <img :src="service.businessImage | img" class="margin-right-10">
                 <label>{{service.businessName}}</label><br/>
-                <span>{{service.bussinessTitle}}</span>
+                <span>{{service.businessTitle}}</span>
               </div>
             </router-link>
             </Col>
