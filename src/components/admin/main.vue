@@ -57,9 +57,9 @@
           <router-link to="/cityManage">
             <Menu-item name="/cityManage">城市管理</Menu-item>
           </router-link>
-          <router-link to="/dictionaryManage">
-            <Menu-item name="/dictionaryManage">数据字典</Menu-item>
-          </router-link>
+          <!--<router-link to="/dictionaryManage">-->
+            <!--<Menu-item name="/dictionaryManage">数据字典</Menu-item>-->
+          <!--</router-link>-->
         </Submenu>
       </Menu>
       <div class="main-container">
