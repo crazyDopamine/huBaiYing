@@ -24,12 +24,15 @@ export default {
     var imgFilter = function(src, type){
       var zipImgDic = window.baseUrl + 'breviary/'
       var bigImgDic = window.baseUrl + 'upload/'
+      if((type == 3 || type ==4)&&!src)return src
       if (!src)return defaultImg
       if (src.indexOf('http') >= 0) {
         return src
-      } else if (type == 1) {
+      } else if (type == 1||type == 3) {
         return bigImgDic + src
-      } else {
+      } else if(type == 2||type == 4){
+        return zipImgDic + src
+      }else {
         return zipImgDic + src
       }
     }

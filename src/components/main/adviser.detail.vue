@@ -1,15 +1,14 @@
 <template>
   <div class="adviser-detail middle page">
     <div class="adviser-detail-area">
-      <img :src="'imgs/avatar-test.jpeg' | localFile">
+      <Avatar icon="person" size="large" :src="detail.headPhoto | img(3)"/>
       <div class="detail">
-        <label class="title">董威</label><br>
-        <span>服务类型:商标注册</span>
+        <label class="title">{{detail.actualName}}</label><br>
+        <span>服务类型:{{detail.businessName?detail.businessName.toString():''}}</span>
       </div>
       <Button type="primary" class="btn-theme float-right" icon="help" @click="showProblemPop()">提问</Button>
     </div>
-    <div class="adviser-detail-container">
-      顾问详情
+    <div class="adviser-detail-container" v-html="detail.selfIntroduction">
     </div>
     <Modal v-model="problemPop" width="500" :closable="true" :mask-closable="false">
       <div class="form-area">
@@ -35,9 +34,11 @@
   </div>
 </template>
 <script type="es6">
+  import {toVL} from '../../common/utils'
   export default {
     data: function () {
       return {
+        detail:{},
         problemPop: false,
         modalLoading:false,
         businessId:[],
@@ -85,7 +86,7 @@
           }
         });
       },
-      refrsh:function(){
+      refresh:function(){
         this.getSelections('business').then((data) => {
           this.selections.business = toVL(data, 'id', 'businessName')
         })
@@ -101,6 +102,7 @@
       this.$watch('businessId', function (v) {
         this.form.businessId = v.toString()
       })
+      this.refresh()
     }
   }
 </script>

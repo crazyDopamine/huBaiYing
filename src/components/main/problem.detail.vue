@@ -6,14 +6,16 @@
       <BreadcrumbItem>问题详情</BreadcrumbItem>
     </Breadcrumb>
     <div class="problem-area">
-      <h2 class="problem-title">问题标题问题标题问题标题问题标题问题标题问题标题!<span class="margin-left-20 fc-theme fs-l">已解决</span></h2>
+      <h2 class="problem-title">{{detail.problemTitle}}<span class="margin-left-20 fc-theme fs-l">已解决</span><br>
+        <span class="fs-m">工商记账,工商注册</span>
+      </h2>
       <ul class="problem-detail">
         <li>浏览10次</li>
         <li>回答5次</li>
         <li>董威</li>
         <li>2017-9-27</li>
       </ul>
-      <p class="problem-content">问题详情</p>
+      <p class="problem-content">{{detail.problemDetail}}</p>
       <div class="problem-answer">
         <p class="clearfix">
           问题回答<br>
@@ -21,7 +23,7 @@
         <ul class="problem-answer-detail">
           <li>
             <p>
-              追问<br>
+              <router-link to="/adviserDetail/1" class="fc-theme">xxxx</router-link>:答<br>
               <span class="float-right">2017-9-28</span>
             </p>
           </li>
@@ -46,14 +48,14 @@
         </ul>
       </div>
     </div>
-    <div class="problem-adviser">
-      <img :src="'imgs/avatar-test.jpeg' | localFile">
-      <div class="item-content">
-        <label class="item-title">董威</label><br>
-        <span>服务类型:商标注册</span>
-      </div>
-      <router-link to="/adviserDetail/1" class="btn btn-normal btn-theme btn-detail">查看详情</router-link>
-    </div>
+    <!--<div class="problem-adviser">-->
+      <!--<img :src="'imgs/avatar-test.jpeg' | localFile">-->
+      <!--<div class="item-content">-->
+        <!--<label class="item-title">董威</label><br>-->
+        <!--<span>服务类型:商标注册</span>-->
+      <!--</div>-->
+      <!--<router-link to="/adviserDetail/1" class="btn btn-normal btn-theme btn-detail">查看详情</router-link>-->
+    <!--</div>-->
   </div>
 </template>
 <script type="es6">

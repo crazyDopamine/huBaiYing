@@ -1,10 +1,12 @@
 .adviser-detail-area{
   margin-top:20px;
   overflow: hidden;
-  >img{
+  .ivu-avatar{
     border-radius: 50%;
     width:240px;
     height:240px;
+    font-size:180px;
+    line-height:240px;
     float:left;
   }
   .detail{

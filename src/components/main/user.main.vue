@@ -80,8 +80,8 @@
             },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
-              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-            }
+                return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
+              }
             },
             {
               title: '操作',

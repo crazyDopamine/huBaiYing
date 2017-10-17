@@ -13,7 +13,7 @@
                 <!--<img :src="'imgs/service-logo.jpg' | localFile">-->
                 <img :src="service.businessImage | img" class="margin-right-10">
                 <label>{{service.businessName}}</label><br/>
-                <span>花小钱，享私人服务</span>
+                <span>{{service.bussinessTitle}}</span>
               </div>
             </router-link>
             </Col>

@@ -16,7 +16,7 @@
     <div class="adviser-main-list">
       <ul class="middle">
         <li class="adviser-main-item" v-for="(data,index) in list.dataList" :key="index">
-          <Avatar icon="person" size="large" :src="'' | localFile"/>
+          <Avatar icon="person" size="large" :src="data.headPhoto | img(3)"/>
           <div class="item-content">
             <label class="item-title">{{data.actualName}}</label><br>
             <span>服务类型:商标注册</span><br>
@@ -37,7 +37,7 @@
     </div>
   </div>
 </template>
-<script>
+<script type="es6">
   import moduleList from '../../common/moduleList'
   import {toVL} from '../../common/utils'
   export default {
