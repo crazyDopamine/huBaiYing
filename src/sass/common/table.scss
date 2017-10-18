@@ -38,8 +38,18 @@ $tableBorderHeight:1px;
   background-color:$grayLBg;
   text-align:left;
   padding:10px;
+  background-color:transparent;
   table{
-
+    width:100%;
+    th{
+      border:0;
+      background-color:transparent;
+    }
+    td{
+      border:0;
+      background-color:transparent;
+      height:32px;
+    }
   }
 }
 

@@ -42,6 +42,10 @@
             <Input type="text" v-model="applyForm.companyName">
             </Input>
           </FormItem>
+          <FormItem prop="realName" label="真实姓名">
+            <Input type="text" v-model="applyForm.realName">
+            </Input>
+          </FormItem>
         </Form>
       </div>
       <div slot="footer" class="text-right">
@@ -54,7 +58,8 @@
   import moduleList from '../../common/moduleList'
   import {loadedMixins} from '../../common/mixins'
   import {dateFormat} from 'vux'
-  import expandRow from './widget/problemExpandRow.widget.vue'
+  import problemExpandRow from './widget/problemExpandRow.widget.vue'
+  import projectExpandRow from './widget/projectExpandRow.widget.vue'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -63,10 +68,12 @@
         modalLoading: false,
         applyPop: false,
         applyForm: {
-          companyName: ''
+          companyName: '',
+          realName:''
         },
         applyRule: {
-          companyName: {required: true, message: '公司名称不能为空', trigger: 'blur'}
+          companyName: {required: true, message: '公司名称不能为空', trigger: 'blur'},
+          realName: {required: true, message: '真实姓名不能为空', trigger: 'blur'}
         },
         map: {
           cityId: {}
@@ -75,8 +82,23 @@
           url: 'user/getProInfoBySelf',
           columns: [
             {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                return h(projectExpandRow, {
+                  props: {
+                    data: params.row
+                  }
+                })
+              }
+            },
+            {
               title: '项目名称',
               key: 'projectName'
+            },
+            {
+              title:'项目类型',
+              key:'businessId'
             },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
@@ -84,20 +106,10 @@
               }
             },
             {
-              title: '操作',
+              title: '顾问',
+              key:'publisherId',
               render: (h, params) => {
-                var btns = [h('Button', {
-                  props: {
-                    type: 'text',
-                    size: 'small'
-                  },
-                  on: {
-                    click: (e) => {
-                      this.edit(params.row, e)
-                    }
-                  }
-                }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])]
-                return h('div', btns);
+                return h('router-link', {to:'/adviserDetail/'+params.row.publisherId},'顾问');
               }
             }
           ]
@@ -109,7 +121,7 @@
               type: 'expand',
               width: 50,
               render: (h, params) => {
-                return h(expandRow, {
+                return h(problemExpandRow, {
                   props: {
                     data: params.row
                   }

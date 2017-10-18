@@ -1,7 +1,39 @@
 <template>
   <div class="list-detail">
     <table>
-      <tr></tr>
+      <tr>
+        <td>价格:10000元</td>
+        <td>服务商:服务商</td>
+      </tr>
+      <tr>
+        <td colspan="3"></td>
+        <td>
+          <Button class="fc-theme" type="text">确认并支付</Button>
+          <Button class="fc-theme" type="text">确认完成</Button>
+        </td>
+      </tr>
+      <tr>
+        <td>顾问服务:</td>
+        <td colspan="3">
+          <Rate allow-half v-model="form.scroll1"></Rate>
+        </td>
+      </tr>
+      <tr>
+        <td>服务商服务:</td>
+        <td colspan="3">
+          <Rate allow-half v-model="form.scroll1"></Rate>
+        </td>
+      </tr>
+      <tr>
+        <td style="height:auto;" colspan="3">
+          <Input type="textarea" :rows="4" v-model="form.content"></Input>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Button class="fc-theme" type="text">确认评价</Button>
+        </td>
+      </tr>
     </table>
   </div>
 </template>
@@ -14,7 +46,8 @@
       return {
         showForm:false,
         form: {
-          msg: ''
+          scroll1:5,
+          content:''
         },
         rule: {
           msg: {required: true, message: '消息不能为空!', trigger: 'blur'}
