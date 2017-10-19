@@ -114,8 +114,7 @@ var kvText = function(value,selections,valueField,textField){
   selections.each((item,index)=>{
     if(item[valueField] == value){
       result = item[textField]
-    }
-    if(item.children){
+    }else if(item.children){
       childrenResult = kvText(value,item.children,valueField,textField)
       if(childrenResult!=false){
         result=[]
@@ -123,7 +122,7 @@ var kvText = function(value,selections,valueField,textField){
         if(typeof childrenResult =='string'){
           result.push(childrenResult)
         }else if(childrenResult instanceof Array){
-          result.concat(childrenResult)
+          result = result.concat(childrenResult)
         }
       }
     }
@@ -146,7 +145,7 @@ var kvValue = function(value,selections,valueField){
         if(typeof childrenResult =='string' || typeof childrenResult =='number'){
           result.push(childrenResult)
         }else if(childrenResult instanceof Array){
-          result.concat(childrenResult)
+          result = result.concat(childrenResult)
         }
       }
     }

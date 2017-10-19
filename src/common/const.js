@@ -13,22 +13,8 @@ export default {
   CODE_PARAM_ERR: 10002,
   CODE_VERIFI_ERROR: 10012,
   CODE_COOKIE_NULL: 'COOKIE_IS_NULL',
-  // quillOptions:{
-  //   modules:{
-  //     toolbar:[
-  //       ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-  //       ['blockquote', 'code-block'],
-  //       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-  //       [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-  //       [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-  //       [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-  //       [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-  //       [{ 'font': [] }],
-  //       [{ 'align': [] }],
-  //       ['clean'],                                         // remove formatting button
-  //       ['link', 'image']
-  //     ]
-  //   },
-  //   placeholder:'请输入...'
-  // }
+  statusMap:{
+    effect:'',
+    auditing:'审核中'
+  }
 }

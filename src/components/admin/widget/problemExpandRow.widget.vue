@@ -2,11 +2,11 @@
   <div>
     <Form ref="form" :model="form" :rules="rule" :label-width="80">
       <FormItem label="问题详情">
-        <p>{{data.problemDetail}}</p>
+        <p>{{detail.problemDetail}}</p>
         <ul>
-          <template v-for="msg in data.newsList">
-            <li v-if="msg.newsType==1">顾问 {{msg.consultantName}}:{{msg.newsContent}}</li>
-            <li v-if="msg.newsType==0">追问:{{msg.newsContent}}</li>
+          <template v-for="msg in detail.newsList">
+            <li v-if="msg.newsType==1">顾问 {{msg.replyName}}:{{msg.newsContent}}</li>
+            <li v-if="msg.newsType==0">{{detail.createName}} 追问:{{msg.newsContent}}</li>
           </template>
         </ul>
       </FormItem>
@@ -29,6 +29,7 @@
     data: function () {
       return {
         showForm:true,
+        detail:this.data,
         form: {
           newsContent: '',
           problemId:this.data.id
@@ -41,22 +42,25 @@
     },
     methods: {
       answer:function(){
+        this.$refs.form.resetFields()
         this.showForm = true
       },
       refresh:function(){
         this.$http.get('admin/queryDetailById',{params:{id:this.data.id}}).then((rsp)=>{
-          this.data = rsp.data
+          this.detail = rsp.data
         })
       },
       submit: function () {
         this.$refs.form.validate((valid) => {
           if (valid) {
             var params = this.form
-            debugger
             this.loading = true
             this.$http.post('admin/insertNews',params).then((rsp)=>{
               this.loading = false
+              this.$refs.form.resetFields()
+              this.resetObject(this.form)
               this.refresh()
+              this.showForm = false
             },()=>{
               this.loading = false
             })

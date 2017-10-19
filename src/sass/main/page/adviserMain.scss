@@ -1,5 +1,9 @@
 .adviser-main-list {
   .adviser-main-item {
+    &:not(:last-child){
+      border-bottom:1px solid $borderColor;
+    }
+    padding:20px 0;
     overflow: hidden;
     position: relative;
     .ivu-avatar {

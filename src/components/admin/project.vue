@@ -6,7 +6,8 @@
       </div>
       <Table :columns="list.columns" :data="list.dataList" border></Table>
       <div class="table-bottom-bar">
-        <Page v-show="list.showPage" :current="list.page" :total="list.total" :page-size="list.pageSize" @on-change="refreshList($event)"
+        <Page v-show="list.showPage" :current="list.page" :total="list.total" :page-size="list.pageSize"
+              @on-change="refreshList($event)"
               show-elevator></Page>
       </div>
     </div>
@@ -32,6 +33,11 @@
             <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
           </Select>
         </FormItem>
+        <FormItem label="顾问" prop="consultantId">
+          <Select v-model="form.consultantId">
+            <Option v-for="item in selections.consultantId" :value="item.id" :key="item.id">{{ item.actualName }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="服务商" prop="serviceId">
           <Select v-model="form.serviceId">
             <Option v-for="item in selections.serviceId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
@@ -47,6 +53,8 @@
 <script type="es6">
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
+  import {toVL, kvText} from '../../common/utils'
+  import expandRow from './widget/projectExpandRow.widget.vue'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -54,19 +62,18 @@
         status: 0,
         pop: false,
         modalLoading: false,
-        businessId:[],
+        businessId: [],
         form: {
-          projectName:'',
+          projectName: '',
           businessId: '',
-          projectDetail:'',
-          cityId:'',
-          consultantId:'',
-          phone:'',
-          projectIndex:'',
-          serviceId:'',
-          status:''
+          projectDetail: '',
+          cityId: '',
+          consultantId: '',
+          phone: '',
+          projectIndex: '',
+          serviceId: ''
         },
-        rule:{
+        rule: {
           projectName: {required: true, message: '项目名称不能为空!'},
           businessId: {required: true, message: '服务类型不能为空!'},
           cityId: {required: true, message: '城市不能为空!'},
@@ -75,21 +82,45 @@
           projectDetail: {required: true, message: '项目详情不能为空!'},
           projectIndex: {required: true, message: '项目序列不能为空!'}
         },
-        selections:{
-          businessId:[],
-          cityId:[],
-          consultantId:[],
-          serviceId:[]
+        selections: {
+          businessAll: [],
+          businessId: [],
+          cityId: [],
+          consultantId: [],
+          serviceId: []
         },
         list: {
           url: 'admin/getProjectList',
           columns: [
+            {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                return h(expandRow, {
+                  props: {
+                    data: params.row
+                  }
+                })
+              }
+            },
             {title: '项目名称', key: 'projectName'},
             {title: '手机号', key: 'phone'},
             {
+              title: '项目类型', key: 'business', render: (h, params) => {
+              var lastBusiness = eval('[' + params.row.businessId + ']')
+              lastBusiness = lastBusiness[lastBusiness.length-1]
+              return h('span', {}, kvText(lastBusiness, this.selections.businessAll, 'id', 'businessName').toString());
+            }
+            },
+            {
+              title: '城市', key: 'phone', render: (h, params) => {
+              return h('span', {}, this.selectionValue(params.row.cityId, this.selections.cityId, 'cityName'));
+            }
+            },
+            {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
-                return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-              }
+              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
+            }
             },
             {
               title: '操作',
@@ -106,7 +137,7 @@
                         this.edit(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'edit'},class:{'margin-right-10':true}}), '修改'])
+                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])
                 ]);
               }
             }
@@ -119,20 +150,28 @@
         this.reset()
         this.pop = true
       },
-      edit:function(data){
+      edit: function (data) {
+        this.$refs.form.resetFields()
+        this.businessId = []
+        this.setValues(this.form, data)
+        this.form.id = data.id
+        this.form.serviceId = 1
+//        this.form.businessId = eval('['+data.businessId+']')
+        this.businessId = eval('[' + data.businessId + ']')
         this.pop = true
       },
-      refresh:function(){
+      refresh: function () {
         this.getSelections('business').then((data) => {
+          this.selections.businessAll = data
           this.selections.businessId = toVL(data, 'id', 'businessName')
         })
-        this.getSelections('city').then((data)=>{
+        this.getSelections('city').then((data) => {
           this.selections.cityId = data
         })
-        this.$http.get('admin/getConsultantList',{params:{pageSize:10000,pageNumber:1}}).then((rsp)=>{
-          this.selections.consultantId = rsp.data
+        this.$http.get('admin/getConsultantList', {params: {pageSize: 10000, pageNumber: 1}}).then((rsp) => {
+          this.selections.consultantId = rsp.data.rows
         })
-        this.$http.get('admin/getServiceList').then((rsp)=>{
+        this.$http.get('admin/getServiceList').then((rsp) => {
           this.selections.serviceId = rsp.data
         })
       },
@@ -144,9 +183,9 @@
             this.modalLoading = true
             this.$http.post('admin/editProjectInfo', params).then(() => {
               this.modalLoading = false
-              this.pop=false
+              this.pop = false
               this.refreshList(1)
-            },()=>{
+            }, () => {
               this.modalLoading = false
             })
           }
@@ -167,7 +206,7 @@
       this.$on(this.consts.loadedEvent, function () {
         this.refreshList(1)
       })
-      this.$watch('businessId',function(v){
+      this.$watch('businessId', function (v) {
         this.form.businessId = v.toString()
       })
     }

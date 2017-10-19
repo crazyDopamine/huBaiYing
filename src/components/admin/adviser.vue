@@ -196,8 +196,8 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
-            this.$http.get('admin/failCity', {params: {id: data.id}}).then(() => {
-              this.refreshList(1)
+            this.$http.get('admin/deleteConsultantById', {params: {id: data.id}}).then(() => {
+              this.refreshList()
             })
           }
         });

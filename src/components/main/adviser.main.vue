@@ -22,7 +22,7 @@
             <span>服务类型:商标注册</span><br>
             <span>手机号:{{data.phone}}</span>
           </div>
-          <router-link to="/adviserDetail/1" class="btn btn-normal btn-theme btn-detail">查看详情</router-link>
+          <router-link :to="'/adviserDetail/'+data.id" class="btn btn-normal btn-theme btn-detail">查看详情</router-link>
         </li>
       </ul>
       <!--<Spin size="large" v-if="list.showLoading"></Spin>-->

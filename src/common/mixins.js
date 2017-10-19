@@ -50,7 +50,15 @@ var common = {
     resetObject: resetObject,
     setValues: setValues,
     getSelections: getSelections,
-    selectionValue: selectionValue
+    selectionValue: selectionValue,
+    toContent: function (content) {
+      if (!content || !content.replace)return ''
+      content = content.replace(/\n\r/g, '<br/>')
+      content = content.replace(/\r\n/g, '<br/>')
+      content = content.replace(/\n/g, '<br/>')
+      content = content.replace(/\r/g, '<br/>')
+      return content
+    }
   }
 }
 

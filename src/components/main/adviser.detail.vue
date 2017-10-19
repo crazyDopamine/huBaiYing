@@ -4,9 +4,14 @@
       <Avatar icon="person" size="large" :src="detail.headPhoto | img(3)"/>
       <div class="detail">
         <label class="title">{{detail.actualName}}</label><br>
-        <span>服务类型:{{detail.businessName?detail.businessName.toString():''}}</span>
+        <ul>
+          <li class="margin-right-10" v-for="(business,index) in detail.businessName" :key="index">{{business}}</li>
+        </ul>
       </div>
-      <Button type="primary" class="btn-theme float-right" icon="help" @click="showProblemPop()">提问</Button>
+      <router-link :to="'/projectForm/'+detail.id">
+        <Button type="primary" class="btn-theme float-right" icon="plus-round">向他发送需求</Button>
+      </router-link>
+      <Button type="primary" class="btn-theme float-right margin-right-20" icon="plus-round" @click="showProblemPop()">提问</Button>
     </div>
     <div class="adviser-detail-container" v-html="detail.selfIntroduction">
     </div>
@@ -38,16 +43,16 @@
   export default {
     data: function () {
       return {
-        detail:{},
+        detail: {},
         problemPop: false,
-        modalLoading:false,
-        businessId:[],
+        modalLoading: false,
+        businessId: [],
         problemForm: {
           businessId: '',
           problemTitle: '',
           problemDetail: '',
           problemDetail: '',
-          consultantId:''
+          consultantId: ''
         },
         problemRule: {
           businessId: {required: true, message: '服务类型不能为空！', trigger: 'blur'},
@@ -60,8 +65,8 @@
       }
     },
     methods: {
-      showProblemPop:function(){
-        if(this.userInfoLoaded != 1){
+      showProblemPop: function () {
+        if (this.userInfoLoaded != 1) {
           window.vm.$refs.header.loginPop = true
           return
         }
@@ -71,7 +76,7 @@
         this.businessId = []
         this.problemForm.consultantId = this.$route.params.id
       },
-      addProblem:function(){
+      addProblem: function () {
         this.$refs.form.validate((valid) => {
           if (valid) {
             var params = this.form
@@ -80,18 +85,18 @@
               this.modalLoading = false
               this.problemPop = false
               this.$Message.success('提交成功')
-            },()=>{
+            }, () => {
               this.modalLoading = false
             })
           }
         });
       },
-      refresh:function(){
+      refresh: function () {
         this.getSelections('business').then((data) => {
           this.selections.business = toVL(data, 'id', 'businessName')
         })
-        if(this.$route.params.id){
-          this.$http.get('consultant/getConsultantDetail',{params:{id:this.$route.params.id}}).then((rsp)=>{
+        if (this.$route.params.id) {
+          this.$http.get('consultant/getConsultantDetail', {params: {id: this.$route.params.id}}).then((rsp) => {
             this.detail = rsp.data
           })
         }

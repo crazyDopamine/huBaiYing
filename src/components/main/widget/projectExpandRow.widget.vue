@@ -2,6 +2,9 @@
   <div class="list-detail">
     <table>
       <tr>
+        <td colspan="4" v-html="toContent(data.projectDetail)"></td>
+      </tr>
+      <tr>
         <td>价格:10000元</td>
         <td>服务商:服务商</td>
       </tr>

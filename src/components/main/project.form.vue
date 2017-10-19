@@ -38,7 +38,8 @@
           businessId:'',
           projectDetail: '',
           phone: '',
-          cityId: ''
+          cityId: '',
+          consultantId:''
         },
         rule: {
           projectName: {required: true, message: '项目名称不能为空！', trigger: 'blur'},
@@ -69,8 +70,8 @@
         });
       },
       refresh: function () {
-        if (this.$route.params.id) {
-
+        if (this.$route.params.consultantId) {
+          this.form.consultantId = this.$route.params.consultantId
         }
         this.getSelections('business').then((data) => {
           this.selections.businessId = toVL(data, 'id', 'businessName')

@@ -21,30 +21,10 @@
           问题回答<br>
         </p>
         <ul class="problem-answer-detail">
-          <li>
-            <p>
-              <router-link to="/adviserDetail/1" class="fc-theme">xxxx</router-link>:答<br>
-              <span class="float-right">2017-9-28</span>
-            </p>
-          </li>
-          <li>
-            <p>
-              追答<br>
-              <span class="float-right">2017-9-28</span>
-            </p>
-          </li>
-          <li>
-            <p>
-              追问<br>
-              <span class="float-right">2017-9-28</span>
-            </p>
-          </li>
-          <li>
-            <p>
-              追答<br>
-              <span class="float-right">2017-9-28</span>
-            </p>
-          </li>
+          <template v-for="(msg,index) in detail.newsList">
+            <li v-if="msg.newsType==1">顾问 {{msg.consultantName}}:{{msg.newsContent}}<br><span class="float-right">2017-9-28</span></li>
+            <li v-if="msg.newsType==0">{{detail.createName}} 追问:{{msg.newsContent}}<br><span class="float-right">2017-9-28</span></li>
+          </template>
         </ul>
       </div>
     </div>

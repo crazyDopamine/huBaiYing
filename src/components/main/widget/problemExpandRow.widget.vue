@@ -1,12 +1,37 @@
 <template>
   <div>
     <Form ref="form" :model="form" :rules="rule" :label-width="80">
-      <FormItem label="问题详情"><a class="fc-theme margin-left-10" @click="ask()">追问</a>
-        <p>{{detail.problemDetail}}</p>
-        <ul>
+      <FormItem label="问题详情">
+        <div><span v-html="toContent(detail.problemDetail)"></span><a class="fc-theme margin-left-10" @click="ask()">追问</a></div>
+        <ul class="problem-msg-list">
           <template v-for="msg in detail.newsList">
-            <li v-if="msg.newsType==1">顾问 {{msg.consultantName}}:{{msg.newsContent}}<a class="fc-theme margin-left-10" @click="ask()">回复</a></li>
-            <li v-if="msg.newsType==0">追问:{{msg.newsContent}}</li>
+            <li v-if="msg.newsType==1">
+              <Row>
+                <Col span="3" class="text-right padding-right-10">
+                顾问
+                <router-link target="_blank" class="fc-theme margin-left-10" :to="'/adviserDetail/'+msg.replyId">
+                  {{msg.replyName}}
+                </router-link>
+                :
+                </Col>
+                <Col span="21">
+                <span v-html="toContent(msg.newsContent)"></span>
+                <a class="fc-theme margin-left-10" @click="ask()">回复</a>
+                <span class="float-right">2017-10-22</span>
+                </Col>
+              </Row>
+            </li>
+            <li v-if="msg.newsType==0">
+              <Row>
+                <Col span="3" class="text-right padding-right-10">
+                追问:
+                </Col>
+                <Col span="21">
+                <span v-html="toContent(msg.newsContent)"></span>
+                <span class="float-right">2017-10-22</span>
+                </Col>
+              </Row>
+            </li>
           </template>
         </ul>
       </FormItem>
@@ -28,12 +53,12 @@
     },
     data: function () {
       return {
-        showForm:false,
-        detail:this.data,
+        showForm: false,
+        detail: this.data,
         form: {
           newsContent: '',
-          consultantId:'',
-          problemId:''
+          consultantId: '',
+          problemId: ''
         },
         rule: {
           newsContent: {required: true, message: '消息不能为空!', trigger: 'blur'}
@@ -42,16 +67,17 @@
       }
     },
     methods: {
-      ask:function(consultantId){
+      ask: function (consultantId) {
+        this.$refs.form.resetFields()
         this.showForm = true
-        if(consultantId){
+        if (consultantId) {
           this.form.consultantId = consultantId
-        }else {
+        } else {
           consultantId = ''
         }
       },
-      refresh:function(){
-        this.$http.get('problem/queryDetailById',{params:{id:this.detail.id}}).then((rsp)=>{
+      refresh: function () {
+        this.$http.get('problem/queryDetailById', {params: {id: this.detail.id}}).then((rsp) => {
           this.detail = rsp.data
         })
       },
@@ -60,17 +86,18 @@
           if (valid) {
             var params = this.form
             this.loading = true
-            this.$http.post('news/insertNews',params).then((rsp)=>{
+            this.$http.post('news/insertNews', params).then((rsp) => {
               this.loading = false
               this.refresh()
-            },()=>{
+              this.showForm = false
+            }, () => {
               this.loading = false
             })
           }
         });
       }
     },
-    created:function(){
+    created: function () {
       this.form.problemId = this.data.id
       this.refresh()
     }

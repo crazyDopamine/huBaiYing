@@ -14,7 +14,8 @@
           </div>
           <div class="detail-row">
             <label>用户类型：</label><span>普通用户</span>
-            <Button type="text" @click="showApply()">申请认证服务商</Button>
+            <span v-if="userInfo.status=='auditing'" class="margin-left-10 fc-theme">审核中</span>
+            <Button type="text" @click="showApply()" v-if="userInfo.status=='effect'">申请认证服务商</Button>
           </div>
         </div>
       </TabPane>
@@ -180,6 +181,7 @@
             this.$http.post('user/companyRegister',params).then((rsp)=>{
               this.applyPop = false
               this.modalLoading = false
+              window.vm.getUserInfo()
             },()=>{
               this.modalLoading = false
             })
