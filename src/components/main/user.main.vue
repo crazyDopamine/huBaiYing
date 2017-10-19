@@ -109,7 +109,7 @@
               title: '顾问',
               key:'publisherId',
               render: (h, params) => {
-                return h('router-link', {to:'/adviserDetail/'+params.row.publisherId},'顾问');
+                return h('router-link', {props:{to:'/adviserDetail/'+params.row.publisherId}},'顾问');
               }
             }
           ]
@@ -177,23 +177,18 @@
           if (valid) {
             var params = this.applyForm
             this.modalLoading = true
-            this.applyPop = false
-            // this.$http.post('user/login',params).then((rsp)=>{
-            //   this.$Message.success('登陆成功！')
-            //   if(rsp.data){
-            //     cookie.set(this.consts.ticketKey,rsp.data.token)
-            //   }
-            //   window.vm.getUserInfo()
-            //   this.modalLoading = false
-            //   this.loginPop = false
-            // },()=>{
-            //   this.modalLoading = false
-            // })
+            this.$http.post('user/companyRegister',params).then((rsp)=>{
+              this.applyPop = false
+              this.modalLoading = false
+            },()=>{
+              this.modalLoading = false
+            })
           }
         });
       }
     },
     created: function () {
+      window.vm.$refs.header.showBanners = false;
       this.initList(this.projectList)
       this.initList(this.problemList)
       this.getSelections('city').then((data) => {
@@ -203,7 +198,6 @@
         })
         this.map.cityId = map
       })
-      window.vm.$refs.header.showBanners = false;
       this.$on(this.consts.loadedEvent, function () {
         if (this.tab === 1) {
           this.refreshList(1, this.projectList)

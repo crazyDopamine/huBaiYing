@@ -12,20 +12,34 @@
     </div>
     <Modal
       v-model="pop"
-      :title="fieldSet.id?'修改':'新增'"
+      title="修改"
       :mask-closable="false">
-      <div class="form-area">
-        <div class="form-row clearfix">
-          <label class="col-8">账号：</label>
-          <Input class="col-16" v-model="fieldSet.userName"></Input>
-        </div>
-        <div class="form-row clearfix">
-          <label class="col-8">密码：</label>
-          <Input class="col-16" type="password" v-model="fieldSet.passWord"></Input>
-        </div>
-      </div>
+      <Form class="middle form-area" ref="form" :model="form" :rules="rule" :label-width="100">
+        <FormItem label="项目名称" prop="projectName">
+          <Input type="text" v-model="form.projectName"></Input>
+        </FormItem>
+        <FormItem label="项目类型" prop="businessId">
+          <Cascader :data="selections.businessId" v-model="businessId"></Cascader>
+        </FormItem>
+        <FormItem label="项目详情" prop="projectDetail">
+          <Input type="textarea" :rows="4" v-model="form.projectDetail"></Input>
+        </FormItem>
+        <FormItem label="联系人手机" prop="phone">
+          <Input type="text" v-model="form.phone"></Input>
+        </FormItem>
+        <FormItem label="城市" prop="cityId">
+          <Select v-model="form.cityId">
+            <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="服务商" prop="serviceId">
+          <Select v-model="form.serviceId">
+            <Option v-for="item in selections.serviceId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
+          </Select>
+        </FormItem>
+      </Form>
       <div slot="footer">
-        <Button type="primary" :loading="modalLoading" @click="submit()">{{fieldSet.id?'修改':'新增'}}</Button>
+        <Button type="primary" :loading="modalLoading" @click="submit()">保存</Button>
       </div>
     </Modal>
   </div>
@@ -40,19 +54,32 @@
         status: 0,
         pop: false,
         modalLoading: false,
-        fieldSet: {
-          userName: '',
-          passWord:''
+        businessId:[],
+        form: {
+          projectName:'',
+          businessId: '',
+          projectDetail:'',
+          cityId:'',
+          consultantId:'',
+          phone:'',
+          projectIndex:'',
+          serviceId:'',
+          status:''
         },
         rule:{
-          userName: {
-            label: '账号',
-            required: true
-          },
-          passWord: {
-            label: '密码',
-            required: true
-          }
+          projectName: {required: true, message: '项目名称不能为空!'},
+          businessId: {required: true, message: '服务类型不能为空!'},
+          cityId: {required: true, message: '城市不能为空!'},
+          consultantId: {required: true, message: '顾问不能为空!'},
+          phone: {required: true, message: '手机号不能为空!'},
+          projectDetail: {required: true, message: '项目详情不能为空!'},
+          projectIndex: {required: true, message: '项目序列不能为空!'}
+        },
+        selections:{
+          businessId:[],
+          cityId:[],
+          consultantId:[],
+          serviceId:[]
         },
         list: {
           url: 'admin/getProjectList',
@@ -61,8 +88,8 @@
             {title: '手机号', key: 'phone'},
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
-              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-            }
+                return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
+              }
             },
             {
               title: '操作',
@@ -93,41 +120,55 @@
         this.pop = true
       },
       edit:function(data){
-        this.reset()
-        this.setValues(data)
-        this.fieldSet.passWord = '';
         this.pop = true
       },
+      refresh:function(){
+        this.getSelections('business').then((data) => {
+          this.selections.businessId = toVL(data, 'id', 'businessName')
+        })
+        this.getSelections('city').then((data)=>{
+          this.selections.cityId = data
+        })
+        this.$http.get('admin/getConsultantList',{params:{pageSize:10000,pageNumber:1}}).then((rsp)=>{
+          this.selections.consultantId = rsp.data
+        })
+        this.$http.get('admin/getServiceList').then((rsp)=>{
+          this.selections.serviceId = rsp.data
+        })
+      },
       submit: function () {
-        if (this.validate(true)) {
-          var params = this.getValues()
-          this.modalLoading = true
-          this.$http.post('admin/addUser', params).then(() => {
-            this.modalLoading = false
-            this.pop=false
-            this.refreshList(1)
-          })
-        }
-      },
-      reset: function () {
-        this.fieldSet = {
-          userName: '',
-          passWord:''
-        }
-      },
-      remove: function (data) {
-        this.$Modal.confirm({
-          title: '删除',
-          content: '<p>确认是否删除！</p>',
-          onOk: () => {
+        this.$refs.form.validate((valid) => {
+          if (valid) {
+            var params = this.form
+            debugger
+            this.modalLoading = true
+            this.$http.post('admin/editProjectInfo', params).then(() => {
+              this.modalLoading = false
+              this.pop=false
+              this.refreshList(1)
+            },()=>{
+              this.modalLoading = false
+            })
           }
         });
-      }
+      },
+      // remove: function (data) {
+      //   this.$Modal.confirm({
+      //     title: '删除',
+      //     content: '<p>确认是否删除！</p>',
+      //     onOk: () => {
+      //     }
+      //   });
+      // }
     },
     created: function () {
+      this.refresh()
       this.initList(this.list)
       this.$on(this.consts.loadedEvent, function () {
         this.refreshList(1)
+      })
+      this.$watch('businessId',function(v){
+        this.form.businessId = v.toString()
       })
     }
   }

@@ -4,12 +4,14 @@
       <FormItem label="问题详情">
         <p>{{data.problemDetail}}</p>
         <ul>
-          <li>xxx顾问:回答内容xxxxxxxxxxxxxxxx</li>
-          <li>追问xxxxxxxxxxx</li>
+          <template v-for="msg in data.newsList">
+            <li v-if="msg.newsType==1">顾问 {{msg.consultantName}}:{{msg.newsContent}}</li>
+            <li v-if="msg.newsType==0">追问:{{msg.newsContent}}</li>
+          </template>
         </ul>
       </FormItem>
-      <FormItem prop="msg" label="回复消息" v-show="showForm">
-        <Input type="textarea" v-model="form.msg" placeholder="回复消息" :rows="4" size="large">
+      <FormItem prop="newsContent" label="回复消息" v-show="showForm">
+        <Input type="textarea" v-model="form.newsContent" placeholder="回复消息" :rows="4" size="large">
         </Input>
       </FormItem>
     </Form>
@@ -28,37 +30,42 @@
       return {
         showForm:true,
         form: {
-          msg: ''
+          newsContent: '',
+          problemId:this.data.id
         },
         rule: {
-          msg: {required: true, message: '消息不能为空!'}
+          newsContent: {required: true, message: '消息不能为空!'}
         },
         loading: false
       }
     },
     methods: {
-      answer:function(msg){
+      answer:function(){
         this.showForm = true
+      },
+      refresh:function(){
+        this.$http.get('admin/queryDetailById',{params:{id:this.data.id}}).then((rsp)=>{
+          this.data = rsp.data
+        })
       },
       submit: function () {
         this.$refs.form.validate((valid) => {
           if (valid) {
             var params = this.form
+            debugger
             this.loading = true
-            // this.$http.post('user/login',params).then((rsp)=>{
-            //   this.$Message.success('登陆成功！')
-            //   if(rsp.data){
-            //     cookie.set(this.consts.ticketKey,rsp.data.token)
-            //   }
-            //   window.vm.getUserInfo()
-            //   this.modalLoading = false
-            //   this.loginPop = false
-            // },()=>{
-            //   this.modalLoading = false
-            // })
+            this.$http.post('admin/insertNews',params).then((rsp)=>{
+              this.loading = false
+              this.refresh()
+            },()=>{
+              this.loading = false
+            })
           }
         });
-      }
+      },
+    },
+    created:function(){
+      this.refresh()
     }
   }
   export default config

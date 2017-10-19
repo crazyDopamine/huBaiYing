@@ -85,6 +85,9 @@
             this.$http.post('user/register', params).then(()=> {
               this.$Message.success('注册成功')
               this.$router.push('/main')
+              this.modalLoading = false
+            },()=>{
+              this.modalLoading = false
             })
           }
         });

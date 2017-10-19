@@ -13,6 +13,16 @@ export function httpInterceptor(request, next){
   }
   next((rsp) => {
     if (rsp.status == 200 && rsp.data && rsp.data.code == consts.CODE_SUCC) {
+      if(request.method.toLowerCase() == 'post'){
+        if (window.vm.$vux) {
+          window.vm.$vux.loading.hide()
+          window.vm.$vux.toast.text(rsp.data.message, 'bottom', 2000)
+        } else if (window.vm.$Message) {
+          if (rsp.data && rsp.data.message) {
+            window.vm.$Message.success(rsp.data.message)
+          }
+        }
+      }
       rsp.success = true
       rsp.data = rsp.data.data
       rsp.ok = true
