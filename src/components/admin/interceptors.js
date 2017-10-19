@@ -7,19 +7,20 @@ export function httpInterceptor(request, next) {
   if (ticket) {
     request.headers.set(consts.adminTicketKey, ticket)
   }
-  if(request.url.indexOf('http://')<0&&request.url.indexOf('https://')<0){
+  if (request.url.indexOf('http://') < 0 && request.url.indexOf('https://') < 0) {
     request.url = url(request.url)
   }
   next((rsp) => {
     if (rsp.status == 200 && rsp.data && rsp.data.code == consts.CODE_SUCC) {
-    rsp.success = true
+      rsp.success = true
       rsp.data = rsp.data.data
       rsp.ok = true
-    }else if(rsp.status == 200 && rsp.data && rsp.data.code == consts.CODE_COOKIE_NULL){
+    } else if (rsp.status == 200 && rsp.data && rsp.data.code == consts.CODE_COOKIE_NULL) {
+      debugger
       window.vm.$emit(consts.loginOutEvent)
-    }else{
+    } else {
       rsp.ok = false
-      if(rsp.status != 200){
+      if (rsp.status != 200) {
         if (window.vm.$vux) {
           window.vm.$vux.loading.hide()
           window.vm.$vux.toast.text('服务器访问错误!', 'bottom', 2000)
@@ -28,7 +29,7 @@ export function httpInterceptor(request, next) {
             window.vm.$Message.error('服务器访问错误!')
           }
         }
-      }else {
+      } else {
         if (window.vm.$vux) {
           window.vm.$vux.loading.hide()
           window.vm.$vux.toast.text(rsp.data.message, 'bottom', 2000)
