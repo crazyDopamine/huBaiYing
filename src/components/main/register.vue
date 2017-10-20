@@ -29,9 +29,23 @@
       <FormItem label="邀请码" prop="inviteCode">
         <Input type="text" v-model="form.inviteCode"></Input>
       </FormItem>
+      <FormItem label="注册服务商">
+        <i-switch v-model="form.isCompany" size="large">
+          <span slot="open">是</span>
+          <span slot="close">否</span>
+        </i-switch>
+      </FormItem>
+      <FormItem prop="companyName" label="公司名称" v-if="form.isCompany">
+        <Input type="text" v-model="form.companyName">
+        </Input>
+      </FormItem>
+      <FormItem prop="realName" label="真实姓名" v-if="form.isCompany">
+        <Input type="text" v-model="form.realName">
+        </Input>
+      </FormItem>
       <div class="btn-area" style="padding-left:80px;">
         <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">注册</Button><br>
-        <span style="line-height:30px;">点击注册则代表同意<router-link to="/register" class="fc-theme">呼百应平台用户协议</router-link></span>
+        <span style="line-height:30px;">点击注册即同意<router-link to="/register" class="fc-theme">呼百应平台用户协议</router-link></span>
       </div>
     </Form>
   </div>
@@ -51,16 +65,20 @@
           nickName: '',
           cityId: '',
           verificationCode: '',
-          inviteCode: ''
+          inviteCode: '',
+          isCompany:false,
+          companyName: '',
+          realName:''
         },
         rule: {
-          // username: [{required: true, message: '用户名不能为空！', trigger: 'blur'}],
-          phone: [{required: true, message: '手机号码不能为空！', trigger: 'blur'}],
-          password: [{required: true, message: '密码不能为空！', trigger: 'blur'}],
-          passwordConfirm: [{required: true, message: '确认密码不能为空！', trigger: 'blur'}],
-          nickName: [{required: true, message: '昵称不能为空！', trigger: 'blur'}],
-          verificationCode:[{required: true, message: '验证码不能为空！', trigger: 'blur'}],
-          cityId: [{type: 'number', required: true, message: '城市不能为空！', trigger: 'blur'}]
+          phone: {required: true, message: '手机号码不能为空！', trigger: 'blur'},
+          password: {required: true, message: '密码不能为空！', trigger: 'blur'},
+          passwordConfirm: {required: true, message: '确认密码不能为空！', trigger: 'blur'},
+          nickName: {required: true, message: '昵称不能为空！', trigger: 'blur'},
+          verificationCode:{required: true, message: '验证码不能为空！', trigger: 'blur'},
+          cityId: {type: 'number', required: true, message: '城市不能为空！', trigger: 'blur'},
+          companyName: {required: false, message: '公司名称不能为空', trigger: 'blur'},
+          realName: {required: false, message: '真实姓名不能为空', trigger: 'blur'}
         },
         selections: {
           cityId: []
@@ -96,6 +114,15 @@
     created: function () {
       window.vm.$refs.header.showBanners = false;
       this.refresh()
+      this.$watch('form.isCompany',function(v){
+        if(v){
+          this.rule.companyName.required = true
+          this.rule.realName.required = true
+        }else{
+          this.rule.companyName.required = false
+          this.rule.realName.required = false
+        }
+      })
     }
   }
 </script>

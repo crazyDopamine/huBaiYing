@@ -110,6 +110,10 @@
 .ivu-select-visible .ivu-select-selection{
   border-color:$themeColor;
 }
+.ivu-switch-checked{
+  border-color: $themeColor;
+  background-color: $themeColor;
+}
 .hby-editor{
   .ql-container{
     min-height:500px;
