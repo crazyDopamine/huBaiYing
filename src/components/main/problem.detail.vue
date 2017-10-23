@@ -7,13 +7,13 @@
     </Breadcrumb>
     <div class="problem-area">
       <h2 class="problem-title">{{detail.problemTitle}}<span class="margin-left-20 fc-theme fs-l">已解决</span><br>
-        <span class="fs-m">工商记账,工商注册</span>
+        <span class="fs-m">{{detail.businessName}}</span>
       </h2>
       <ul class="problem-detail">
         <li>浏览10次</li>
         <li>回答5次</li>
-        <li>董威</li>
-        <li>2017-9-27</li>
+        <li>{{detail.createName}}</li>
+        <li>{{detail.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</li>
       </ul>
       <p class="problem-content">{{detail.problemDetail}}</p>
       <div class="problem-answer">
@@ -22,8 +22,8 @@
         </p>
         <ul class="problem-answer-detail">
           <template v-for="(msg,index) in detail.newsList">
-            <li v-if="msg.newsType==1">顾问 {{msg.consultantName}}:{{msg.newsContent}}<br><span class="float-right">2017-9-28</span></li>
-            <li v-if="msg.newsType==0">{{detail.createName}} 追问:{{msg.newsContent}}<br><span class="float-right">2017-9-28</span></li>
+            <li v-if="msg.newsType==1">顾问 {{msg.consultantName}}:{{msg.newsContent}}<br><span class="float-right">{{msg.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</span></li>
+            <li v-if="msg.newsType==0">{{detail.createName}} 追问:{{msg.newsContent}}<br><span class="float-right">{{msg.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</span></li>
           </template>
         </ul>
       </div>
@@ -39,17 +39,27 @@
   </div>
 </template>
 <script type="es6">
+  import {kvText} from '../../common/utils'
   export default {
     data: function () {
       return {
-        detail:{}
+        detail:{},
+        selections:{
+          businessId:[]
+        }
       }
     },
     methods: {
     	refresh:function(){
     		if(this.$route.params.id){
-    			this.$http.get('problem/queryDetailById',{params:{id:this.$route.params.id}}).then((rsp)=>{
-    				this.detail = rsp.data
+          this.getSelections('business').then((data) => {
+            this.selections.businessId = data
+            this.$http.get('problem/queryDetailById',{params:{id:this.$route.params.id}}).then((rsp)=>{
+              this.detail = rsp.data
+              var businessId = eval('['+rsp.data.businessId+']')
+              businessId = businessId[businessId.length-1]
+              this.detail.businessName = kvText(businessId,this.selections.businessId,'id','businessName').join('/')
+            })
           })
         }
       }

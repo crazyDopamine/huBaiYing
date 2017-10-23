@@ -13,8 +13,15 @@ export default {
   CODE_PARAM_ERR: 10002,
   CODE_VERIFI_ERROR: 10012,
   CODE_COOKIE_NULL: 'COOKIE_IS_NULL',
-  statusMap:{
-    effect:'',
-    auditing:'审核中'
+  statusMap: {
+    effect: '',
+    auditing: '审核中',
+    auditNotPassed: '审核不通过'
+  },
+  statusUserMap: {
+    effect: '普通用户',
+    auditing: '审核中',
+    auditNotPassed: '审核不通过',
+    auditPassed: '企业服务商'
   }
 }

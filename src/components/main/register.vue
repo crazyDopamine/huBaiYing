@@ -106,10 +106,10 @@
           verificationCode: {required: true, message: '验证码不能为空！', trigger: 'blur'},
           cityId: {type: 'number', required: true, message: '城市不能为空！', trigger: 'blur'},
           companyName: {required: false, message: '公司名称不能为空', trigger: 'blur'},
-          businessId: {required: false, message: '真实姓名不能为空', trigger: 'blur'},
+          businessId: {required: false, message: '服务类型不能为空', trigger: 'blur'},
           realName: {required: false, message: '真实姓名不能为空', trigger: 'blur'},
-          idCard: {required: false, message: '真实姓名不能为空', trigger: 'blur'},
-          idCardPhoto: {required: false, message: '真实姓名不能为空', trigger: 'blur'},
+          idCard: {required: false, message: '身份证号不能为空', trigger: 'blur'},
+          idCardPhoto: {required: false, message: '身份证照片不能为空', trigger: 'blur'}
         },
         selections: {
           cityId: [],

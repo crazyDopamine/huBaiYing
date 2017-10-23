@@ -14,10 +14,8 @@
           </div>
           <div class="detail-row">
             <label>用户类型：</label>
-            <span v-if="userInfo.status=='effect' && userInfo.serviceProvider==0">普通用户</span>
-            <span v-if="userInfo.status=='effect' && userInfo.serviceProvider==1">服务商</span>
-            <span v-if="userInfo.status=='auditing'" class="margin-left-10 fc-theme">审核中</span>
-            <Button type="text" @click="showApply()" v-if="userInfo.status=='effect' && userInfo.serviceProvider==0">申请认证服务商</Button>
+            <span>{{consts.statusUserMap[userInfo.status]}}</span>
+            <Button type="text" @click="showApply()" v-if="(userInfo.status=='effect'||userInfo.status=='auditNotPassed') && userInfo.serviceProvider==0">申请认证服务商</Button>
           </div>
         </div>
       </TabPane>
@@ -38,15 +36,33 @@
         </div>
       </TabPane>
     </Tabs>
-    <Modal v-model="applyPop" width="360" :closable="true" :mask-closable="false" title="申请认证企业服务商">
+    <Modal v-model="applyPop" width="500" :closable="true" :mask-closable="false" title="申请认证企业服务商">
       <div class="form-area">
         <Form ref="applyForm" :model="applyForm" :rules="applyRule" :label-width="80">
           <FormItem prop="companyName" label="公司名称">
             <Input type="text" v-model="applyForm.companyName">
             </Input>
           </FormItem>
+          <FormItem label="服务类型" prop="businessId">
+            <Cascader :data="selections.businessId" placeholder="服务类型" v-model="applyFormBusinessId"
+                      @on-change="onBusinessIdChange"></Cascader>
+            <ul>
+              <li v-for="(item,index) in businessLabelArray" :key="index">{{item}}<a class="float-right"
+                                                                                     @click="removeBusiness(index)">
+                <Icon type="close-round"></Icon>
+              </a></li>
+            </ul>
+          </FormItem>
           <FormItem prop="realName" label="真实姓名">
             <Input type="text" v-model="applyForm.realName">
+            </Input>
+          </FormItem>
+          <FormItem prop="idCard" label="身份证号">
+            <Input type="text" v-model="applyForm.idCard">
+            </Input>
+          </FormItem>
+          <FormItem prop="idCardPhoto" label="身份证正反照片">
+            <img-input v-model="applyForm.idCardPhoto" :maxLength="2"></img-input>
             </Input>
           </FormItem>
         </Form>
@@ -63,6 +79,7 @@
   import {dateFormat} from 'vux'
   import problemExpandRow from './widget/problemExpandRow.widget.vue'
   import projectExpandRow from './widget/projectExpandRow.widget.vue'
+  import {kvText,toVL} from '../../common/utils'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -71,20 +88,28 @@
         modalLoading: false,
         applyPop: false,
         businessId:[],
+        applyFormBusinessId:[],
+        businessLabelArray:[],
+        businessIdArray:[],
         applyForm: {
           companyName: '',
           realName:'',
-          idCardPhoto:'',
-          businessId:''
+          businessId:'',
+          idCard:'',
+          idCardPhoto: ''
         },
         applyRule: {
-          companyName: {required: true, message: '公司名称不能为空', trigger: 'blur'},
-          realName: {required: true, message: '真实姓名不能为空', trigger: 'blur'},
-          businessId: {required: true, message: '真实姓名不能为空', trigger: 'blur'},
-          idCardPhoto: {required: true, message: '真实姓名不能为空', trigger: 'blur'}
+          companyName: {required: false, message: '公司名称不能为空', trigger: 'blur'},
+          businessId: {required: false, message: '服务类型不能为空', trigger: 'blur'},
+          realName: {required: false, message: '真实姓名不能为空', trigger: 'blur'},
+          idCard: {required: false, message: '身份证号不能为空', trigger: 'blur'},
+          idCardPhoto: {required: false, message: '身份证照片不能为空', trigger: 'blur'}
         },
         map: {
           cityId: {}
+        },
+        selections:{
+          businessId:[]
         },
         projectList: {
           url: 'user/getProInfoBySelf',
@@ -106,7 +131,11 @@
             },
             {
               title:'项目类型',
-              key:'businessId'
+              key:'businessId', render: (h, params) => {
+                var businessId = eval('['+params.row.businessId+']')
+                businessId = businessId[businessId.length-1]
+                return h('span', {}, kvText(businessId,this.selections.businessIdAll,'id','businessName').join('/'));
+              }
             },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
@@ -117,7 +146,7 @@
               title: '顾问',
               key:'publisherId',
               render: (h, params) => {
-                return h('router-link', {props:{to:'/adviserDetail/'+params.row.publisherId}},'顾问');
+                return h('router-link', {props:{to:'/adviserDetail/'+params.row.consultantId}},params.row.consultantName);
               }
             }
           ]
@@ -190,6 +219,7 @@
 
       },
       applyService: function () {
+        this.applyForm.businessId = this.businessIdArray.join('/')
         this.$refs.applyForm.validate((valid) => {
           if (valid) {
             var params = this.applyForm
@@ -203,6 +233,15 @@
             })
           }
         });
+      },
+      onBusinessIdChange: function (value, datas) {
+        this.businessLabelArray.push(datas[datas.length - 1].__label)
+        this.businessIdArray.push(value.toString())
+        this.applyFormBusinessId = []
+      },
+      removeBusiness: function (index) {
+        this.businessLabelArray.splice(index, 1)
+        this.businessIdArray.splice(index, 1)
       }
     },
     created: function () {
@@ -215,6 +254,10 @@
           map[item.id] = item
         })
         this.map.cityId = map
+      })
+      this.getSelections('business').then((data)=>{
+        this.selections.businessId = toVL(data, 'id', 'businessName')
+        this.selections.businessIdAll = data
       })
       this.$on(this.consts.loadedEvent, function () {
         if (this.tab === 1) {

@@ -2,7 +2,8 @@
   <div>
     <Form ref="form" :model="form" :rules="rule" :label-width="80">
       <FormItem label="问题详情">
-        <div><span v-html="toContent(detail.problemDetail)"></span><a class="fc-theme margin-left-10" @click="ask()">追问</a></div>
+        <div><span v-html="toContent(detail.problemDetail)"></span><a class="fc-theme margin-left-10"
+                                                                      @click="ask()">追问</a></div>
         <ul class="problem-msg-list">
           <template v-for="msg in detail.newsList">
             <li v-if="msg.newsType==1">
@@ -47,6 +48,7 @@
   </div>
 </template>
 <script type="es6">
+  // import {kvText} from '../../../common/utils'
   let config = {
     props: {
       data: Object
@@ -62,6 +64,9 @@
         },
         rule: {
           newsContent: {required: true, message: '消息不能为空!', trigger: 'blur'}
+        },
+        selections: {
+          businessId: []
         },
         loading: false
       }

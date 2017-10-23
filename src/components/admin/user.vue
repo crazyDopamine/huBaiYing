@@ -40,20 +40,21 @@
             {title: '用户类型', key: 'type'},
             {
               title: '状态', key: 'status', render: (h, params) => {
-                return h('span', {}, this.consts.statusMap[params.row.status]);
-              }
+              return h('span', {}, this.consts.statusMap[params.row.status]);
+            }
             },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
-                return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-              }
+              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
+            }
             },
             {
               title: '操作',
               key: 'action',
               render: (h, params) => {
-                var btns = [
-                  h('Button', {
+                if (params.row.status == 'auditing') {
+                  var btns = []
+                  btns.push(h('Button', {
                     props: {
                       type: 'text',
                       size: 'small'
@@ -63,8 +64,9 @@
                         this.confirmApply(params.row, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '认证为服务商'])
-                ]
+                  }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '认证为服务商']))
+                }
+
                 return h('div', btns);
               }
             }
@@ -89,12 +91,21 @@
           }
         });
       },
-      confirmApply:function(){
+      confirmApply: function (data) {
         this.$Modal.confirm({
           title: '认证为服务商',
           content: '确认认证为服务商',
+          okText: '通过',
+          cancelText: '不通过',
           onOk: () => {
-
+            this.$http.get('admin/authorServiceProvider', {params: {id: data.id,status:1}}).then(()=> {
+              this.refreshList()
+            })
+          },
+          onCancel:()=>{
+            this.$http.get('admin/authorServiceProvider', {params: {id: data.id,status:0}}).then(()=> {
+              this.refreshList()
+            })
           }
         });
       }
