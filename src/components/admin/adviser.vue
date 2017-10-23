@@ -159,15 +159,15 @@
         this.resetObject(this.form)
         delete this.form.id
         this.modalLoading = false
-        this.pop = true
+        this.formPop = true
       },
-      showDetail:function(data){
-        this.detailPop = true
-        this.detail = {}
-        this.$http.get('admin/getConsultantDetail',{params:{id:data.id}}).then((rsp)=>{
-          this.detail = rsp.data
-        })
-      },
+//      showDetail:function(data){
+//        this.detailPop = true
+//        this.detail = {}
+//        this.$http.get('admin/getConsultantDetail',{params:{id:data.id}}).then((rsp)=>{
+//          this.detail = rsp.data
+//        })
+//      },
       // edit: function (data) {
       //   this.$refs.form.resetFields()
       //   this.resetObject(this.form)
@@ -183,7 +183,7 @@
             var params = this.form
             this.$http.post('admin/insertConsultant',params).then((rsp)=>{
               this.modalLoading = false
-              this.pop = false
+              this.formPop = false
               this.refreshList(1)
             },()=>{
               this.modalLoading = false

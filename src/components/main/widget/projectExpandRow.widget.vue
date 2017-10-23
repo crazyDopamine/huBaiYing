@@ -5,7 +5,8 @@
         <td colspan="4" v-html="toContent(data.projectDetail)"></td>
       </tr>
       <tr>
-        <td>价格:10000元</td>
+        <td>预算:{{data.budget}}</td>
+        <td>价格:{{data.price}}</td>
         <td>服务商:服务商</td>
       </tr>
       <tr>

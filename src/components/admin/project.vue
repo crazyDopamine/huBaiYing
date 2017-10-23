@@ -38,6 +38,9 @@
             <Option v-for="item in selections.consultantId" :value="item.id" :key="item.id">{{ item.actualName }}</Option>
           </Select>
         </FormItem>
+        <FormItem label="价格" prop="price">
+          <Input type="text" v-model="form.price"></Input>
+        </FormItem>
         <FormItem label="服务商" prop="serviceId">
           <Select v-model="form.serviceId">
             <Option v-for="item in selections.serviceId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
@@ -71,7 +74,8 @@
           consultantId: '',
           phone: '',
           projectIndex: '',
-          serviceId: ''
+          serviceId: '',
+          price:''
         },
         rule: {
           projectName: {required: true, message: '项目名称不能为空!'},
@@ -107,16 +111,18 @@
             {title: '手机号', key: 'phone'},
             {
               title: '项目类型', key: 'business', render: (h, params) => {
-              var lastBusiness = eval('[' + params.row.businessId + ']')
-              lastBusiness = lastBusiness[lastBusiness.length-1]
-              return h('span', {}, kvText(lastBusiness, this.selections.businessAll, 'id', 'businessName').toString());
-            }
+                var lastBusiness = eval('[' + params.row.businessId + ']')
+                lastBusiness = lastBusiness[lastBusiness.length-1]
+                return h('span', {}, kvText(lastBusiness, this.selections.businessAll, 'id', 'businessName').toString());
+              }
             },
             {
               title: '城市', key: 'phone', render: (h, params) => {
               return h('span', {}, this.selectionValue(params.row.cityId, this.selections.cityId, 'cityName'));
             }
             },
+            {title: '项目预算', key: 'budget'},
+            {title: '项目价格', key: 'price'},
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
               return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
@@ -156,7 +162,6 @@
         this.setValues(this.form, data)
         this.form.id = data.id
         this.form.serviceId = 1
-//        this.form.businessId = eval('['+data.businessId+']')
         this.businessId = eval('[' + data.businessId + ']')
         this.pop = true
       },
@@ -179,7 +184,6 @@
         this.$refs.form.validate((valid) => {
           if (valid) {
             var params = this.form
-            debugger
             this.modalLoading = true
             this.$http.post('admin/editProjectInfo', params).then(() => {
               this.modalLoading = false

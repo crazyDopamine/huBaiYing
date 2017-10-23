@@ -17,7 +17,7 @@
                 <Col span="21">
                 <span v-html="toContent(msg.newsContent)"></span>
                 <a class="fc-theme margin-left-10" @click="ask()">回复</a>
-                <span class="float-right">2017-10-22</span>
+                <span class="float-right">{{msg.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</span>
                 </Col>
               </Row>
             </li>
@@ -28,7 +28,7 @@
                 </Col>
                 <Col span="21">
                 <span v-html="toContent(msg.newsContent)"></span>
-                <span class="float-right">2017-10-22</span>
+                <span class="float-right">{{msg.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</span>
                 </Col>
               </Row>
             </li>

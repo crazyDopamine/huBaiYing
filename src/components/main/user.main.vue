@@ -13,9 +13,11 @@
             <label>城市：</label><span>{{userInfo.cityId | selections(map.cityId, 'cityName')}}</span>
           </div>
           <div class="detail-row">
-            <label>用户类型：</label><span>普通用户</span>
+            <label>用户类型：</label>
+            <span v-if="userInfo.status=='effect' && userInfo.serviceProvider==0">普通用户</span>
+            <span v-if="userInfo.status=='effect' && userInfo.serviceProvider==1">服务商</span>
             <span v-if="userInfo.status=='auditing'" class="margin-left-10 fc-theme">审核中</span>
-            <Button type="text" @click="showApply()" v-if="userInfo.status=='effect'">申请认证服务商</Button>
+            <Button type="text" @click="showApply()" v-if="userInfo.status=='effect' && userInfo.serviceProvider==0">申请认证服务商</Button>
           </div>
         </div>
       </TabPane>
@@ -68,13 +70,18 @@
         tab: 0,
         modalLoading: false,
         applyPop: false,
+        businessId:[],
         applyForm: {
           companyName: '',
-          realName:''
+          realName:'',
+          idCardPhoto:'',
+          businessId:''
         },
         applyRule: {
           companyName: {required: true, message: '公司名称不能为空', trigger: 'blur'},
-          realName: {required: true, message: '真实姓名不能为空', trigger: 'blur'}
+          realName: {required: true, message: '真实姓名不能为空', trigger: 'blur'},
+          businessId: {required: true, message: '真实姓名不能为空', trigger: 'blur'},
+          idCardPhoto: {required: true, message: '真实姓名不能为空', trigger: 'blur'}
         },
         map: {
           cityId: {}
@@ -170,8 +177,17 @@
         this.modalLoading = false
         this.$refs.applyForm.resetFields()
       },
-      finishProblem:function(){
-        // this.
+      finishProblem:function(data){
+        this.$Modal.confirm({
+          title: '确认已解决',
+          content: '<p>是否确认已解决！</p>',
+          onOk: () => {
+            this.$http.get('problem/resolvedProblem',{params:{id:data.id}}).then(()=>{
+              this.refreshList(1, this.problemList)
+            })
+          }
+        });
+
       },
       applyService: function () {
         this.$refs.applyForm.validate((valid) => {

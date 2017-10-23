@@ -11,24 +11,6 @@
               show-elevator></Page>
       </div>
     </div>
-    <!--<Modal-->
-    <!--v-model="pop"-->
-    <!--:title="fieldSet.id?'修改':'新增'"-->
-    <!--:mask-closable="false">-->
-    <!--<div class="form-area">-->
-    <!--<div class="form-row clearfix">-->
-    <!--<label class="col-8">账号：</label>-->
-    <!--<Input class="col-16" v-model="fieldSet.userName"></Input>-->
-    <!--</div>-->
-    <!--<div class="form-row clearfix">-->
-    <!--<label class="col-8">密码：</label>-->
-    <!--<Input class="col-16" type="password" v-model="fieldSet.passWord"></Input>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div slot="footer">-->
-    <!--<Button type="primary" :loading="modalLoading" @click="submit()">{{fieldSet.id?'修改':'新增'}}</Button>-->
-    <!--</div>-->
-    <!--</Modal>-->
   </div>
 </template>
 <script type="es6">
@@ -63,8 +45,8 @@
             },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
-              return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
-            }
+                return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
+              }
             },
             {
               title: '操作',
@@ -78,7 +60,7 @@
                     },
                     on: {
                       click: (e) => {
-                        this.showDetail(params.row, e)
+                        this.confirmApply(params.row, e)
                       }
                     }
                   }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '认证为服务商'])
@@ -91,19 +73,6 @@
       }
     },
     methods: {
-      // add: function () {
-      //   this.reset()
-      //   this.pop = true
-      // },
-      // edit:function(data){
-      //   this.reset()
-      //   this.setValues(data)
-      //   this.fieldSet.passWord = '';
-      //   this.pop = true
-      // },
-      showDetail: function (data) {
-        console.log(data)
-      },
       submit: function () {
       },
       reset: function () {
@@ -117,6 +86,15 @@
           title: '删除',
           content: '<p>确认是否删除！</p>',
           onOk: () => {
+          }
+        });
+      },
+      confirmApply:function(){
+        this.$Modal.confirm({
+          title: '认证为服务商',
+          content: '确认认证为服务商',
+          onOk: () => {
+
           }
         });
       }

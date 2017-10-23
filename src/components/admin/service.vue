@@ -16,27 +16,27 @@
       :width="1350"
       :mask-closable="false">
       <Form ref="form" :model="form" :rules="rule" :label-width="100">
-        <FormItem prop="businessName" label="服务名称：">
+        <FormItem prop="businessName" label="服务名称">
           <Input type="text" v-model="form.businessName" placeholder="服务名称" size="large">
           </Input>
         </FormItem>
-        <FormItem prop="parentId" label="服务类型：">
+        <FormItem prop="parentId" label="服务类型">
           <Cascader :data="selections.parentId" placeholder="服务类型" v-model="parentId"></Cascader>
           </Input>
         </FormItem>
-        <FormItem prop="businessTitle" label="广告标语：">
+        <FormItem prop="businessTitle" label="广告标语">
           <Input type="text" v-model="form.businessTitle" placeholder="广告标语" size="large">
           </Input>
         </FormItem>
-        <FormItem prop="businessHot" label="热门：">
+        <FormItem prop="businessHot" label="热门">
           <Input type="text" v-model="form.businessHot" placeholder="热门指数>=1为热门" size="large">
           </Input>
         </FormItem>
-        <FormItem prop="businessImage" label="服务logo：">
+        <FormItem prop="businessImage" label="服务logo">
           <img-input v-model="form.businessImage" :maxLength="1"></img-input>
           </Input>
         </FormItem>
-        <FormItem prop="businessDetail" label="详情：">
+        <FormItem prop="businessDetail" label="详情">
           <editor v-model="form.businessDetail"></editor>
           </Input>
         </FormItem>

@@ -18,6 +18,9 @@
           <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
         </Select>
       </FormItem>
+      <FormItem label="项目预算" prop="budget">
+        <Input type="text" v-model="form.budget"></Input>
+      </FormItem>
       <div class="btn-area" style="padding-left:100px;">
         <Button class="btn btn-normal btn-theme" type="primary" :loading="modalLoading" @click="submit()">提交</Button>
       </div>
@@ -39,7 +42,8 @@
           projectDetail: '',
           phone: '',
           cityId: '',
-          consultantId:''
+          consultantId:'',
+          budget:''
         },
         rule: {
           projectName: {required: true, message: '项目名称不能为空！', trigger: 'blur'},

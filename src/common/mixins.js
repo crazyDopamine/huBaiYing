@@ -72,10 +72,7 @@ var verify = {
     }
   },
   methods: {
-    sendVerify: function () {
-      this.timeDelay = this.defaultDelay
-      this.sendBtnText = this.timeDelay + '秒后可重新发送'
-      this.sendBtnDisabled = true
+    sendVerify: function (phone) {
       var delay = () => {
         setTimeout(() => {
           this.timeDelay--
@@ -88,7 +85,17 @@ var verify = {
           }
         }, 1000)
       }
-      delay()
+      window.vm.$http.get('user/sendSms',{params:{phone:phone}}).then((rsp)=>{
+        if(rsp.data){
+          window.vm.$Message.success('发送成功')
+        }else{
+          window.vm.$Message.success('已发送，短信5分钟内有效')
+        }
+        this.timeDelay = this.defaultDelay
+        this.sendBtnText = this.timeDelay + '秒后可重新发送'
+        this.sendBtnDisabled = true
+        delay()
+      })
     }
   }
 }

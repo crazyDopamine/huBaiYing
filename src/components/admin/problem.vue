@@ -11,24 +11,6 @@
               show-elevator></Page>
       </div>
     </div>
-    <Modal
-      v-model="pop"
-      :title="fieldSet.id?'修改':'新增'"
-      :mask-closable="false">
-      <div class="form-area">
-        <div class="form-row clearfix">
-          <label class="col-8">账号：</label>
-          <Input class="col-16" v-model="fieldSet.userName"></Input>
-        </div>
-        <div class="form-row clearfix">
-          <label class="col-8">密码：</label>
-          <Input class="col-16" type="password" v-model="fieldSet.passWord"></Input>
-        </div>
-      </div>
-      <div slot="footer">
-        <Button type="primary" :loading="modalLoading" @click="submit()">{{fieldSet.id?'修改':'新增'}}</Button>
-      </div>
-    </Modal>
   </div>
 </template>
 <script type="es6">
@@ -78,41 +60,12 @@
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
                 return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
               }
-            },
-            {
-              title: '操作',
-              key: 'action',
-              render: (h, params) => {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'text',
-                      size: 'small'
-                    },
-                    on: {
-                      click: (e) => {
-                        this.edit(params.row, e)
-                      }
-                    }
-                  }, [h('Icon', {props: {type: 'edit'}, class: {'margin-right-10': true}}), '修改'])
-                ]);
-              }
             }
           ]
         }
       }
     },
     methods: {
-      add: function () {
-        this.reset()
-        this.pop = true
-      },
-      edit: function (data) {
-        this.reset()
-        this.setValues(data)
-        this.fieldSet.passWord = '';
-        this.pop = true
-      },
       submit: function () {
         if (this.validate(true)) {
           var params = this.getValues()
@@ -123,20 +76,6 @@
             this.refreshList(1)
           })
         }
-      },
-      reset: function () {
-        this.fieldSet = {
-          userName: '',
-          passWord: ''
-        }
-      },
-      remove: function (data) {
-        this.$Modal.confirm({
-          title: '删除',
-          content: '<p>确认是否删除！</p>',
-          onOk: () => {
-          }
-        });
       }
     },
     created: function () {

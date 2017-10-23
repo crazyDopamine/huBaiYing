@@ -5,9 +5,33 @@
         <p>{{detail.problemDetail}}</p>
         <ul>
           <template v-for="msg in detail.newsList">
-            <li v-if="msg.newsType==1">顾问 {{msg.replyName}}:{{msg.newsContent}}</li>
-            <li v-if="msg.newsType==0">{{detail.createName}} 追问:{{msg.newsContent}}</li>
+            <li v-if="msg.newsType==1">
+              <Row>
+                <Col span="3" class="text-right padding-right-10">
+                顾问{{msg.replyName}}:
+                </Col>
+                <Col span="21">
+                <span v-html="toContent(msg.newsContent)"></span>
+                <span class="float-right">{{msg.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</span>
+                </Col>
+              </Row>
+            </li>
+            <li v-if="msg.newsType==0">
+              <Row>
+                <Col span="3" class="text-right padding-right-10">
+                {{detail.createName}}追问:
+                </Col>
+                <Col span="21">
+                <span v-html="toContent(msg.newsContent)"></span>
+                <span class="float-right">{{msg.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</span>
+                </Col>
+              </Row>
+            </li>
           </template>
+          <!--<template v-for="msg in detail.newsList">-->
+            <!--<li v-if="msg.newsType==1">顾问 {{msg.replyName}}:{{msg.newsContent}}</li>-->
+            <!--<li v-if="msg.newsType==0">{{detail.createName}} 追问:{{msg.newsContent}}</li>-->
+          <!--</template>-->
         </ul>
       </FormItem>
       <FormItem prop="newsContent" label="回复消息" v-show="showForm">
