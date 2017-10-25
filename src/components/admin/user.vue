@@ -11,11 +11,29 @@
               show-elevator></Page>
       </div>
     </div>
+    <Modal v-model="confirmPop" width="360" title="认证为服务商">
+      <div>确认认证为服务商?</div>
+      <div slot="footer">
+        <Button type="text" size="large" :loading="modalLoading" @click="confirmApply(0)">不通过</Button>
+        <Button type="primary" class="btn-theme" size="large" :loading="modalLoading" @click="confirmApply(1)">通过
+        </Button>
+      </div>
+    </Modal>
+    <Modal v-model="confirmCompanyPop" width="360" title="认证企业">
+      <div>确认认证为企业?</div>
+      <div slot="footer">
+        <Button type="text" size="large" :loading="modalLoading" @click="confirmCompanyApply(0)">不通过</Button>
+        <Button type="primary" class="btn-theme" size="large" :loading="modalLoading" @click="confirmCompanyApply(1)">通过
+        </Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script type="es6">
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
+  import {kvTextAS} from '../../common/utils'
+  import expandRow from './widget/userExpandRow.widget.vue'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -23,37 +41,56 @@
         status: 0,
         pop: false,
         modalLoading: false,
+        confirmPop: false,
+        confirmCompanyPop: false,
+        currentId: '',
         selections: {
           cityId: []
         },
         list: {
           url: 'admin/queryUserList',
           columns: [
+            {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                return h(expandRow, {
+                  props: {
+                    data: params.row
+                  }
+                })
+              }
+            },
             {title: '昵称', key: 'nickName'},
             {title: '姓名', key: 'realName'},
             {title: '手机号', key: 'phone'},
             {
               title: '城市', key: 'phone', render: (h, params) => {
-              return h('span', {}, this.selectionValue(params.row.cityId, this.selections.cityId, 'cityName'));
+              return h('span', {}, kvTextAS(params.row.cityId, this.selections.cityId, 'value', 'label'));
             }
             },
-            {title: '用户类型', key: 'type'},
-            {
-              title: '状态', key: 'status', render: (h, params) => {
-              return h('span', {}, this.consts.statusMap[params.row.status]);
-            }
-            },
+            // {
+            //   title: '用户类型', key: 'serviceProvider', render: (h, params) => {
+            //   return h('span', {}, this.consts.statusUserMap[params.row.status]);
+            // }
+            // },
+            // {
+            //   title: '类型', key: 'status', render: (h, params) => {
+            //   return h('span', {}, this.consts.statusUserMap[params.row.status]);
+            // }
+            // },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
               return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
             }
             },
+
             {
               title: '操作',
               key: 'action',
               render: (h, params) => {
-                if (params.row.status == 'auditing') {
-                  var btns = []
+                var btns = []
+                if (params.row.serviceProvider == 1) {
                   btns.push(h('Button', {
                     props: {
                       type: 'text',
@@ -61,12 +98,24 @@
                     },
                     on: {
                       click: (e) => {
-                        this.confirmApply(params.row, e)
+                        this.showPop(params.row,1, e)
                       }
                     }
-                  }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '认证为服务商']))
+                  }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '服务商认证']))
                 }
-
+                if (params.row.companyAuthenticate == 1) {
+                  btns.push(h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    on: {
+                      click: (e) => {
+                        this.showPop(1,params.row, e)
+                      }
+                    }
+                  }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '企业认证']))
+                }
                 return h('div', btns);
               }
             }
@@ -91,23 +140,30 @@
           }
         });
       },
-      confirmApply: function (data) {
-        this.$Modal.confirm({
-          title: '认证为服务商',
-          content: '确认认证为服务商',
-          okText: '通过',
-          cancelText: '不通过',
-          onOk: () => {
-            this.$http.get('admin/authorServiceProvider', {params: {id: data.id,status:1}}).then(()=> {
-              this.refreshList()
-            })
-          },
-          onCancel:()=>{
-            this.$http.get('admin/authorServiceProvider', {params: {id: data.id,status:0}}).then(()=> {
-              this.refreshList()
-            })
-          }
-        });
+      showPop: function (data, type) {
+        if (type == 1) {
+          this.confirmPop = true
+        } else if (type == 2) {
+          this.confirmCompanyPop = true
+        }
+        this.currentId = data.id
+        this.modalLoading = false
+      },
+      confirmApply: function ( status) {
+        this.modalLoading = true
+        this.$http.get('admin/authorServiceProvider', {params: {id: this.currentId, status: 1}}).then(()=> {
+          this.modalLoading = true
+          this.confirmPop = false
+          this.refreshList()
+        })
+      },
+      confirmCompanyApply: function ( status) {
+        this.modalLoading = true
+        this.$http.get('admin/authorCompany', {params: {id: this.currentId, status: 1}}).then(()=> {
+          this.confirmCompanyPop = false
+          this.modalLoading = true
+          this.refreshList()
+        })
       }
     },
     created: function () {

@@ -29,9 +29,10 @@
           <Input type="text" v-model="form.phone"></Input>
         </FormItem>
         <FormItem label="城市" prop="cityId">
-          <Select v-model="form.cityId">
-            <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
-          </Select>
+          <!--<Select v-model="form.cityId">-->
+            <!--<Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>-->
+          <!--</Select>-->
+          <city-input v-model="form.cityId"></city-input>
         </FormItem>
         <FormItem label="顾问" prop="consultantId">
           <Select v-model="form.consultantId">
@@ -56,7 +57,7 @@
 <script type="es6">
   import moduleList from '../../common/moduleList'
   import {dateFormat} from 'vux'
-  import {toVL, kvText} from '../../common/utils'
+  import {toVL, kvTextAS, kvText} from '../../common/utils'
   import expandRow from './widget/projectExpandRow.widget.vue'
   export default {
     mixins: [moduleList],
@@ -87,9 +88,9 @@
           projectIndex: {required: true, message: '项目序列不能为空!'}
         },
         selections: {
+          cityId:[],
           businessAll: [],
           businessId: [],
-          cityId: [],
           consultantId: [],
           serviceId: []
         },
@@ -108,21 +109,25 @@
               }
             },
             {title: '项目名称', key: 'projectName'},
-            {title: '手机号', key: 'phone'},
+            // {title: '手机号', key: 'phone'},
             {
               title: '项目类型', key: 'business', render: (h, params) => {
-                var lastBusiness = eval('[' + params.row.businessId + ']')
-                lastBusiness = lastBusiness[lastBusiness.length-1]
-                return h('span', {}, kvText(lastBusiness, this.selections.businessAll, 'id', 'businessName').toString());
+                return h('span', {}, kvTextAS(params.row.businessId, this.selections.businessAll, 'id', 'businessName').join('/'));
               }
             },
             {
               title: '城市', key: 'phone', render: (h, params) => {
-              return h('span', {}, this.selectionValue(params.row.cityId, this.selections.cityId, 'cityName'));
+              return h('span', {}, kvTextAS(params.row.cityId, this.selections.cityId,'value','label').join('/'));
             }
             },
-            {title: '项目预算', key: 'budget'},
-            {title: '项目价格', key: 'price'},
+            // {title: '项目预算', key: 'budget'},
+            // {title: '项目价格', key: 'price'},
+            {title: '发布人', key: 'publisherName'},
+            {title: '顾问', key: 'consultantName'},
+            {title: '服务商', key: 'serviceName'},
+            {title: '状态', key: 'status', render: (h, params) => {
+              return h('span', {}, this.consts.statusMap.projectStatus[params.row.status]);
+            }},
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
               return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
@@ -161,7 +166,6 @@
         this.businessId = []
         this.setValues(this.form, data)
         this.form.id = data.id
-        this.form.serviceId = 1
         this.businessId = eval('[' + data.businessId + ']')
         this.pop = true
       },

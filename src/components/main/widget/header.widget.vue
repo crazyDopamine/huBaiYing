@@ -13,7 +13,7 @@
     </div>
     <div class="header-search middle">
       <router-link to="/main">
-        <img class="float-left margin-left-10" :src="'imgs/logo.jpg' | localFile" style="height:100%;">
+        <img class="float-left margin-left-10" :src="'imgs/logo.png' | localFile" style="height:100%;">
       </router-link>
       <!--<Input class="header-search-input" v-model="search" icon="search" placeholder="搜索问题" @on-enter="searchProblem()" @on-click="searchProblem()"></Input>-->
       <router-link to="/projectForm">

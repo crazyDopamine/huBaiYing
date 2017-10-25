@@ -77,6 +77,7 @@
   import moduleList from '../../common/moduleList'
   import expandRow from './widget/adviserExpandRow.widget.vue'
   import {dateFormat} from 'vux'
+  import {kvTextAS} from '../../common/utils'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -116,7 +117,7 @@
             {title: '手机号', key: 'phone'},
             {
               title: '城市', key: 'phone', render: (h, params) => {
-                return h('span', {}, this.selectionValue(params.row.cityId, this.selections.cityId,'cityName'));
+                return h('span', {}, kvTextAS(params.row.cityId, this.selections.cityId,'value','label'));
               }
             },
             {

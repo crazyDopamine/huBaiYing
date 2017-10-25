@@ -1,5 +1,5 @@
 import {dateFormat, numberComma, numberPad, numberRandom} from 'vux'
-import {selectionValue} from './utils'
+import {selectionValue,kvTextAS} from './utils'
 
 export default {
   install: function (Vue) {
@@ -20,6 +20,9 @@ export default {
       }
     })
     Vue.filter('selections', selectionValue)
+    Vue.filter('kvTextAS',function(value,selections,valueField,textField,index){
+      return kvTextAS(value,selections,valueField,textField,index).join('/')
+    })
     var defaultImg = '/static/imgs/img-default.jpg'
     var imgFilter = function(src, type){
       var zipImgDic = window.baseUrl + 'breviary/'

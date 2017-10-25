@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form ref="form" :model="form" :rules="rule" :label-width="80">
-      <FormItem label="问题详情">
+      <FormItem>
         <div><span v-html="toContent(detail.problemDetail)"></span><a class="fc-theme margin-left-10"
                                                                       @click="ask()">追问</a></div>
         <ul class="problem-msg-list">

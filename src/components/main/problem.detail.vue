@@ -6,12 +6,12 @@
       <BreadcrumbItem>问题详情</BreadcrumbItem>
     </Breadcrumb>
     <div class="problem-area">
-      <h2 class="problem-title">{{detail.problemTitle}}<span class="margin-left-20 fc-theme fs-l">已解决</span><br>
+      <h2 class="problem-title">{{detail.problemTitle}}<span class="margin-left-20 fc-theme fs-l">{{detail.status==1?'已解决':'未解决'}}</span><br>
         <span class="fs-m">{{detail.businessName}}</span>
       </h2>
       <ul class="problem-detail">
-        <li>浏览10次</li>
-        <li>回答5次</li>
+        <li>浏览{{detail.visitCount}}</li>
+        <li>回答{{detail.newsCount}}</li>
         <li>{{detail.createName}}</li>
         <li>{{detail.createdAt | date('YYYY-MM-DD HH:mm:ss')}}</li>
       </ul>

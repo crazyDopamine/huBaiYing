@@ -14,14 +14,25 @@ export default {
   CODE_VERIFI_ERROR: 10012,
   CODE_COOKIE_NULL: 'COOKIE_IS_NULL',
   statusMap: {
-    effect: '',
-    auditing: '审核中',
-    auditNotPassed: '审核不通过'
+    companyStatus:{
+      0:'未申请',
+      1:'待审核',
+      2:'审核通过'
+    },
+    serviceStatus:{
+      0:'未申请',
+      1:'待审核',
+      2:'审核通过'
+    },
+    projectStatus:{
+      pending:'待跟进'
+    }
   },
   statusUserMap: {
     effect: '普通用户',
     auditing: '审核中',
-    auditNotPassed: '审核不通过',
-    auditPassed: '企业服务商'
-  }
+    auditNotPassed: '普通用户',
+    auditPassed: '审核通过'
+  },
+
 }

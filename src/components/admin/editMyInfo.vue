@@ -32,9 +32,10 @@
           <img-input v-model="form.idCardPhoto" :maxLength="2"></img-input>
         </FormItem>
         <FormItem label="城市" prop="cityId">
-          <Select v-model="form.cityId">
-            <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
-          </Select>
+          <!--<Select v-model="form.cityId">-->
+            <!--<Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>-->
+          <!--</Select>-->
+          <city-input v-model="form.cityId"></city-input>
         </FormItem>
         <FormItem prop="selfIntroduction" :label-width="1">
           <div class="text-right" style="width:120px;padding-right:12px;">自我介绍</div>
@@ -76,7 +77,7 @@
           actualName: {required: true, message: '姓名不能为空！', trigger: 'blur'},
           headPhoto: {required: true, message: '头像不能为空！', trigger: 'blur'},
           businessId: {required: true, message: '服务类型不能为空！', trigger: 'blur'},
-          cityId: {type: 'number', required: true, message: '城市不能为空！', trigger: 'blur'},
+          cityId: {required: true, message: '城市不能为空！', trigger: 'blur'},
           selfIntroduction: {required: true, message: '自我介绍不能为空！', trigger: 'blur'},
           idCard: {required: true, message: '身份证号不能为空！', trigger: 'blur'},
           idCardPhoto: {required: true, message: '请上传身份证正反面照片!', trigger: 'blur'},

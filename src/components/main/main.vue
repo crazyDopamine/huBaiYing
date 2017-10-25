@@ -35,34 +35,34 @@
       <!--<TabPane label="分类1" name="name1">-->
         <div class="main-adviser-area middle">
           <Row class="main-adviser-list">
-            <router-link to="/adviserDetail/1">
+            <router-link to="/adviserDetail/1" v-for="(item,index) in adviserList" :key="index">
               <Col span="6">
-              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <label>董威</label><br>
-              <span>专注撸代码</span>
+              <Avatar icon="person" size="large" :src="item.headPhoto | img(3)"/><br>
+              <label>{{item.actualName}}</label><br>
+              <span>{{item.cityId | kvTextAS(selections.cityId,'value', 'label')}}</span>
               </Col>
             </router-link>
-            <router-link to="/adviserDetail/1">
-              <Col span="6">
-              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <label>董威</label><br>
-              <span>专注撸代码</span>
-              </Col>
-            </router-link>
-            <router-link to="/adviserDetail/1">
-              <Col span="6">
-              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <label>董威</label><br>
-              <span>专注撸代码</span>
-              </Col>
-            </router-link>
-            <router-link to="/adviserDetail/1">
-              <Col span="6">
-              <img :src="'imgs/avatar-test.jpeg' | localFile"><br>
-              <label>董威</label><br>
-              <span>专注撸代码</span>
-              </Col>
-            </router-link>
+            <!--<router-link to="/adviserDetail/1">-->
+              <!--<Col span="6">-->
+              <!--<img :src="'imgs/avatar-test.jpeg' | localFile"><br>-->
+              <!--<label>董威</label><br>-->
+              <!--<span>专注撸代码</span>-->
+              <!--</Col>-->
+            <!--</router-link>-->
+            <!--<router-link to="/adviserDetail/1">-->
+              <!--<Col span="6">-->
+              <!--<img :src="'imgs/avatar-test.jpeg' | localFile"><br>-->
+              <!--<label>董威</label><br>-->
+              <!--<span>专注撸代码</span>-->
+              <!--</Col>-->
+            <!--</router-link>-->
+            <!--<router-link to="/adviserDetail/1">-->
+              <!--<Col span="6">-->
+              <!--<img :src="'imgs/avatar-test.jpeg' | localFile"><br>-->
+              <!--<label>董威</label><br>-->
+              <!--<span>专注撸代码</span>-->
+              <!--</Col>-->
+            <!--</router-link>-->
           </Row>
         </div>
       <!--</TabPane>-->
@@ -70,10 +70,15 @@
   </div>
 </template>
 <script type="es6">
+  // import {} from '../../common/utils'
   export default {
     data: function () {
       return {
-        hotBusiness: []
+        adviserList:[],
+        hotBusiness: [],
+        selections:{
+          cityId:[]
+        }
       }
     },
     methods: {
@@ -91,6 +96,12 @@
             }
           })
           this.hotBusiness = businessArray
+        })
+        this.$http.get('consultant/getConsultantShowList',{params:{pageNumber:1,pageSize:4}}).then((rsp)=> {
+          this.adviserList = rsp.data.rows
+        })
+        this.getSelections('city').then((data)=>{
+          this.selections.cityId = data
         })
       }
     },

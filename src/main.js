@@ -21,6 +21,8 @@ Vue.use(VueResource)
 
 import imgInput from './components/main/widget/imgInput.widget.vue'
 Vue.component('img-input',imgInput)
+import cityInput from './components/main/widget/cityInput.widget.vue'
+Vue.component('city-input',cityInput)
 
 import {httpInterceptor} from './components/main/interceptors'
 Vue.http.interceptors.push(httpInterceptor)

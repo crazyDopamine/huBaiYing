@@ -20,7 +20,7 @@
       <ul class="middle">
         <li class="problem-main-item" v-for="(data,index) in list.dataList">
           <router-link class="problem-main-item-title" :to="'/problemDetail/'+data.id">{{data.problemTitle}}</router-link>
-          <span class="margin-left-20 problem-main-item-status fc-theme">已解决</span>
+          <span class="margin-left-20 problem-main-item-status fc-theme">{{data.status==1?'已解决':'未解决'}}</span>
           <span class="problem-main-item-date float-right">{{data.createdAt | date}}</span><br>
           <p class="problem-main-item-content">{{data.problemDetail}}</p>
         </li>

@@ -130,6 +130,32 @@ var kvText = function(value,selections,valueField,textField){
   return result
 }
 
+var kvTextAS = function(value,selections,valueField,textField,index){
+  if(!index)index=0
+  var result = []
+  if(typeof value == 'string'){
+    value = value.toString().split(',')
+  }
+  if(value&&value.length-1>=index){
+    selections.each((item)=>{
+      if(item[valueField]==value[index]){
+        result.push(item[textField])
+        if(index<value.length-1){
+          var childrenValue = kvTextAS(value,item.children,valueField,textField,index+1)
+          if(childrenValue&&childrenValue instanceof Array){
+            result=result.concat(childrenValue)
+          }else{
+            result.push(childrenValue)
+          }
+        }
+      }
+    })
+    return result
+  }else{
+    return ''
+  }
+}
+
 var kvValue = function(value,selections,valueField){
   var result = false
   var childrenResult = ''
@@ -334,5 +360,6 @@ export {
   setValues,
   selectionValue,
   kvValue,
-  kvText
+  kvText,
+  kvTextAS
 }

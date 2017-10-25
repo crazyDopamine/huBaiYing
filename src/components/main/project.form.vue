@@ -14,9 +14,10 @@
         <Input type="text" v-model="form.phone"></Input>
       </FormItem>
       <FormItem label="城市" prop="cityId">
-        <Select v-model="form.cityId">
-          <Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
-        </Select>
+        <!--<Select v-model="form.cityId">-->
+          <!--<Option v-for="item in selections.cityId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>-->
+        <!--</Select>-->
+        <city-input v-model="form.cityId"></city-input>
       </FormItem>
       <FormItem label="项目预算" prop="budget">
         <Input type="text" v-model="form.budget"></Input>
@@ -50,7 +51,7 @@
           businessId: {required: true, message: '项目类型不能为空！', trigger: 'blur'},
           projectDetail: {required: true, message: '项目详情不能为空！', trigger: 'blur'},
           phone: {required: true, message: '联系人手机不能为空！', trigger: 'blur'},
-          cityId: {type:'number',required: true, message: '城市不能为空！', trigger: 'blur'}
+          cityId: {required: true, message: '城市不能为空！', trigger: 'blur'}
         },
         selections: {
           cityId: [],
@@ -90,7 +91,6 @@
       this.refresh()
       this.$on(this.consts.loadedEvent,function(){
         this.form.phone = this.userInfo.phone+''
-        console.log(this.$refs.form)
       })
       this.$watch('businessId',function(v){
       	this.form.businessId = v.toString()

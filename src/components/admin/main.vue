@@ -54,9 +54,9 @@
             <Icon type="stats-bars"></Icon>
             数据管理
           </template>
-          <router-link to="/cityManage">
-            <Menu-item name="/cityManage">城市管理</Menu-item>
-          </router-link>
+          <!--<router-link to="/cityManage">-->
+            <!--<Menu-item name="/cityManage">城市管理</Menu-item>-->
+          <!--</router-link>-->
           <!--<router-link to="/dictionaryManage">-->
             <!--<Menu-item name="/dictionaryManage">数据字典</Menu-item>-->
           <!--</router-link>-->
@@ -159,6 +159,8 @@
       this.path = this.$route.path
       this.$router.afterEach((to, from) => {
         this.path = to.path
+        document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
       })
       this.getUserInfo()
     }

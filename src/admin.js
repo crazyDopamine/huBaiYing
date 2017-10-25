@@ -24,6 +24,8 @@ Vue.http.interceptors.push(httpInterceptor)
 
 import imgInput from './components/admin/widget/imgInput.widget.vue'
 Vue.component('img-input',imgInput)
+import cityInput from './components/admin/widget/cityInput.widget.vue'
+Vue.component('city-input',cityInput)
 
 import editor from './components/admin/widget/editor.widget.vue'
 Vue.component('editor',editor)
