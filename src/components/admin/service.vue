@@ -2,6 +2,7 @@
   <div class="page-container">
     <div class="table-area container">
       <div class="table-top-bar">
+        <Input class="col-6" type="text" v-model="list.params.name" placeholder="服务名称" icon="search" @on-enter="refreshList(1)" @on-click="refreshList(1)"></Input>
         <Button type="primary" class="float-right" @click="add()">添加</Button>
       </div>
       <Table :columns="list.columns" :data="list.dataList" border></Table>
@@ -78,13 +79,16 @@
           parentIdAll:[]
         },
         list: {
-          url: 'admin/queryBusinessList',
+          url: 'admin/searchBusinessByName',
+          params:{
+            name:''
+          },
           columns: [
             {title: '服务名称', key: 'businessName'},
             {
               title: '服务类型', key: 'parentId', render: (h, params) => {
               	var parentText = kvText(params.row.parentId, this.selections.parentIdAll,'id','businessName')
-              return h('span', {}, parentText?parentText.toString():'');
+              return h('span', {}, parentText?parentText.join('/'):'');
             }
             },
             {

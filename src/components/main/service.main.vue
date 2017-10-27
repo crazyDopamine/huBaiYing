@@ -32,8 +32,8 @@
     },
     methods: {
       refresh: function () {
-        this.getSelections('business').then((data)=>{
-          this.business = data
+        this.$http.get('business/searchBusinessByName',{params:{name:this.$route.params.name}}).then((rsp)=>{
+          this.business = rsp.data
         })
       },
     },

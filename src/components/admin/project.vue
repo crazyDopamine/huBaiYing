@@ -44,7 +44,7 @@
         </FormItem>
         <FormItem label="服务商" prop="serviceId">
           <Select v-model="form.serviceId">
-            <Option v-for="item in selections.serviceId" :value="item.id" :key="item.id">{{ item.cityName }}</Option>
+            <Option v-for="item in selections.serviceId" :value="item.id" :key="item.id">{{ item.realName+'-'+item.companyName}}</Option>
           </Select>
         </FormItem>
       </Form>

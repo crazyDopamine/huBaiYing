@@ -13,7 +13,7 @@
       <Icon type="plus-circled" size="30" class="icon-add"></Icon>
       <input type="file" @change="upload"/>
     </div>
-    <Modal v-model="bigImgPop" class="img-pop" :closable="false" width="1200">
+    <Modal v-model="bigImgPop" class="img-pop" :closable="false">
       <div class="text-center">
         <video autoplay controls width="100%" :src="current | movie" v-if="isMovie(current)&&bigImgPop"
                style="max-height:600px;"></video>

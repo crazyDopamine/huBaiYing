@@ -21,11 +21,11 @@
             <span class="margin-left-10" v-if="userInfo.companyAuthenticate==2">企业已认证</span>
             <span class="margin-left-10" v-if="userInfo.companyAuthenticate==3">企业认证未通过</span>
             <Button type="text" @click="showApply()"
-                    v-if="userInfo.companyAuthenticate==0||userInfo.companyAuthenticate==3">
+                    v-if="userInfo.serviceProvider==0||userInfo.serviceProvider==3">
               申请认证服务商
             </Button>
             <Button type="text" @click="showApplyCompany()"
-                    v-if="userInfo.serviceProvider==0||userInfo.serviceProvider==3">
+                    v-if="userInfo.companyAuthenticate==0||userInfo.companyAuthenticate==3">
               申请企业认证
             </Button>
           </div>
@@ -83,7 +83,7 @@
       <div class="form-area">
         <Form ref="companyForm" :model="companyForm" :rules="companyRule" :label-width="80">
           <FormItem prop="companyName" label="公司名称">
-            <Input type="text" v-model="applyForm.companyName">
+            <Input type="text" v-model="companyForm.companyName">
             </Input>
           </FormItem>
           <FormItem prop="businessLicensePhoto" label="营业执照">
@@ -104,7 +104,7 @@
   import {dateFormat} from 'vux'
   import problemExpandRow from './widget/problemExpandRow.widget.vue'
   import projectExpandRow from './widget/projectExpandRow.widget.vue'
-  import {kvText, toVL} from '../../common/utils'
+  import {kvText, toVL,kvTextAS} from '../../common/utils'
   export default {
     mixins: [moduleList],
     data: function () {
@@ -112,6 +112,7 @@
         tab: 0,
         modalLoading: false,
         applyPop: false,
+        companyPop: false,
         businessId: [],
         applyFormBusinessId: [],
         businessLabelArray: [],
@@ -129,11 +130,11 @@
           idCard: {required: false, message: '身份证号不能为空', trigger: 'blur'},
           idCardPhoto: {required: false, message: '身份证照片不能为空', trigger: 'blur'}
         },
-        companyForm:{
+        companyForm: {
           companyName: '',
-          businessLicensePhoto:''
+          businessLicensePhoto: ''
         },
-        companyRul:{
+        companyRule: {
           companyName: {required: false, message: '公司名称不能为空', trigger: 'blur'},
           businessLicensePhoto: {required: false, message: '请上传营业执照', trigger: 'blur'},
         },
@@ -162,9 +163,7 @@
             {
               title: '项目类型',
               key: 'businessId', render: (h, params) => {
-              var businessId = eval('[' + params.row.businessId + ']')
-              businessId = businessId[businessId.length - 1]
-              return h('span', {}, kvText(businessId, this.selections.businessIdAll, 'id', 'businessName').join('/'));
+              return h('span', {}, kvTextAS(params.row.businessId, this.selections.businessIdAll, 'id', 'businessName').join('/'));
             }
             },
             {
@@ -206,14 +205,14 @@
             },
             {
               title: '状态', key: 'status', render: (h, params) => {
-              return h('span', {}, params.row.status==1?'已解决':'未解决');
+              return h('span', {}, params.row.status == 1 ? '已解决' : '未解决');
             }
             },
             {
               title: '操作',
               render: (h, params) => {
                 var btns = []
-                if(params.row.status!=1){
+                if (params.row.status != 1) {
                   btns.push(h('Button', {
                     props: {
                       type: 'text',

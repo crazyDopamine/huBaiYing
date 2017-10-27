@@ -14,16 +14,16 @@
     <Modal v-model="confirmPop" width="360" title="认证为服务商">
       <div>确认认证为服务商?</div>
       <div slot="footer">
-        <Button type="text" size="large" :loading="modalLoading" @click="confirmApply(0)">不通过</Button>
-        <Button type="primary" class="btn-theme" size="large" :loading="modalLoading" @click="confirmApply(1)">通过
+        <Button type="text" size="large" :loading="modalLoading" @click="confirmApply(3)">不通过</Button>
+        <Button type="primary" class="btn-theme" size="large" :loading="modalLoading" @click="confirmApply(2)">通过
         </Button>
       </div>
     </Modal>
     <Modal v-model="confirmCompanyPop" width="360" title="认证企业">
       <div>确认认证为企业?</div>
       <div slot="footer">
-        <Button type="text" size="large" :loading="modalLoading" @click="confirmCompanyApply(0)">不通过</Button>
-        <Button type="primary" class="btn-theme" size="large" :loading="modalLoading" @click="confirmCompanyApply(1)">通过
+        <Button type="text" size="large" :loading="modalLoading" @click="confirmCompanyApply(3)">不通过</Button>
+        <Button type="primary" class="btn-theme" size="large" :loading="modalLoading" @click="confirmCompanyApply(2)">通过
         </Button>
       </div>
     </Modal>
@@ -69,16 +69,12 @@
               return h('span', {}, kvTextAS(params.row.cityId, this.selections.cityId, 'value', 'label'));
             }
             },
-            // {
-            //   title: '用户类型', key: 'serviceProvider', render: (h, params) => {
-            //   return h('span', {}, this.consts.statusUserMap[params.row.status]);
-            // }
-            // },
-            // {
-            //   title: '类型', key: 'status', render: (h, params) => {
-            //   return h('span', {}, this.consts.statusUserMap[params.row.status]);
-            // }
-            // },
+            {
+              title: '用户类型', key: 'serviceProvider', render: (h, params) => {
+              var type = params.row.serviceProvider==2?'服务商':'普通用户'
+              return h('span', {}, type);
+            }
+            },
             {
               title: '更新时间', key: 'updatedAt', render: (h, params) => {
               return h('span', {}, dateFormat(params.row.updatedAt, 'YYYY-MM-DD'));
@@ -111,7 +107,7 @@
                     },
                     on: {
                       click: (e) => {
-                        this.showPop(1,params.row, e)
+                        this.showPop(params.row,2, e)
                       }
                     }
                   }, [h('Icon', {props: {type: 'ios-pricetag'}, class: {'margin-right-10': true}}), '企业认证']))
@@ -151,7 +147,7 @@
       },
       confirmApply: function ( status) {
         this.modalLoading = true
-        this.$http.get('admin/authorServiceProvider', {params: {id: this.currentId, status: 1}}).then(()=> {
+        this.$http.get('admin/authorServiceProvider', {params: {id: this.currentId, status: status}}).then(()=> {
           this.modalLoading = true
           this.confirmPop = false
           this.refreshList()
@@ -159,7 +155,7 @@
       },
       confirmCompanyApply: function ( status) {
         this.modalLoading = true
-        this.$http.get('admin/authorCompany', {params: {id: this.currentId, status: 1}}).then(()=> {
+        this.$http.get('admin/authorCompany', {params: {id: this.currentId, status: status}}).then(()=> {
           this.confirmCompanyPop = false
           this.modalLoading = true
           this.refreshList()

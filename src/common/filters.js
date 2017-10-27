@@ -21,7 +21,12 @@ export default {
     })
     Vue.filter('selections', selectionValue)
     Vue.filter('kvTextAS',function(value,selections,valueField,textField,index){
-      return kvTextAS(value,selections,valueField,textField,index).join('/')
+      var textArray = kvTextAS(value,selections,valueField,textField,index)
+      if(textArray){
+        return textArray.join('/')
+      }else{
+        return ''
+      }
     })
     var defaultImg = '/static/imgs/img-default.jpg'
     var imgFilter = function(src, type){

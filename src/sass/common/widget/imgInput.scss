@@ -69,6 +69,12 @@ $imgHeight:70px;
   .ivu-modal-wrap{
     z-index: $zIndex-max+1;
   }
+  .ivu-modal-content{
+    background-color:transparent;
+  }
+  .ivu-modal-body{
+    padding:0;
+  }
   //.ivu-modal-content{
   //  background: transparent;
   //}

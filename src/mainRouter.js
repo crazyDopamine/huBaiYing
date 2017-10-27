@@ -23,6 +23,7 @@ const routes = [
   {path: '/projectForm',component: projectForm},
   {path: '/projectForm/:consultantId',component: projectForm},
   {path: '/serviceMain',component: serviceMain},
+  {path: '/serviceMain/:name',component: serviceMain},
   {path: '/serviceDetail/:id',component: serviceDetail},
   {path: '/register',component: register},
   {path: '/userMain',component: userMain},

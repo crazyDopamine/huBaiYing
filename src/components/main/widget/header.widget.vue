@@ -15,7 +15,7 @@
       <router-link to="/main">
         <img class="float-left margin-left-10" :src="'imgs/logo.png' | localFile" style="height:100%;">
       </router-link>
-      <!--<Input class="header-search-input" v-model="search" icon="search" placeholder="搜索问题" @on-enter="searchProblem()" @on-click="searchProblem()"></Input>-->
+      <Input class="header-search-input" v-model="search" icon="search" placeholder="搜索服务" @on-enter="searchService()" @on-click="searchService()"></Input>
       <router-link to="/projectForm">
         <Button class="float-right margin-top-20 btn btn-theme" size="large" icon="plus-round">发布需求</Button>
       </router-link>
@@ -184,9 +184,9 @@
         window.vm.userInfoLoaded=0
         window.vm.$emit(this.consts.loadedFailEvent)
       },
-      searchProblem:function(){
+      searchService:function(){
         if(this.search){
-          this.$router.push('/problemMain/'+this.search)
+          this.$router.push('/serviceMain/'+this.search)
         }
       }
     },
