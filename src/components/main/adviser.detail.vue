@@ -51,7 +51,6 @@
           businessId: '',
           problemTitle: '',
           problemDetail: '',
-          problemDetail: '',
           consultantId: ''
         },
         problemRule: {
@@ -77,6 +76,7 @@
         this.problemForm.consultantId = this.$route.params.id
       },
       addProblem: function () {
+        debugger
         this.$refs.form.validate((valid) => {
           if (valid) {
             var params = this.form

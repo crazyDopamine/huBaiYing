@@ -6,7 +6,7 @@
       <BreadcrumbItem>问题详情</BreadcrumbItem>
     </Breadcrumb>
     <div class="problem-area">
-      <h2 class="problem-title">{{detail.problemTitle}}<span class="margin-left-20 fc-theme fs-l">{{detail.status==1?'已解决':'未解决'}}</span><br>
+      <h2 class="problem-title">{{detail.problemTitle}}<span class="margin-left-20 fc-theme fs-l">{{detail.status==1?'已解决':''}}</span><br>
         <span class="fs-m">{{detail.businessName}}</span>
       </h2>
       <ul class="problem-detail">

@@ -66,17 +66,6 @@
       }
     },
     methods: {
-      submit: function () {
-        if (this.validate(true)) {
-          var params = this.getValues()
-          this.modalLoading = true
-          this.$http.post('admin/addUser', params).then(() => {
-            this.modalLoading = false
-            this.pop = false
-            this.refreshList(1)
-          })
-        }
-      }
     },
     created: function () {
       this.initList(this.list)

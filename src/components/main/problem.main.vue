@@ -117,7 +117,7 @@
               this.modalLoading = false
             })
           }
-        });
+        })
       },
       refresh: function () {
         this.getSelections('business').then((data) => {
