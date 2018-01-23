@@ -118,7 +118,10 @@
         },
         rule: {
           phone: {required: true, message: '手机号码不能为空！', trigger: 'blur'},
-          password: {required: true, message: '密码不能为空！', trigger: 'blur'},
+          password: [
+            {required: true, message: '请填写密码', trigger: 'blur'},
+            {type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur'}
+          ],
           passwordConfirm: {required: true, message: '确认密码不能为空！', trigger: 'blur'},
           nickName: {required: true, message: '昵称不能为空！', trigger: 'blur'},
           verificationCode: {required: true, message: '验证码不能为空！', trigger: 'blur'},
